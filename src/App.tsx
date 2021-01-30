@@ -1,15 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { useSession } from "@inrupt/solid-ui-react";
+import { LoginButton } from "@inrupt/solid-ui-react";
+import styled from "styled-components";
 
 function App() {
-  return (
-    <div className="App">
+  const { session } = useSession();
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    setUrl(window.location.href);
+  }, []);
+
+  const Container = styled.div`
+    background-color: ${(props) => props.theme.colors.pink};
+  `;
+  return session.info.isLoggedIn ? (
+    <Container>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <p>{session.info.webId}</p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -19,7 +30,9 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
+    </Container>
+  ) : (
+    <LoginButton oidcIssuer="https://jbrocher.com" redirectUrl={url} />
   );
 }
 
