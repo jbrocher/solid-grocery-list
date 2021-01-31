@@ -8,6 +8,7 @@ import { SolidDataset } from "@inrupt/solid-client";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import Button from "components/atoms/Button";
+import Text from "components/atoms/Text";
 
 const validationSchema = Yup.object({
   id: Yup.string().required(),
@@ -54,6 +55,9 @@ const FoodForm: React.FunctionComponent = () => {
       }: FormikProps<FormValues>) => (
         <Page justifyContent="center" p={1}>
           <Card p={3} width="100%">
+            <Text mb={2} type="title">
+              Ajouter un nouveau produit
+            </Text>
             <form onSubmit={handleSubmit}>
               <Input
                 value={values.id}
