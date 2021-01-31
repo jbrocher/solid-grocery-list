@@ -17,6 +17,7 @@
     "@types/styled-system": "^5.1.10",
     "formik": "^2.2.6",
     "prettier": "^2.2.1",
+    "rdf-namespaces": "^1.9.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",
