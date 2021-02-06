@@ -1,12 +1,6 @@
 import Food from "../Food";
 import { FOOD, SHOPPING_CATEGORY } from "../iris";
 import { rdf } from "rdf-namespaces";
-import {
-  createSolidDataset,
-  getThing,
-  getStringNoLocale,
-  saveSolidDatasetAt,
-} from "@inrupt/solid-client";
 jest.mock("@inrupt/solid-client", () => ({
   ...jest.requireActual("@inrupt/solid-client"),
   saveSolidDatasetAt: jest.fn(),
@@ -17,8 +11,9 @@ test("It should create a food instance", async () => {
   const props = {
     shoppingCategory: "fruits",
   };
-  const foodItem = new Food({}, "https://example.com", "apple", props);
-  expect(getStringNoLocale(foodItem.thing, rdf.type)).toEqual(FOOD);
+  const foodItem = new Food("https://example.com", "apple", props);
+  expect(foodItem.type).toEqual(FOOD);
+  expect(foodItem.shoppingCategory).toEqual("fruits");
 
   const foodDataset = await foodItem.save();
   const appleThing = getThing(
