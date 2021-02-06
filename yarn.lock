@@ -2753,6 +2753,13 @@
   resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-5.1.1.tgz#3c9ee980f1a10d6021ae6632ca3e79ca2ec4fb50"
   integrity sha512-giAlZwstKbmvMk1OO7WXSj4OZ0keXAcl2TQq4LWHiiPH2ByaH7WeUzng+Qej8UPxxv+8lRTuouo0iaNDBuzIBA==
 
+"@types/http-link-header@^1.0.0":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/http-link-header/-/http-link-header-1.0.2.tgz#94cf3c9b78023c7aae9b6c8e4f28639f52c7fa2d"
+  integrity sha512-rWvCGMtwx+01LFVpLbSYagloSMgqDwfzLSx9JcwUEkJWo4oDBKihp6X92Ff5tIS4VE5ojV4wH6iMnAnr/TZhhg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/is-function@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/is-function/-/is-function-1.0.0.tgz#1b0b819b1636c7baf0d6785d030d12edf70c3e83"
@@ -2840,7 +2847,7 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/n3@^1.1.6":
+"@types/n3@^1.1.1", "@types/n3@^1.1.6":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/@types/n3/-/n3-1.4.4.tgz#ed4f58200766ffc850d281e28c566eacb2b0b592"
   integrity sha512-xsWfwyDh0uAH0CXvwqe9vb2UEDafMjRez/pB7yZwbWpd9Olw2wdxaL32FtdHjmmFE6b9i+j249JfRyZnvWkoqg==
@@ -3014,6 +3021,11 @@
   integrity sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==
   dependencies:
     "@types/node" "*"
+
+"@types/solid-auth-client@^2.3.1":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@types/solid-auth-client/-/solid-auth-client-2.4.0.tgz#0bd55ee813146b90053bf50c2c5691867e5bed60"
+  integrity sha512-RsJ33lAZXiZn/p6dIcU9NNge5yCTPYE5lna51olYDqAR1QsLNXGTfWCi/k0TiwjorFrXA2+Qm6XQ8RQnP+RRkQ==
 
 "@types/source-list-map@*":
   version "0.1.2"
@@ -10239,7 +10251,7 @@ mute-stream@0.0.8:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-n3@^1.4.0:
+n3@^1.2.1, n3@^1.4.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/n3/-/n3-1.8.0.tgz#2fe804e8944f64941deee4ca47eb5ed98390deb9"
   integrity sha512-/PEmoB3UJrG6aXGZenDHFBJtmPp2rtfB2YLzAm2dU9stInD+ztvy4fKv5fv2ggsrSlpu7BYDTsz/c6S391uuEg==
@@ -14313,6 +14325,17 @@ trim@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/trim/-/trim-0.0.1.tgz#5858547f6b290757ee95cccc666fb50084c460dd"
   integrity sha1-WFhUf2spB1fulczMZm+1AITEYN0=
+
+tripledoc@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/tripledoc/-/tripledoc-4.4.0.tgz#705ee627159915e5d6339ec472bcd8fafe56f33f"
+  integrity sha512-2M+d7skEhJjzSosnsW13nlBKEUq0Kf1NOnjWU2PUtu2g0Cu/8sZvCTk7CQdXKwo9XFQ5sruo/tZDR+C3FYbOiw==
+  dependencies:
+    "@types/http-link-header" "^1.0.0"
+    "@types/n3" "^1.1.1"
+    "@types/solid-auth-client" "^2.3.1"
+    http-link-header "^1.0.2"
+    n3 "^1.2.1"
 
 trough@^1.0.0:
   version "1.0.5"
