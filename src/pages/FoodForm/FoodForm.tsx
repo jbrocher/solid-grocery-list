@@ -51,7 +51,7 @@ const FoodForm: React.FunctionComponent = () => {
       }: FormikProps<FormValues>) => (
         <Page justifyContent="center" p={1}>
           <Card p={3} width="100%">
-            <Text mb={2} type="title">
+            <Text mb={2} type="h1">
               Ajouter un nouveau produit
             </Text>
             <form onSubmit={handleSubmit}>
