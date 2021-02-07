@@ -115,6 +115,7 @@ class Food {
     });
     food.addRef(rdf.type, FOOD);
     food.addString(SHOPPING_CATEGORY, this.shoppingCategory);
+    console.log(food);
     (this.foodList as TripleDocument).save();
   }
 }
