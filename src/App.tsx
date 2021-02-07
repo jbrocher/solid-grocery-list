@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FoodForm from "./pages/FoodForm";
+import FoodList from "./pages/FoodList";
 import auth from "solid-auth-client";
 
+import BottomBar from "components/organisms/BottomBar";
 export const WebIdContext = React.createContext("");
 function App() {
   const [webId, setWebId] = useState("");
@@ -33,8 +35,10 @@ function App() {
     <WebIdContext.Provider value={webId}>
       <Router>
         <Switch>
+          <Route exact path="/food-list" component={FoodList} />
           <Route component={FoodForm} />
         </Switch>
+        <BottomBar />
       </Router>
     </WebIdContext.Provider>
   ) : (
