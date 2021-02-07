@@ -23,8 +23,10 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "solid-auth-client": "^2.5.5",
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5",
+    "tripledoc": "^4.4.0",
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.8"
