@@ -6,10 +6,15 @@ import {
   WidthProps,
   padding,
   PaddingProps,
+  margin,
+  MarginProps,
 } from "styled-system";
 
-const Card = styled.div<ColorProps & WidthProps & PaddingProps>`
+export type CardProps = ColorProps & WidthProps & PaddingProps & MarginProps;
+
+const Card = styled.div<CardProps>`
   ${padding};
+  ${margin};
   ${color};
   ${width};
   border-radius: ${(props) => props.theme.radii[1]}px;
@@ -18,6 +23,7 @@ const Card = styled.div<ColorProps & WidthProps & PaddingProps>`
 
 Card.defaultProps = {
   backgroundColor: "taupe",
+  width: "100%",
 };
 
 export default Card;

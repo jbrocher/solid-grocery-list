@@ -7,25 +7,23 @@ import {
   TripleDocument,
 } from "tripledoc";
 
-class Food {
-  type: typeof FOOD;
+export interface FoodItem {
   identifier: string;
-  shoppingCategory: string;
+  category: string;
+}
+
+export class FoodManager {
   webId: string;
   profile: TripleSubject | null;
   publicTypeIndex: TripleDocument | null;
   foodList: null | TripleDocument;
 
-  constructor(webId: string, identifier: string, shoppingCategory: string) {
+  constructor(webId: string) {
     // Attributes initialized asynchronously
     this.profile = null;
     this.publicTypeIndex = null;
     this.foodList = null;
-
-    this.type = FOOD;
     this.webId = webId;
-    this.identifier = identifier;
-    this.shoppingCategory = shoppingCategory;
   }
 
   async _getProfile(): Promise<TripleSubject> {
@@ -50,7 +48,6 @@ class Food {
     }
     return this.publicTypeIndex;
   }
-
   async _createFoodlist(): Promise<TripleDocument> {
     if (!this.profile) {
       this._getProfile();
@@ -106,17 +103,60 @@ class Food {
     await this._getOrCreateFoodList();
   }
 
-  async save(): Promise<void> {
+  async create(identifier: string, shoppingCategory: string): Promise<void> {
+    const food = (this.foodList as TripleDocument).addSubject({
+      identifier: identifier,
+    });
+    food.addRef(rdf.type, FOOD);
+    food.addString(SHOPPING_CATEGORY, shoppingCategory);
+    console.log(food);
+    (this.foodList as TripleDocument).save();
+  }
+
+  formatFoodList(list: TripleSubject[]): FoodItem[] {
+    return list.map((subject) => ({
+      identifier: subject.asRef().split("#")[1],
+      category: subject.getString(SHOPPING_CATEGORY) ?? "default",
+    }));
+  }
+
+  async all() {
     if (!this.foodList) {
       await this._init();
     }
-    const food = (this.foodList as TripleDocument).addSubject({
-      identifier: this.identifier,
-    });
-    food.addRef(rdf.type, FOOD);
-    food.addString(SHOPPING_CATEGORY, this.shoppingCategory);
-    console.log(food);
-    (this.foodList as TripleDocument).save();
+
+    return this.foodList?.getAllSubjectsOfType(FOOD);
+  }
+}
+
+class Food {
+  type: typeof FOOD;
+  identifier: string;
+  shoppingCategory: string;
+  webId: string;
+  objects: FoodManager | null;
+
+  constructor(webId: string, identifier: string, shoppingCategory: string) {
+    this.objects = null;
+    this.type = FOOD;
+    this.webId = webId;
+    this.identifier = identifier;
+    this.shoppingCategory = shoppingCategory;
+  }
+
+  async _init() {
+    this.objects = new FoodManager(this.webId);
+    await this.objects._init();
+  }
+
+  async save(): Promise<void> {
+    if (!this.objects) {
+      await this._init();
+    }
+    await (this.objects as FoodManager).create(
+      this.identifier,
+      this.shoppingCategory
+    );
   }
 }
 

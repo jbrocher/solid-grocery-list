@@ -8,6 +8,7 @@ import Card from "components/atoms/Card";
 import Button from "components/atoms/Button";
 import Text from "components/atoms/Text";
 import { WebIdContext } from "App";
+import { useHistory } from "react-router";
 
 const validationSchema = Yup.object({
   id: Yup.string().required(),
@@ -25,12 +26,15 @@ const initialValues = {
 
 const FoodForm: React.FunctionComponent = () => {
   const webId = useContext(WebIdContext);
+  const history = useHistory();
 
   const createFood = async (values: FormValues): Promise<void> => {
     if (webId) {
       const foodItem = new Food(webId, values["id"], values["category"]);
 
-      return foodItem.save();
+      return foodItem.save().then(() => {
+        history.push("/food-list");
+      });
     } else {
       throw "Missing webId";
     }
@@ -51,7 +55,7 @@ const FoodForm: React.FunctionComponent = () => {
       }: FormikProps<FormValues>) => (
         <Page justifyContent="center" p={1}>
           <Card p={3} width="100%">
-            <Text mb={2} type="title">
+            <Text mb={2} type="h1">
               Ajouter un nouveau produit
             </Text>
             <form onSubmit={handleSubmit}>

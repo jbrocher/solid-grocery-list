@@ -12,6 +12,7 @@ const Page = styled.div<PaddingProps & FlexboxProps>`
 Page.defaultProps = {
   flexDirection: "column",
   alignItems: "center",
+  padding: 1,
 };
 
 export default Page;

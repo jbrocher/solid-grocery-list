@@ -8,7 +8,7 @@ import {
 } from "styled-system";
 
 type TextProps = {
-  type: "title";
+  type: "h2" | "h3" | "h1" | "body";
 } & TypographyProps &
   MarginProps;
 const Text = styled.div<TextProps>(
@@ -22,8 +22,17 @@ const Text = styled.div<TextProps>(
   variant({
     prop: "type",
     variants: {
-      title: {
+      h1: {
         fontSize: 4,
+      },
+      h2: {
+        fontSize: 3,
+      },
+      h3: {
+        fontSize: 2,
+      },
+      body: {
+        fontSize: 0,
       },
     },
   })
