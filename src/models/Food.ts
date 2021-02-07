@@ -104,19 +104,20 @@ class Food {
     }
   }
 
-  async init(): Promise<void> {
-    this._getOrCreateFoodList();
+  async _init(): Promise<void> {
+    await this._getOrCreateFoodList();
   }
 
   async save(): Promise<void> {
     if (!this.foodList) {
-      this.init();
+      await this._init();
     }
     const food = (this.foodList as TripleDocument).addSubject({
       identifier: this.identifier,
     });
     food.addRef(rdf.type, FOOD);
     food.addString(SHOPPING_CATEGORY, this.shoppingCategory);
+    (this.foodList as TripleDocument).save();
   }
 }
 
