@@ -7,7 +7,12 @@ import {
   TripleDocument,
 } from "tripledoc";
 
-class FoodManager {
+export interface FoodItem {
+  identifier: string;
+  category: string;
+}
+
+export class FoodManager {
   webId: string;
   profile: TripleSubject | null;
   publicTypeIndex: TripleDocument | null;
@@ -106,6 +111,21 @@ class FoodManager {
     food.addString(SHOPPING_CATEGORY, shoppingCategory);
     console.log(food);
     (this.foodList as TripleDocument).save();
+  }
+
+  formatFoodList(list: TripleSubject[]): FoodItem[] {
+    return list.map((subject) => ({
+      identifier: subject.asRef().split("#")[1],
+      category: subject.getString(SHOPPING_CATEGORY) ?? "default",
+    }));
+  }
+
+  async all() {
+    if (!this.foodList) {
+      await this._init();
+    }
+
+    return this.foodList?.getAllSubjectsOfType(FOOD);
   }
 }
 
