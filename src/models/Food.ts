@@ -7,25 +7,18 @@ import {
   TripleDocument,
 } from "tripledoc";
 
-class Food {
-  type: typeof FOOD;
-  identifier: string;
-  shoppingCategory: string;
+class FoodManager {
   webId: string;
   profile: TripleSubject | null;
   publicTypeIndex: TripleDocument | null;
   foodList: null | TripleDocument;
 
-  constructor(webId: string, identifier: string, shoppingCategory: string) {
+  constructor(webId: string) {
     // Attributes initialized asynchronously
     this.profile = null;
     this.publicTypeIndex = null;
     this.foodList = null;
-
-    this.type = FOOD;
     this.webId = webId;
-    this.identifier = identifier;
-    this.shoppingCategory = shoppingCategory;
   }
 
   async _getProfile(): Promise<TripleSubject> {
@@ -50,7 +43,6 @@ class Food {
     }
     return this.publicTypeIndex;
   }
-
   async _createFoodlist(): Promise<TripleDocument> {
     if (!this.profile) {
       this._getProfile();
@@ -106,17 +98,45 @@ class Food {
     await this._getOrCreateFoodList();
   }
 
-  async save(): Promise<void> {
-    if (!this.foodList) {
-      await this._init();
-    }
+  async create(identifier: string, shoppingCategory: string): Promise<void> {
     const food = (this.foodList as TripleDocument).addSubject({
-      identifier: this.identifier,
+      identifier: identifier,
     });
     food.addRef(rdf.type, FOOD);
-    food.addString(SHOPPING_CATEGORY, this.shoppingCategory);
+    food.addString(SHOPPING_CATEGORY, shoppingCategory);
     console.log(food);
     (this.foodList as TripleDocument).save();
+  }
+}
+
+class Food {
+  type: typeof FOOD;
+  identifier: string;
+  shoppingCategory: string;
+  webId: string;
+  objects: FoodManager | null;
+
+  constructor(webId: string, identifier: string, shoppingCategory: string) {
+    this.objects = null;
+    this.type = FOOD;
+    this.webId = webId;
+    this.identifier = identifier;
+    this.shoppingCategory = shoppingCategory;
+  }
+
+  async _init() {
+    this.objects = new FoodManager(this.webId);
+    await this.objects._init();
+  }
+
+  async save(): Promise<void> {
+    if (!this.objects) {
+      await this._init();
+    }
+    await (this.objects as FoodManager).create(
+      this.identifier,
+      this.shoppingCategory
+    );
   }
 }
 
