@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import Input from "components/atoms/Input";
 import Food from "models/Food";
-import { useSession } from "@inrupt/solid-ui-react";
-import { SolidDataset } from "@inrupt/solid-client";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import Button from "components/atoms/Button";
 import Text from "components/atoms/Text";
+import { WebIdContext } from "App";
 
 const validationSchema = Yup.object({
   id: Yup.string().required(),
@@ -25,19 +24,16 @@ const initialValues = {
 };
 
 const FoodForm: React.FunctionComponent = () => {
-  const { session } = useSession();
+  const webId = useContext(WebIdContext);
 
-  const createFood = async (values: FormValues): Promise<SolidDataset> => {
-    const foodItem = new Food(
-      session,
-      "https://araelath.jbrocher.com",
-      values["id"],
-      {
-        shoppingCategory: values["category"],
-      }
-    );
+  const createFood = async (values: FormValues): Promise<void> => {
+    if (webId) {
+      const foodItem = new Food(webId, values["id"], values["category"]);
 
-    return foodItem.save();
+      return foodItem.save();
+    } else {
+      throw "Missing webId";
+    }
   };
   return (
     <Formik

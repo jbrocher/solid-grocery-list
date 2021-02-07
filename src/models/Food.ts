@@ -7,8 +7,6 @@ import {
   TripleDocument,
 } from "tripledoc";
 
-import { Session } from "@inrupt/solid-client-authn-browser";
-
 class Food {
   type: typeof FOOD;
   identifier: string;
