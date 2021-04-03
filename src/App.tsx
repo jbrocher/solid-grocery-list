@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FoodForm from "./pages/FoodForm";
 import FoodList from "./pages/FoodList";
 import auth from "solid-auth-client";
+import ProfileProvider from "ProfileContext";
 
 import BottomBar from "components/organisms/BottomBar";
 export const WebIdContext = React.createContext("");
@@ -33,13 +34,15 @@ function App() {
 
   return webId !== "" ? (
     <WebIdContext.Provider value={webId}>
-      <Router>
-        <Switch>
-          <Route exact path="/food-list" component={FoodList} />
-          <Route component={FoodForm} />
-        </Switch>
-        <BottomBar />
-      </Router>
+      <ProfileProvider>
+        <Router>
+          <Switch>
+            <Route exact path="/food-list" component={FoodList} />
+            <Route component={FoodForm} />
+          </Switch>
+          <BottomBar />
+        </Router>
+      </ProfileProvider>
     </WebIdContext.Provider>
   ) : (
     <>loading...</>
