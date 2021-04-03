@@ -1,19 +1,11 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { FoodManager, FoodItem } from "models/Food";
-import { WebIdContext } from "App";
+import React from "react";
+import { useFoodList } from "utils/food-hooks";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import Text from "components/atoms/Text";
 
 const FoodList: React.FunctionComponent = () => {
-  const [foodList, setFoodList] = useState([] as FoodItem[]);
-  const webId = useContext(WebIdContext);
-  const foodManager = useRef(new FoodManager(webId));
-  useEffect(() => {
-    foodManager.current.all().then((list) => {
-      if (list) setFoodList(foodManager.current.formatFoodList(list));
-    });
-  });
+  const food = useFoodList();
 
   const renderFoodItem = (identifier: string, shoppingCategory: string) => {
     return (
@@ -26,7 +18,7 @@ const FoodList: React.FunctionComponent = () => {
 
   return (
     <Page>
-      {foodList.map((foodItem) =>
+      {food.foodItems.map((foodItem) =>
         renderFoodItem(foodItem.identifier, foodItem.category)
       )}
     </Page>
