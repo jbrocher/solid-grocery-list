@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import Input from "components/atoms/Input";
-import { useFoodList, useCreateFood } from "utils/food-hooks";
+import { useFoodList, useCreateFood } from "utils/api/hooks";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import Button from "components/atoms/Button";

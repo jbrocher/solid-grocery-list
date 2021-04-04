@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 
-import { getProfile, getPublicTypeIndex } from "utils/solid-api";
+import { getProfile, getPublicTypeIndex } from "utils/api/helpers";
 import { WebIdContext } from "App";
 import { TripleSubject, TripleDocument } from "tripledoc";
 

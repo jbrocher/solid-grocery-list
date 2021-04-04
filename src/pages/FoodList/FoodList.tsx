@@ -1,5 +1,5 @@
 import React from "react";
-import { useFoodList } from "utils/food-hooks";
+import { useFoodList } from "utils/api/hooks";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import Text from "components/atoms/Text";
