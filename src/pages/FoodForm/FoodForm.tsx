@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import Input from "components/atoms/Input";
-import Food from "models/Food";
+import { useFoodList, useCreateFood } from "utils/food-hooks";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import Button from "components/atoms/Button";
 import Text from "components/atoms/Text";
-import { WebIdContext } from "App";
 import { useHistory } from "react-router";
 
 const validationSchema = Yup.object({
@@ -25,23 +24,21 @@ const initialValues = {
 };
 
 const FoodForm: React.FunctionComponent = () => {
-  const webId = useContext(WebIdContext);
   const history = useHistory();
 
-  const createFood = async (values: FormValues): Promise<void> => {
-    if (webId) {
-      const foodItem = new Food(webId, values["id"], values["category"]);
-
-      return foodItem.save().then(() => {
-        history.push("/food-list");
-      });
-    } else {
-      throw "Missing webId";
-    }
+  const { foodList } = useFoodList();
+  const { loading, createFood } = useCreateFood(foodList);
+  const handleSubmit = async (values: FormValues): Promise<void> => {
+    await createFood(values["id"], values["category"]);
+    history.push("/food-list");
   };
+
+  if (!foodList) {
+    return <div> Loading ... </div>;
+  }
   return (
     <Formik
-      onSubmit={createFood}
+      onSubmit={handleSubmit}
       initialValues={initialValues}
       validationSchema={validationSchema}
     >
@@ -73,7 +70,12 @@ const FoodForm: React.FunctionComponent = () => {
                 onBlur={handleBlur}
                 name="category"
               />
-              <Button disabled={!isValid} mt={1} width="100%" type="submit">
+              <Button
+                disabled={!isValid || loading}
+                mt={1}
+                width="100%"
+                type="submit"
+              >
                 Create new Food
               </Button>
             </form>
