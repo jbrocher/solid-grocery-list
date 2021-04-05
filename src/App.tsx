@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FoodForm from "./pages/FoodForm";
 import FoodList from "./pages/FoodList";
+import RecipeList from "./pages/RecipeList";
 import auth from "solid-auth-client";
 import ProfileProvider from "ProfileContext";
 
@@ -38,6 +39,7 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/food-list" component={FoodList} />
+            <Route exact path="/recipe-list" component={RecipeList} />
             <Route component={FoodForm} />
           </Switch>
           <BottomBar />
