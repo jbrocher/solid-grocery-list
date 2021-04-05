@@ -59,25 +59,31 @@ export const useCreateFood = (foodList: TripleDocument | null) => {
   return { loading, createFood };
 };
 
-
-
-const formatRecipeList = (list: TripleSubject[]): FoodItem[] => {
-  return list.map((subject) => ({
-    identifier: subject.asRef().split("#")[1],
-    ingredients: subject.getAllRefs(SHOPPING_CATEGORY) ?? "default",
-  }));
-};
-
 export const useRecipeList = () => {
   const { profile, publicTypeIndex } = useProfile();
   const [recipeList, setRecipeList] = useState<TripleDocument | null>(null);
+  const [recipeItems, setRecipeItems] = useState<Recipe[]>([]);
 
   useEffect(() => {
+    if (recipeList) {
+      Promise.all(
+        recipeList
+          .getAllSubjectsOfType(RECIPE)
+          .map(async (recipe) => await RecipeSerializer(recipe))
+      ).then((serializedRecipes) => {
+        setRecipeItems(serializedRecipes);
+      });
+      return;
+    }
     if (profile && publicTypeIndex) {
       getOrCreateRecipeList(profile, publicTypeIndex).then((recipeList) => {
         setRecipeList(recipeList);
       });
     }
-  }, [profile, setRecipeList]);
+  }, [profile, publicTypeIndex, setRecipeList, recipeList]);
+
   return {
+    recipeList,
+    recipeItems,
+  };
 };
