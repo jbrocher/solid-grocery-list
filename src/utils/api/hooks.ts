@@ -1,21 +1,19 @@
 import { TripleDocument, TripleSubject } from "tripledoc";
 import { rdf } from "rdf-namespaces";
-import { METRIC_QUANTITY, FOOD, SHOPPING_CATEGORY } from "models/iris";
+import { RECIPE, FOOD, SHOPPING_CATEGORY } from "models/iris";
 import { useProfile } from "ProfileContext";
 
 import { useEffect, useState } from "react";
 
 import { getOrCreateFoodList, getOrCreateRecipeList } from "./helpers";
-export interface FoodItem {
-  identifier: string;
-  category: string;
-}
+import { Food, Recipe } from "./types";
+import { RecipeSerializer } from "./serializers";
 
 export interface useFoodListReturnValue {
   foodList: TripleDocument | null;
-  foodItems: FoodItem[];
+  foodItems: Food[];
 }
-const formatFoodList = (list: TripleSubject[]): FoodItem[] => {
+const formatFoodList = (list: TripleSubject[]): Food[] => {
   return list.map((subject) => ({
     identifier: subject.asRef().split("#")[1],
     category: subject.getString(SHOPPING_CATEGORY) ?? "default",
