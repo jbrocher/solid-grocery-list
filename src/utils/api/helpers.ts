@@ -1,5 +1,5 @@
 import { rdf, solid, space } from "rdf-namespaces";
-import { FOOD, RECIPE } from "models/iris";
+import { INGREDIENT, FOOD, RECIPE } from "models/iris";
 import {
   createDocument,
   fetchDocument,
@@ -21,6 +21,10 @@ const RESSOURCES = {
   recipe: {
     storage: "public/recipe-list.ttl",
     iri: RECIPE,
+  },
+  ingredient: {
+    storage: "public/ingredient-list.ttl",
+    iri: INGREDIENT,
   },
 };
 
@@ -100,7 +104,7 @@ export const getOrCreateRecipeList = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ): Promise<TripleDocument> => {
-  const recipeListEntry = publicTypeIndex.findSubject(solid.forClass, FOOD);
+  const recipeListEntry = publicTypeIndex.findSubject(solid.forClass, RECIPE);
 
   if (recipeListEntry == null) {
     return await createRecipeList(profile, publicTypeIndex);
