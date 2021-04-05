@@ -4,4 +4,4 @@ export const INGREDIENT = "http://purl.org/ontology/fo/Ingredient";
 export const METRIC_QUANTITY = "http://purl.org/ontology/fo/metric_quantity";
 export const INGREDIENTS = "http://purl.org/ontology/fo/ingredients";
 export const RECIPE = "http://purl.org/ontology/fo/Recipe";
-export const INGREDIENTLIST = "http://purl.org/ontology/fo/IngredientList";
+export const TITLE = "http://purl.org/ontology/fo/Title";
