@@ -59,31 +59,34 @@ export const useCreateFood = (foodList: TripleDocument | null) => {
   return { loading, createFood };
 };
 
-export const useRecipeList = () => {
+export const useRecipes = () => {
   const { profile, publicTypeIndex } = useProfile();
   const [recipeList, setRecipeList] = useState<TripleDocument | null>(null);
-  const [recipeItems, setRecipeItems] = useState<Recipe[]>([]);
-
   useEffect(() => {
-    if (recipeList) {
-      Promise.all(
-        recipeList
-          .getAllSubjectsOfType(RECIPE)
-          .map(async (recipe) => await RecipeSerializer(recipe))
-      ).then((serializedRecipes) => {
-        setRecipeItems(serializedRecipes);
-      });
-      return;
-    }
     if (profile && publicTypeIndex) {
       getOrCreateRecipeList(profile, publicTypeIndex).then((recipeList) => {
         setRecipeList(recipeList);
       });
     }
-  }, [profile, publicTypeIndex, setRecipeList, recipeList]);
+  }, [profile, publicTypeIndex, setRecipeList]);
+  return recipeList;
+};
+export const useRecipeList = () => {
+  const { profile, publicTypeIndex } = useProfile();
+  const recipes = useRecipes();
+  const [recipeItems, setRecipeItems] = useState<Recipe[]>([]);
 
-  return {
-    recipeList,
-    recipeItems,
-  };
+  useEffect(() => {
+    if (recipes) {
+      Promise.all(
+        recipes
+          .getAllSubjectsOfType(RECIPE)
+          .map(async (recipe) => await RecipeSerializer(recipe))
+      ).then((serializedRecipes) => {
+        setRecipeItems(serializedRecipes);
+      });
+    }
+  }, [profile, publicTypeIndex, recipes]);
+
+  return recipeItems;
 };

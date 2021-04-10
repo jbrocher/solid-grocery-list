@@ -3,11 +3,10 @@ import { useRecipeList } from "utils/api/hooks";
 
 const RecipeList: React.FunctionComponent = () => {
   const recipes = useRecipeList();
-  console.log(recipes);
 
   return (
     <div>
-      {recipes.recipeItems.map((recipe) => (
+      {recipes.map((recipe) => (
         <div key={recipe.title}>
           <h1>{recipe.title}</h1>
           <ul>
