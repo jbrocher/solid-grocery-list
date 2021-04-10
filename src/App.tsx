@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FoodForm from "./pages/FoodForm";
+import RecipeForm from "./pages/RecipeForm";
 import FoodList from "./pages/FoodList";
 import RecipeList from "./pages/RecipeList";
 import auth from "solid-auth-client";
@@ -40,6 +41,7 @@ function App() {
           <Switch>
             <Route exact path="/food-list" component={FoodList} />
             <Route exact path="/recipe-list" component={RecipeList} />
+            <Route exact path="/recipe-form" component={RecipeForm} />
             <Route component={FoodForm} />
           </Switch>
           <BottomBar />
