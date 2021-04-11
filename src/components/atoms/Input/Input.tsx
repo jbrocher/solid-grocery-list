@@ -23,7 +23,7 @@ export type InputProps = {
   label: string;
   value: string;
   name: string;
-} & React.HtmlHTMLAttributes<HTMLInputElement>;
+} & React.ComponentProps<typeof StyledInput>;
 
 const Input: React.FC<InputProps> = ({
   label,
@@ -32,7 +32,7 @@ const Input: React.FC<InputProps> = ({
   ...rest
 }: InputProps) => {
   return (
-    <Box display="flex" flexDirection="column">
+    <Box width="100%" display="flex" flexDirection="column">
       <StyledLabel> {label} </StyledLabel>
       <StyledInput value={value} name={name} {...rest} />
     </Box>
