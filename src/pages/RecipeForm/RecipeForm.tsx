@@ -7,6 +7,7 @@ import Text from "components/atoms/Text";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import { useRecipes } from "utils/api/hooks";
+import { useCreateRecipe } from "utils/api/hooks/recipe";
 
 import { Ingredient } from "utils/api/types";
 import * as Yup from "yup";
@@ -31,17 +32,19 @@ const initialValues = {
 };
 const RecipeForm: React.FunctionComponent = () => {
   const recipes = useRecipes();
+  const { ready, createRecipe } = useCreateRecipe();
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
   const toggleIngredientModal = () => {
     setIsIngredientModalOpen(!isIngredientModalOpen);
   };
 
-  if (!recipes) {
+  if (!recipes || !ready) {
     return <div> loading ... </div>;
   }
 
   const handleSubmit = (data: FormValues) => {
     console.log(data);
+    createRecipe(data).then((result) => console.log(result));
   };
 
   return (
