@@ -5,6 +5,7 @@ import {
   METRIC_QUANTITY,
   INGREDIENT,
   FOOD,
+  FOOD_NAME,
   SHOPPING_CATEGORY,
 } from "models/iris";
 import { TripleSubject } from "tripledoc";
@@ -14,6 +15,7 @@ import { useFoods } from "utils/api/hooks/food";
 export const foodSerializer = (food: TripleSubject): Food => {
   return {
     identifier: food.asRef().split("#")[1],
+    name: food.getString(FOOD_NAME) ?? "",
     category: food.getString(SHOPPING_CATEGORY) ?? "default",
   };
 };
@@ -23,21 +25,13 @@ export const useIngredientSerializer = () => {
   const ingredientSerializer = useCallback(
     (ingredient: TripleSubject): Ingredient => {
       const foodRef = ingredient.getRef(FOOD);
-      if (foods === null) {
+      if (foods === null || foodRef === null) {
         throw new Error("no foods");
-      }
-      if (foodRef === null) {
-        return {
-          food: {
-            identifier: "",
-            category: "",
-          },
-          quantity: 0,
-        };
       }
 
       return {
         food: foodSerializer(foods.getSubject(foodRef)),
+        identifier: ingredient.asRef().split("#")[1],
         quantity: ingredient.getInteger(METRIC_QUANTITY) ?? 0,
       };
     },

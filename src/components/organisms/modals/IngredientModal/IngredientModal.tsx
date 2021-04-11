@@ -3,11 +3,15 @@ import Modal from "styled-react-modal";
 import Button from "components/atoms/Button";
 import FoodSelector from "components/organisms/FoodSelector";
 import { useFoodList } from "utils/api/hooks";
-import { Food, Ingredient } from "utils/api/types";
+import { Food } from "utils/api/types";
 import Input from "components/atoms/Input";
 
+export interface IngredientFormValues {
+  food: Food;
+  quantity: number;
+}
 interface IngredientModalProps {
-  handleSubmit: (ingredient: Ingredient) => void;
+  handleSubmit: (ingredient: IngredientFormValues) => void;
   isOpen: boolean;
   toggle: (_e: any) => void;
 }

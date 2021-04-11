@@ -1,4 +1,5 @@
 export const FOOD = "http://purl.org/ontology/fo/Food";
+export const FOOD_NAME = "http://purl.org/ontology/fo/FOOD_NAME";
 export const SHOPPING_CATEGORY = "http://purl.org/ontology/fo/ShoppingCategory";
 export const INGREDIENT = "http://purl.org/ontology/fo/Ingredient";
 export const METRIC_QUANTITY = "http://purl.org/ontology/fo/metric_quantity";

@@ -28,7 +28,7 @@ export const Base = Template.bind({});
 
 Base.args = {
   foodItems: [
-    { identifier: "banane", category: "fruit" },
-    { identifier: "pomme", category: "fruit" },
+    { identifier: "a", name: "banane", category: "fruit" },
+    { identifier: "a", name: "pomme", category: "fruit" },
   ],
 };

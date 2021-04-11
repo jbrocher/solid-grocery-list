@@ -2,6 +2,7 @@ import { TripleDocument, TripleSubject } from "tripledoc";
 import { rdf } from "rdf-namespaces";
 import { FOOD, SHOPPING_CATEGORY } from "models/iris";
 import { useProfile } from "ProfileContext";
+import { foodSerializer } from "utils/api/serializers";
 
 import { useEffect, useState } from "react";
 
@@ -13,10 +14,7 @@ export interface useFoodListReturnValue {
   foodItems: Food[];
 }
 const formatFoodList = (list: TripleSubject[]): Food[] => {
-  return list.map((subject) => ({
-    identifier: subject.asRef().split("#")[1],
-    category: subject.getString(SHOPPING_CATEGORY) ?? "default",
-  }));
+  return list.map((subject) => foodSerializer(subject));
 };
 
 // Food hooks
