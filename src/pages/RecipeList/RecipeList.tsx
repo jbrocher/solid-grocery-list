@@ -1,11 +1,12 @@
 import React from "react";
+import Page from "components/templates/Page";
 import { useRecipeList } from "utils/api/hooks/recipe";
 
 const RecipeList: React.FunctionComponent = () => {
   const recipes = useRecipeList();
 
   return (
-    <div>
+    <Page>
       {recipes.map((recipe) => (
         <div key={recipe.identifier}>
           <h1>{recipe.title}</h1>
@@ -20,7 +21,7 @@ const RecipeList: React.FunctionComponent = () => {
           </ul>
         </div>
       ))}
-    </div>
+    </Page>
   );
 };
 
