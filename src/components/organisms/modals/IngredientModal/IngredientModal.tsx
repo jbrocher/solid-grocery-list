@@ -59,7 +59,7 @@ const IngredientModal: React.FunctionComponent<IngredientModalProps> = ({
         value={quantity.toString()}
         type="number"
         onChange={(e: any) => {
-          setQuantity(e.target.value);
+          setQuantity(parseInt(e.target.value));
         }}
         label="quantity"
       />
