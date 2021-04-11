@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ModalProvider } from "styled-react-modal";
 import FoodForm from "./pages/FoodForm";
+import Box from "components/atoms/Box";
 import RecipeForm from "./pages/RecipeForm";
 import FoodList from "./pages/FoodList";
 import RecipeList from "./pages/RecipeList";
@@ -39,13 +40,16 @@ function App() {
       <ProfileProvider>
         <ModalProvider>
           <Router>
-            <Switch>
-              <Route exact path="/food-list" component={FoodList} />
-              <Route exact path="/recipe-list" component={RecipeList} />
-              <Route exact path="/recipe-form" component={RecipeForm} />
-              <Route component={FoodForm} />
-            </Switch>
-            <BottomBar />
+            <Box height="100vh" display="flex" flexDirection="column">
+              <Switch>
+                <Route exact path="/recipe-list" component={RecipeList} />
+                <Route exact path="/recipe-form" component={RecipeForm} />
+                <Route exact path="/food-form" component={FoodForm} />
+                <Route exact path="/food-list" component={FoodList} />
+                <Route exact component={FoodList} />
+              </Switch>
+              <BottomBar />
+            </Box>
           </Router>
         </ModalProvider>
       </ProfileProvider>
