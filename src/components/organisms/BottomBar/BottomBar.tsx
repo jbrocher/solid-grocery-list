@@ -1,17 +1,22 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import NavButton from "components/molecules/NavButton";
 import styled from "styled-components";
+import Egg from "components/icons/Egg";
+import Recipe from "components/icons/Recipe";
 
 const Container = styled.div`
-  position: fixed;
-  bottom: 0px;
   width: 100%;
+  display: flex;
 `;
 const BottomBar: React.FunctionComponent = () => {
   return (
     <Container>
-      <NavLink to="/"> Ajouer une nourriture </NavLink>
-      <NavLink to="/food-list"> Nourriture existante </NavLink>
+      <NavButton to="/food-list" Icon={Egg}>
+        Foods
+      </NavButton>
+      <NavButton to="/recipe-list" Icon={Recipe}>
+        Recipes
+      </NavButton>
     </Container>
   );
 };
