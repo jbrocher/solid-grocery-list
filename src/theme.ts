@@ -10,6 +10,7 @@ const theme = {
   },
   colors: {
     taupe: "#EAE7DC",
+    white: "white",
     beige: "#D8C3A5",
     grey: "#8E8D8A",
     pink: "#E98074",
