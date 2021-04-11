@@ -13,7 +13,7 @@ export const getProfile = async (webId: string): Promise<TripleSubject> => {
   return webIdDoc.getSubject(webId);
 };
 
-const RESSOURCES = {
+export const RESSOURCES = {
   food: {
     storage: "public/food-list.ttl",
     iri: FOOD,
@@ -26,6 +26,19 @@ const RESSOURCES = {
     storage: "public/ingredient-list.ttl",
     iri: INGREDIENT,
   },
+};
+
+export type Ressource = keyof typeof RESSOURCES;
+
+export const makeRef = (
+  identifier: string,
+  profile: TripleSubject,
+  ressource: Ressource
+) => {
+  const storage = profile.getRef(space.storage);
+
+  // Decide at what URL within the user's Pod the new Document should be stored:
+  return `${storage}${RESSOURCES[ressource].storage}#${identifier}`;
 };
 
 export const getPublicTypeIndex = async (
@@ -117,4 +130,34 @@ export const getOrCreateRecipeList = async (
       throw new Error("Invalid recipe list type registry");
     }
   }
+};
+
+export const getOrCreateRessource = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument,
+  ressource: keyof typeof RESSOURCES
+): Promise<TripleDocument> => {
+  const entry = publicTypeIndex.findSubject(
+    solid.forClass,
+    RESSOURCES[ressource].iri
+  );
+
+  if (entry == null) {
+    return await createRessource(profile, publicTypeIndex, ressource);
+  } else {
+    const ressourceRef = entry.getRef(solid.instance);
+    if (ressourceRef) {
+      const ressourceList = await fetchDocument(ressourceRef);
+      return ressourceList;
+    } else {
+      throw new Error("Invalid recipe list type registry");
+    }
+  }
+};
+
+export const getIngredients = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+) => {
+  return getOrCreateRessource(profile, publicTypeIndex, "ingredient");
 };
