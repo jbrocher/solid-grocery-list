@@ -4,11 +4,11 @@ import Box from "components/atoms/Box";
 
 const StyledInput = styled.input`
   font-family: ${(props) => props.theme.fonts.body};
-  border: solid 3px ${(props) => props.theme.colors.taupe};
+  border: solid 2px ${(props) => props.theme.colors.melon};
   border-radius: ${(props) => props.theme.radii[0]}px;
   height: ${(props) => props.theme.space[4]}px;
   &:focus {
-    border: solid 3px ${(props) => props.theme.colors.beige};
+    border: solid 2px ${(props) => props.theme.colors.mandarinRed};
     outline: none;
   }
 `;

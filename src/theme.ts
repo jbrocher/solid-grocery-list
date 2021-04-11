@@ -9,13 +9,9 @@ const theme = {
     bold: 700,
   },
   colors: {
-    taupe: "#EAE7DC",
+    melon: "#f8c291",
+    mandarinRed: "#e55039",
     white: "white",
-    beige: "#D8C3A5",
-    grey: "#8E8D8A",
-    pink: "#E98074",
-    red: "#E85A4F",
-    cyan: "#5f9ea0",
   },
   radii: [5, 10, 15, 20],
 };
