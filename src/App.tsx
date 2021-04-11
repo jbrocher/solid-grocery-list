@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ModalProvider } from "styled-react-modal";
 import FoodForm from "./pages/FoodForm";
 import RecipeForm from "./pages/RecipeForm";
 import FoodList from "./pages/FoodList";
@@ -19,33 +20,34 @@ function App() {
       /* 1. Check if we've already got the user's WebID and access to their Pod: */
       let session = await auth.currentSession();
       if (session) {
-        setWebId(session.webId);
-        return webId;
+        return session.webId;
       }
 
       /* 2. User has not logged in; ask for their Identity Provider: */
       // Implement `getIdentityProvider` to get a string with the user's Identity Provider (e.g.
       // `https://inrupt.net` or `https://solid.community`) using a method of your choice.
-      const identityProvider = "https://jbrocher.com";
+      const identityProvider = "https://inrupt.net";
 
       /* 3. Initiate the login process - this will redirect the user to their Identity Provider: */
       auth.login(identityProvider);
     }
-    getWebId().then();
-  }, [webId]);
+    getWebId().then((webId) => setWebId(webId ? webId : ""));
+  }, []);
 
   return webId !== "" ? (
     <WebIdContext.Provider value={webId}>
       <ProfileProvider>
-        <Router>
-          <Switch>
-            <Route exact path="/food-list" component={FoodList} />
-            <Route exact path="/recipe-list" component={RecipeList} />
-            <Route exact path="/recipe-form" component={RecipeForm} />
-            <Route component={FoodForm} />
-          </Switch>
-          <BottomBar />
-        </Router>
+        <ModalProvider>
+          <Router>
+            <Switch>
+              <Route exact path="/food-list" component={FoodList} />
+              <Route exact path="/recipe-list" component={RecipeList} />
+              <Route exact path="/recipe-form" component={RecipeForm} />
+              <Route component={FoodForm} />
+            </Switch>
+            <BottomBar />
+          </Router>
+        </ModalProvider>
       </ProfileProvider>
     </WebIdContext.Provider>
   ) : (
