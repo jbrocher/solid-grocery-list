@@ -161,3 +161,10 @@ export const getIngredients = async (
 ) => {
   return getOrCreateRessource(profile, publicTypeIndex, "ingredient");
 };
+
+export const getFoods = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+) => {
+  return getOrCreateRessource(profile, publicTypeIndex, "food");
+};

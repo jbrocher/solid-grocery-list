@@ -1,5 +1,5 @@
 import React from "react";
-import { useRecipeList } from "utils/api/hooks";
+import { useRecipeList } from "utils/api/hooks/recipe";
 
 const RecipeList: React.FunctionComponent = () => {
   const recipes = useRecipeList();
@@ -7,12 +7,12 @@ const RecipeList: React.FunctionComponent = () => {
   return (
     <div>
       {recipes.map((recipe) => (
-        <div key={recipe.title}>
+        <div key={recipe.identifier}>
           <h1>{recipe.title}</h1>
           <ul>
-            {recipe.ingredients.map((ingredient) => {
+            {recipe.ingredients.map((ingredient, index) => {
               return (
-                <li>
+                <li key={index}>
                   {`${ingredient.food.identifier}: ${ingredient.quantity}`}
                 </li>
               );

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { ErrorMessage, Formik, FormikProps, FieldArray } from "formik";
+import { Formik, FormikProps, FieldArray } from "formik";
 import IngredientModal from "components/organisms/modals/IngredientModal";
 import Button from "components/atoms/Button";
 import Input from "components/atoms/Input";
 import Text from "components/atoms/Text";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
-import { useRecipes } from "utils/api/hooks";
+import { useRecipes } from "utils/api/hooks/recipe";
 import { useCreateRecipe } from "utils/api/hooks/recipe";
 
 import { Ingredient } from "utils/api/types";
@@ -22,7 +22,7 @@ const validationSchema = Yup.object({
   ),
 });
 
-interface FormValues {
+export interface RecipeFormValues {
   title: string;
   ingredients: Ingredient[];
 }
@@ -42,7 +42,7 @@ const RecipeForm: React.FunctionComponent = () => {
     return <div> loading ... </div>;
   }
 
-  const handleSubmit = (data: FormValues) => {
+  const handleSubmit = (data: RecipeFormValues) => {
     console.log(data);
     createRecipe(data).then((result) => console.log(result));
   };
@@ -59,7 +59,7 @@ const RecipeForm: React.FunctionComponent = () => {
         errors,
         values,
         handleSubmit,
-      }: FormikProps<FormValues>) => (
+      }: FormikProps<RecipeFormValues>) => (
         <Page>
           <Card>
             <Text type="h1"> Nouvelle Recette </Text>
@@ -84,7 +84,8 @@ const RecipeForm: React.FunctionComponent = () => {
                     <IngredientModal
                       isOpen={isIngredientModalOpen}
                       toggle={toggleIngredientModal}
-                      handleSubmit={(ingredient) => {
+                      handleSubmit={(ingredient: Ingredient) => {
+                        console.log(ingredient);
                         arrayHelpers.push(ingredient);
                         toggleIngredientModal();
                       }}

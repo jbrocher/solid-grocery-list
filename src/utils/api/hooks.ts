@@ -1,13 +1,12 @@
 import { TripleDocument, TripleSubject } from "tripledoc";
 import { rdf } from "rdf-namespaces";
-import { RECIPE, FOOD, SHOPPING_CATEGORY } from "models/iris";
+import { FOOD, SHOPPING_CATEGORY } from "models/iris";
 import { useProfile } from "ProfileContext";
 
 import { useEffect, useState } from "react";
 
-import { getOrCreateFoodList, getOrCreateRecipeList } from "./helpers";
-import { Food, Recipe } from "./types";
-import { RecipeSerializer } from "./serializers";
+import { getOrCreateFoodList } from "./helpers";
+import { Food } from "./types";
 
 export interface useFoodListReturnValue {
   foodList: TripleDocument | null;
@@ -57,36 +56,4 @@ export const useCreateFood = (foodList: TripleDocument | null) => {
     setLoading(false);
   };
   return { loading, createFood };
-};
-
-export const useRecipes = () => {
-  const { profile, publicTypeIndex } = useProfile();
-  const [recipeList, setRecipeList] = useState<TripleDocument | null>(null);
-  useEffect(() => {
-    if (profile && publicTypeIndex) {
-      getOrCreateRecipeList(profile, publicTypeIndex).then((recipeList) => {
-        setRecipeList(recipeList);
-      });
-    }
-  }, [profile, publicTypeIndex, setRecipeList]);
-  return recipeList;
-};
-export const useRecipeList = () => {
-  const { profile, publicTypeIndex } = useProfile();
-  const recipes = useRecipes();
-  const [recipeItems, setRecipeItems] = useState<Recipe[]>([]);
-
-  useEffect(() => {
-    if (recipes) {
-      Promise.all(
-        recipes
-          .getAllSubjectsOfType(RECIPE)
-          .map(async (recipe) => await RecipeSerializer(recipe))
-      ).then((serializedRecipes) => {
-        setRecipeItems(serializedRecipes);
-      });
-    }
-  }, [profile, publicTypeIndex, recipes]);
-
-  return recipeItems;
 };

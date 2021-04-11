@@ -1,5 +1,5 @@
 import { Food, Ingredient, Recipe } from "./types";
-import { rdf } from "rdf-namespaces";
+import { useCallback } from "react";
 import {
   TITLE,
   METRIC_QUANTITY,
@@ -7,7 +7,9 @@ import {
   FOOD,
   SHOPPING_CATEGORY,
 } from "models/iris";
-import { TripleSubject, fetchDocument } from "tripledoc";
+import { TripleSubject } from "tripledoc";
+import { useIngredients } from "utils/api/hooks/ingredients";
+import { useFoods } from "utils/api/hooks/food";
 
 export const foodSerializer = (food: TripleSubject): Food => {
   return {
@@ -16,48 +18,72 @@ export const foodSerializer = (food: TripleSubject): Food => {
   };
 };
 
-export const ingredientSerializer = async (
-  ingredient: TripleSubject
-): Promise<Ingredient> => {
-  const foodRef = ingredient.getRef(FOOD);
-  if (foodRef === null) {
-    return {
-      food: {
-        identifier: "",
-        category: "",
-      },
-      quantity: 0,
-    };
-  }
+export const useIngredientSerializer = () => {
+  const foods = useFoods();
+  const ingredientSerializer = useCallback(
+    (ingredient: TripleSubject): Ingredient => {
+      const foodRef = ingredient.getRef(FOOD);
+      if (foods === null) {
+        throw new Error("no foods");
+      }
+      if (foodRef === null) {
+        return {
+          food: {
+            identifier: "",
+            category: "",
+          },
+          quantity: 0,
+        };
+      }
 
-  const foodList = await fetchDocument(foodRef.split("#")[0]);
+      return {
+        food: foodSerializer(foods.getSubject(foodRef)),
+        quantity: ingredient.getInteger(METRIC_QUANTITY) ?? 0,
+      };
+    },
+    [foods]
+  );
 
+  const ready = foods !== null;
   return {
-    food: foodSerializer(foodList.getSubject(foodRef)),
-    quantity: ingredient.getInteger(METRIC_QUANTITY) ?? 0,
+    ready,
+    ingredientSerializer,
   };
 };
 
-export const RecipeSerializer = async (
-  recipe: TripleSubject
-): Promise<Recipe> => {
-  const ingredientsRefs = recipe.getAllRefs(INGREDIENT);
-  let ingredients: Ingredient[] = [];
+export const useRecipeSerializer = () => {
+  const ingredients = useIngredients();
+  const {
+    ready: readyIngredientSerializer,
+    ingredientSerializer,
+  } = useIngredientSerializer();
 
-  if (ingredientsRefs.length) {
-    const ingredientList = await fetchDocument(ingredientsRefs[0]);
-    ingredients = await Promise.all(
-      ingredientsRefs.map(async (ingredientRef) => {
-        const ingredient = ingredientList.getSubject(ingredientRef);
-        const serialialized_ingredient = await ingredientSerializer(ingredient);
-        return serialialized_ingredient;
-      })
-    );
-  }
+  const recipeSerializer = useCallback(
+    (recipe: TripleSubject): Recipe => {
+      if (ingredients === null) {
+        throw new Error("no ingredients");
+      }
+      const ingredientsRefs = recipe.getAllRefs(INGREDIENT);
+      let ingredientList: Ingredient[] = [];
 
-  const title = recipe.getString(TITLE);
-  return {
-    title: title ?? "",
-    ingredients,
-  };
+      if (ingredientsRefs.length) {
+        ingredientList = ingredientsRefs.map((ingredientRef) => {
+          const ingredient = ingredients.getSubject(ingredientRef);
+          const serialialized_ingredient = ingredientSerializer(ingredient);
+          return serialialized_ingredient;
+        });
+      }
+
+      const title = recipe.getString(TITLE);
+      return {
+        title: title ?? "",
+        identifier: recipe.asRef().split("#")[1],
+        ingredients: ingredientList,
+      };
+    },
+    [ingredients, ingredientSerializer]
+  );
+
+  const ready = ingredients !== null && readyIngredientSerializer;
+  return { ready, recipeSerializer };
 };

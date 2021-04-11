@@ -1,8 +1,8 @@
 import { METRIC_QUANTITY, FOOD, INGREDIENT } from "models/iris";
-import { RESSOURCES, makeRef } from "utils/api/helpers";
+import { makeRef } from "utils/api/helpers";
 import { rdf } from "rdf-namespaces";
 import { useProfile } from "ProfileContext";
-import { TripleDocument, TripleSubject } from "tripledoc";
+import { TripleDocument } from "tripledoc";
 import { Ingredient } from "utils/api/types";
 import { useEffect, useState } from "react";
 import { getIngredients } from "utils/api/helpers";

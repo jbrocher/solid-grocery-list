@@ -10,5 +10,6 @@ export interface Food {
 
 export interface Recipe {
   title: string;
+  identifier: string;
   ingredients: Ingredient[];
 }

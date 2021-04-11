@@ -1,14 +1,51 @@
 import { INGREDIENT, TITLE, RECIPE } from "models/iris";
+import { useEffect, useState } from "react";
 import { rdf } from "rdf-namespaces";
 import { Recipe } from "utils/api/types";
-import { useRecipes } from "utils/api/hooks";
+import { getOrCreateRecipeList } from "utils/api/helpers";
+import { TripleDocument } from "tripledoc";
+import { useProfile } from "ProfileContext";
+import { useRecipeSerializer } from "utils/api/serializers";
 import { useCreateIngredient } from "./ingredients";
+import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
+
+export const useRecipes = () => {
+  const { profile, publicTypeIndex } = useProfile();
+  const [recipeList, setRecipeList] = useState<TripleDocument | null>(null);
+  useEffect(() => {
+    console.log("use recipes");
+    if (profile && publicTypeIndex) {
+      getOrCreateRecipeList(profile, publicTypeIndex).then((recipeList) => {
+        setRecipeList(recipeList);
+      });
+    }
+  }, [profile, publicTypeIndex]);
+  return recipeList;
+};
+
+export const useRecipeList = () => {
+  const recipes = useRecipes();
+  const [recipeItems, setRecipeItems] = useState<Recipe[]>([]);
+  const { ready: serializerReady, recipeSerializer } = useRecipeSerializer();
+
+  useEffect(() => {
+    if (recipes && serializerReady) {
+      setRecipeItems(
+        recipes
+          .getAllSubjectsOfType(RECIPE)
+          .map((recipe) => recipeSerializer(recipe))
+      );
+    }
+  }, [recipes, serializerReady, recipeSerializer]);
+
+  return recipeItems;
+};
 
 export const useCreateRecipe = () => {
   const { ready: ingredientsReady, createIngredient } = useCreateIngredient();
   const recipes = useRecipes();
 
-  const createRecipe = async (recipe: Recipe) => {
+  const createRecipe = async (recipe: RecipeFormValues) => {
     if (ingredientsReady == null || recipes == null) {
       throw new Error("Missing intialization");
     }
