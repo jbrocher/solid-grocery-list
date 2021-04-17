@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "styled-react-modal";
+import StyledModal from "components/organisms/modals/components/StyledModal";
 import Button from "components/atoms/Button";
 import FoodSelector from "components/organisms/FoodSelector";
 import { useFoodList } from "utils/api/hooks";
@@ -15,16 +15,6 @@ interface IngredientModalProps {
   isOpen: boolean;
   toggle: (_e: any) => void;
 }
-
-const StyledModal = Modal.styled`
-  width: 80%;
-  display: flex;
-  padding: ${(props: any) => props.theme.space[3]}px;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  background-color: ${(props: any) => props.theme.colors.white};
-`;
 
 const IngredientModal: React.FunctionComponent<IngredientModalProps> = ({
   handleSubmit,
