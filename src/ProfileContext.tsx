@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 
 import { getProfile, getPublicTypeIndex } from "utils/api/helpers";
-import { WebIdContext } from "App";
 import { TripleSubject, TripleDocument } from "tripledoc";
+import { useWebId } from "AuthentificationContext";
 
 interface ProfileProps {
   profile: TripleSubject | null;
@@ -15,7 +15,7 @@ const ProfileContext = React.createContext<ProfileProps>({
 });
 
 const ProfileProvider: React.FunctionComponent = ({ children }) => {
-  const webId = useContext(WebIdContext);
+  const { webId } = useWebId();
   const [profile, setProfile] = useState<TripleSubject | null>(null);
   const [publicTypeIndex, setPublicTypeIndex] = useState<TripleDocument | null>(
     null
