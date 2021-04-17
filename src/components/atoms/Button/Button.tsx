@@ -1,6 +1,11 @@
 import styled from "styled-components";
-import { width, WidthProps, margin, MarginProps } from "styled-system";
-const Button = styled.button<WidthProps & MarginProps>`
+import { variant, width, WidthProps, margin, MarginProps } from "styled-system";
+
+type ButtonProps = {
+  variant?: "outlined";
+} & MarginProps &
+  WidthProps;
+const Button = styled.button<ButtonProps>`
   ${width};
   ${margin};
   padding: ${(props) => props.theme.radii[1]}px;
@@ -11,6 +16,17 @@ const Button = styled.button<WidthProps & MarginProps>`
   outline: none;
   border: none;
   font-family: ${(props) => props.theme.fonts.body};
+  ${variant({
+    variants: {
+      outlined: {
+        backgroundColor: "white",
+        borderColor: "mandarinRed",
+        borderStyle: "solid",
+        color: "mandarinRed",
+        borderWidth: 2,
+      },
+    },
+  })}
 `;
 
 Button.defaultProps = {
