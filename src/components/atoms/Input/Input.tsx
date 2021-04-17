@@ -17,6 +17,7 @@ const StyledLabel = styled.label`
   font-family: ${(props) => props.theme.fonts.body};
   color: ${(props) => props.theme.colors.grey};
   font-weight: ${(props) => props.theme.fontWeights.bold};
+  margin-bottom: ${(props) => props.theme.space[1]}px;
 `;
 
 export type InputProps = {
