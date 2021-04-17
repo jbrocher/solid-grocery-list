@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { a } from "react-spring";
 import {
   space,
   color,
@@ -16,9 +17,10 @@ interface BoxInterface
     LayoutProps,
     FlexboxProps {}
 
-const Box = styled.div<BoxInterface>(
+const Box = styled(a.div)<BoxInterface>(
   {
     boxSizing: "border-box",
+    width: "100%",
     minWidth: 0,
   },
   space,
