@@ -1,26 +1,27 @@
 import React from "react";
 import Page from "components/templates/Page";
+import Box from "components/atoms/Box";
 import { useRecipeList } from "utils/api/hooks/recipe";
+import RecipeDetail from "./components/RecipeDetail";
+import Button from "components/atoms/Button";
+import { useHistory } from "react-router";
 
 const RecipeList: React.FunctionComponent = () => {
   const recipes = useRecipeList();
+  const history = useHistory();
+
+  const goToRecipeForm = () => {
+    history.push("/recipe-form");
+  };
 
   return (
     <Page>
-      {recipes.map((recipe) => (
-        <div key={recipe.identifier}>
-          <h1>{recipe.title}</h1>
-          <ul>
-            {recipe.ingredients.map((ingredient, index) => {
-              return (
-                <li key={index}>
-                  {`${ingredient.food.identifier}: ${ingredient.quantity}`}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
+      <Box flexGrow={1}>
+        {recipes.map((recipe) => (
+          <RecipeDetail key={recipe.identifier} recipe={recipe} />
+        ))}
+      </Box>
+      <Button onClick={goToRecipeForm}> Add a Recipe </Button>
     </Page>
   );
 };
