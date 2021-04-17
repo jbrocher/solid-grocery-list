@@ -5,6 +5,7 @@
   "dependencies": {
     "@inrupt/solid-ui-react": "^2.1.0",
     "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -26,6 +27,8 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-spring": "^9.1.0",
+    "resize-observer-polyfill": "^1.5.1",
     "solid-auth-client": "^2.5.5",
     "styled-components": "^5.2.1",
     "styled-react-modal": "^2.1.0",
