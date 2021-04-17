@@ -13,7 +13,6 @@ export const useRecipes = () => {
   const { profile, publicTypeIndex } = useProfile();
   const [recipeList, setRecipeList] = useState<TripleDocument | null>(null);
   useEffect(() => {
-    console.log("use recipes");
     if (profile && publicTypeIndex) {
       getOrCreateRecipeList(profile, publicTypeIndex).then((recipeList) => {
         setRecipeList(recipeList);

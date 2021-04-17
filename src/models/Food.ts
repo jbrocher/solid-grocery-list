@@ -109,7 +109,6 @@ export class FoodManager {
     });
     food.addRef(rdf.type, FOOD);
     food.addString(SHOPPING_CATEGORY, shoppingCategory);
-    console.log(food);
     (this.foodList as TripleDocument).save();
   }
 

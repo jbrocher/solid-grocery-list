@@ -14,7 +14,6 @@ export function useMeasure() {
   );
   useEffect(() => {
     if (ref.current !== null) {
-      console.log(ref);
       resizeObserver.observe(ref.current);
     }
     return () => resizeObserver.disconnect();

@@ -17,8 +17,6 @@ const IngredientList: React.FunctionComponent<IngredientListProps> = ({
     bounds: { height: viewHeight },
   } = useMeasure();
 
-  console.log(viewHeight);
-
   const { height, opacity } = useSpring({
     from: { height: 0, opacity: 0 },
     to: {

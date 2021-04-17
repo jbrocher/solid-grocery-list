@@ -9,7 +9,6 @@ export const useFoods = () => {
   const { profile, publicTypeIndex } = useProfile();
   const [foods, setFoods] = useState<TripleDocument | null>(null);
   useEffect(() => {
-    console.log("use foods");
     if (profile && publicTypeIndex) {
       getFoods(profile, publicTypeIndex).then((foods) => setFoods(foods));
     }
