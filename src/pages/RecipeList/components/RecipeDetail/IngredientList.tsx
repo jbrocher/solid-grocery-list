@@ -29,7 +29,11 @@ const IngredientList: React.FunctionComponent<IngredientListProps> = ({
     <Box overflow="hidden" style={{ height }}>
       <a.ul style={{ opacity }} ref={ref}>
         {ingredients.map((ingredient) => {
-          return <li key={ingredient.identifier}> {ingredient.food.name} </li>;
+          return (
+            <li key={ingredient.identifier}>
+              {ingredient.food.name} - x{ingredient.quantity}
+            </li>
+          );
         })}
       </a.ul>
     </Box>
