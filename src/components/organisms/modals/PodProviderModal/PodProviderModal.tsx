@@ -27,12 +27,13 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
       <Input
         name="pod_provider"
         value={podProvider}
+        placeholder="https://inrupt.net"
         onChange={(e: any) => {
           setPodProvider(e.target.value);
         }}
         label="What is your pod provider ? "
       />
-      <Button type="button" onClick={handleClick}>
+      <Button mt={3} type="button" onClick={handleClick}>
         Connect to pod
       </Button>
     </StyledModal>
