@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import Box from "components/atoms/Box";
 import Page from "components/templates/Page";
+import Text from "components/atoms/Text";
 import Button from "components/atoms/Button";
 import PodProviderModal from "components/organisms/modals/PodProviderModal";
 
@@ -10,6 +12,16 @@ const LoginForm: React.FunctionComponent = () => {
   const toggleModal = (_e: any) => setIsModalOpen(!isModalOpen);
   return (
     <Page>
+      <Box
+        justifyContent="center"
+        display="flex"
+        flexDirection="column"
+        flexGrow={1}
+      >
+        <Text textAlign="center" type="h1">
+          Solid Grocery List
+        </Text>
+      </Box>
       <Button onClick={toggleModal}>Login</Button>
 
       <PodProviderModal

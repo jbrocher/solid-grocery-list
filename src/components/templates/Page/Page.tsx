@@ -9,6 +9,7 @@ const Page = styled.div<PaddingProps & FlexboxProps>`
   flex-grow: 1;
   flex-shrink: 1;
   overflow: scroll;
+  box-sizing: border-box;
   background-color: ${(props) => props.theme.colors.cyan};
 `;
 
