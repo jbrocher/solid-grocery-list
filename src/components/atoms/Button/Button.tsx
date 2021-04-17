@@ -8,7 +8,7 @@ type ButtonProps = {
 const Button = styled.button<ButtonProps>`
   ${width};
   ${margin};
-  padding: ${(props) => props.theme.radii[1]}px;
+  padding: ${(props) => props.theme.space[1]}px;
   border-radius: ${(props) => props.theme.radii[1]}px;
   background-color: ${(props) => props.theme.colors.mandarinRed};
   color: white;
