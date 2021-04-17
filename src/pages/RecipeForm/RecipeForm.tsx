@@ -62,11 +62,13 @@ const RecipeForm: React.FunctionComponent = () => {
       }: FormikProps<RecipeFormValues>) => (
         <Page>
           <Card>
-            <Text type="h1"> Nouvelle Recette </Text>
+            <Text textAlign="center" mb={2} type="h1">
+              New recipe
+            </Text>
             <form onSubmit={handleSubmit}>
               <Input
                 value={values.title}
-                label="Titre de la recette"
+                label="Recipe Name"
                 onChange={handleChange}
                 name="title"
               />
@@ -74,6 +76,9 @@ const RecipeForm: React.FunctionComponent = () => {
                 name="ingredients"
                 render={(arrayHelpers) => (
                   <div>
+                    <Text mt={2} mb={1} type="h3">
+                      Ingredients
+                    </Text>
                     {values.ingredients.map((ingredient, index) => (
                       <div key={index}>
                         <Text type="body">
@@ -90,13 +95,20 @@ const RecipeForm: React.FunctionComponent = () => {
                         toggleIngredientModal();
                       }}
                     />
-                    <Button type="button" onClick={toggleIngredientModal}>
+                    <Button
+                      marginY={2}
+                      variant="outlined"
+                      type="button"
+                      onClick={toggleIngredientModal}
+                    >
                       Add ingredient
                     </Button>
                   </div>
                 )}
               />
-              <Button type="submit">Ajouter la recette</Button>
+              <Button marginY={2} type="submit">
+                Create recipe
+              </Button>
             </form>
           </Card>
         </Page>
