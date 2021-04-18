@@ -1,4 +1,5 @@
 import React from "react";
+import { use100vh } from "utils/use100vh";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -17,12 +18,14 @@ import ProfileProvider from "ProfileContext";
 
 import BottomBar from "components/organisms/BottomBar";
 function App() {
+  const windowHeight = use100vh();
+
   return (
     <ModalProvider>
       <AuthentificationProvider>
         <ProfileProvider>
           <Router>
-            <Box height="100vh" display="flex" flexDirection="column">
+            <Box height={windowHeight} display="flex" flexDirection="column">
               <Switch>
                 <Route exact path="/recipe-list" component={RecipeList} />
                 <Route exact path="/recipe-form" component={RecipeForm} />

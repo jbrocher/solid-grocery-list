@@ -18,7 +18,7 @@ const RecipeDetail: React.FunctionComponent<RecipeProps> = ({
     setIsIngredientListOpen(!isIngredientListOpen);
   };
   return (
-    <Box onClick={toggleIngredientList} width="100%" m={1}>
+    <Box onClick={toggleIngredientList} width="100%" marginY={1}>
       <Box display="flex" flexDirection="row" alignItems="center">
         {isIngredientListOpen ? <ExpandMoreIcon /> : <KeyboardArrowRightIcon />}
         <Text type="h2" textAlign="center">

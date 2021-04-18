@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { padding, PaddingProps, FlexboxProps, flexbox } from "styled-system";
 
-const Page = styled.div<PaddingProps & FlexboxProps>`
+type PageProps = PaddingProps & FlexboxProps;
+
+const Page = styled.div<PageProps>`
   ${padding};
   ${flexbox};
-  height: 100vh;
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
