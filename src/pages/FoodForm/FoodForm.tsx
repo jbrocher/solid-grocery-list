@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
+import Loading from "pages/Loading";
 import Input from "components/atoms/Input";
 import { useFoodList, useCreateFood } from "utils/api/hooks";
 import Page from "components/templates/Page";
@@ -30,23 +31,24 @@ const FoodForm: React.FunctionComponent = () => {
   const { loading, createFood } = useCreateFood(foodList);
   const handleSubmit = async (values: FormValues): Promise<void> => {
     await createFood(values["id"], values["category"]);
-    history.push("/food-list");
+    return history.push("/food-list");
   };
 
-  if (!foodList) {
-    return <div> Loading ... </div>;
+  if (!foodList || loading) {
+    return <Loading />;
   }
   return (
     <Formik
       onSubmit={handleSubmit}
       initialValues={initialValues}
       validationSchema={validationSchema}
+      validateOnMount={true}
     >
       {({
         handleBlur,
-        handleReset,
         handleChange,
         isValid,
+        isSubmitting,
         handleSubmit,
         values,
       }: FormikProps<FormValues>) => (
@@ -71,7 +73,7 @@ const FoodForm: React.FunctionComponent = () => {
                 name="category"
               />
               <Button
-                disabled={!isValid || loading}
+                disabled={!isValid || isSubmitting}
                 mt={1}
                 width="100%"
                 type="submit"

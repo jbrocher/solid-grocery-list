@@ -13,8 +13,6 @@ const Template: Story<PodProviderModalProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  handleSelectPodProvider: (podProvider) =>
-    new Promise((resolve) => "hello world"),
   isOpen: true,
   toggle: () => {},
 };

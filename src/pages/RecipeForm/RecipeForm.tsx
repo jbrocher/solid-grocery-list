@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
+import Loading from "pages/Loading";
 import { Formik, FormikProps, FieldArray } from "formik";
 import IngredientModal from "components/organisms/modals/IngredientModal";
 import Button from "components/atoms/Button";
@@ -34,17 +36,18 @@ const RecipeForm: React.FunctionComponent = () => {
   const recipes = useRecipes();
   const { ready, createRecipe } = useCreateRecipe();
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
+  const history = useHistory();
   const toggleIngredientModal = () => {
     setIsIngredientModalOpen(!isIngredientModalOpen);
   };
 
   if (!recipes || !ready) {
-    return <div> loading ... </div>;
+    return <Loading />;
   }
 
-  const handleSubmit = (data: RecipeFormValues) => {
-    console.log(data);
-    createRecipe(data).then((result) => console.log(result));
+  const handleSubmit = async (data: RecipeFormValues) => {
+    await createRecipe(data).then((result) => console.log(result));
+    return history.push("/recipe-list");
   };
 
   return (
@@ -52,10 +55,12 @@ const RecipeForm: React.FunctionComponent = () => {
       onSubmit={handleSubmit}
       initialValues={initialValues}
       validationSchema={validationSchema}
+      validateOnMount={true}
     >
       {({
         handleChange,
         isValid,
+        isSubmitting,
         errors,
         values,
         handleSubmit,
@@ -106,7 +111,11 @@ const RecipeForm: React.FunctionComponent = () => {
                   </div>
                 )}
               />
-              <Button marginY={2} type="submit">
+              <Button
+                disabled={!isValid || isSubmitting}
+                marginY={2}
+                type="submit"
+              >
                 Create recipe
               </Button>
             </form>

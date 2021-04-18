@@ -21,7 +21,7 @@ const RecipeDetail: React.FunctionComponent<RecipeProps> = ({
     <Box onClick={toggleIngredientList} width="100%" marginY={1}>
       <Box display="flex" flexDirection="row" alignItems="center">
         {isIngredientListOpen ? <ExpandMoreIcon /> : <KeyboardArrowRightIcon />}
-        <Text type="h2" textAlign="center">
+        <Text type="h3" textAlign="center">
           {recipe.title}
         </Text>
       </Box>

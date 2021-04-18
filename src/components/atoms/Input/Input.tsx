@@ -4,6 +4,7 @@ import Box from "components/atoms/Box";
 
 const StyledInput = styled.input`
   font-family: ${(props) => props.theme.fonts.body};
+  font-size: ${(props) => props.theme.fontSizes[1]};
   border: solid 2px ${(props) => props.theme.colors.melon};
   border-radius: ${(props) => props.theme.radii[0]}px;
   height: ${(props) => props.theme.space[4]}px;
@@ -15,6 +16,7 @@ const StyledInput = styled.input`
 
 const StyledLabel = styled.label`
   font-family: ${(props) => props.theme.fonts.body};
+  font-size: ${(props) => props.theme.fontSizes[1]}px;
   color: ${(props) => props.theme.colors.grey};
   font-weight: ${(props) => props.theme.fontWeights.bold};
   margin-bottom: ${(props) => props.theme.space[1]}px;

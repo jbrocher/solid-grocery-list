@@ -6,8 +6,6 @@ import Button from "components/atoms/Button";
 import PodProviderModal from "components/organisms/modals/PodProviderModal";
 import { use100vh } from "utils/use100vh";
 
-import auth from "solid-auth-client";
-
 const LoginForm: React.FunctionComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = (_e: any) => setIsModalOpen(!isModalOpen);
@@ -26,13 +24,7 @@ const LoginForm: React.FunctionComponent = () => {
       </Box>
       <Button onClick={toggleModal}>Login</Button>
 
-      <PodProviderModal
-        isOpen={isModalOpen}
-        toggle={toggleModal}
-        handleSelectPodProvider={(podProvider: string) =>
-          auth.login(podProvider)
-        }
-      />
+      <PodProviderModal isOpen={isModalOpen} toggle={toggleModal} />
     </Page>
   );
 };

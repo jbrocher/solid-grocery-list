@@ -23,13 +23,14 @@ const Text = styled.div<TextProps>(
     prop: "type",
     variants: {
       h1: {
-        fontSize: 4,
-      },
-      h2: {
         fontSize: 3,
       },
-      h3: {
+      h2: {
         fontSize: 2,
+      },
+      h3: {
+        fontSize: 1,
+        fontWeight: "bold",
       },
       body: {
         fontSize: 0,

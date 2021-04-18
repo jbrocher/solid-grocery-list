@@ -2,7 +2,7 @@ import React from "react";
 import Button from "components/atoms/Button";
 import { useFoodList } from "utils/api/hooks";
 import Page from "components/templates/Page";
-import Box from "components/atoms/Box";
+import ContentContainer from "components/templates/ContentContainer";
 import { useHistory } from "react-router";
 import Card from "components/atoms/Card";
 import Text from "components/atoms/Text";
@@ -25,11 +25,11 @@ const FoodList: React.FunctionComponent = () => {
 
   return (
     <Page>
-      <Box flexGrow={1}>
+      <ContentContainer>
         {food.foodItems.map((foodItem) =>
           renderFoodItem(foodItem.identifier, foodItem.category)
         )}
-      </Box>
+      </ContentContainer>
       <Button onClick={goToFoodForm}> Add a Food </Button>
     </Page>
   );
