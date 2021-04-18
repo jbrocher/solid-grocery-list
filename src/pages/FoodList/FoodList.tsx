@@ -1,14 +1,15 @@
 import React from "react";
 import Button from "components/atoms/Button";
-import { useFoodList } from "utils/api/hooks";
+import { useFoodList } from "utils/api/hooks/food";
 import Page from "components/templates/Page";
+import Loading from "pages/Loading";
 import ContentContainer from "components/templates/ContentContainer";
 import { useHistory } from "react-router";
 import Card from "components/atoms/Card";
 import Text from "components/atoms/Text";
 
 const FoodList: React.FunctionComponent = () => {
-  const food = useFoodList();
+  const foodList = useFoodList();
 
   const history = useHistory();
   const goToFoodForm = () => {
@@ -23,10 +24,14 @@ const FoodList: React.FunctionComponent = () => {
     );
   };
 
+  if (!foodList) {
+    return <Loading />;
+  }
+
   return (
     <Page>
       <ContentContainer>
-        {food.foodItems.map((foodItem) =>
+        {foodList.map((foodItem) =>
           renderFoodItem(foodItem.name, foodItem.category)
         )}
       </ContentContainer>

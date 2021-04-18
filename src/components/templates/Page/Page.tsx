@@ -17,8 +17,8 @@ const Page = styled.div<PageProps>`
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
-  overflow: scroll;
   box-sizing: border-box;
+  min-height: 0;
   background-color: ${(props) => props.theme.colors.cyan};
 `;
 

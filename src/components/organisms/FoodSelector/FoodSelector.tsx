@@ -20,7 +20,7 @@ const FoodSelector: React.FunctionComponent<FoodSelectorProps> = ({
   return (
     <Autocomplete
       options={foodItems}
-      getOptionLabel={(food) => food.identifier}
+      getOptionLabel={(food) => food.name}
       style={{ width: "100%" }}
       getOptionSelected={(food_a, food_b) => {
         return food_a.identifier === food_b.identifier;

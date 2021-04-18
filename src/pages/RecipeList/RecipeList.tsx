@@ -1,6 +1,7 @@
 import React from "react";
 import Page from "components/templates/Page";
 import ContentContainer from "components/templates/ContentContainer";
+import Loading from "pages/Loading";
 import { useRecipeList } from "utils/api/hooks/recipe";
 import RecipeDetail from "./components/RecipeDetail";
 import Button from "components/atoms/Button";
@@ -13,6 +14,10 @@ const RecipeList: React.FunctionComponent = () => {
   const goToRecipeForm = () => {
     history.push("/recipe-form");
   };
+
+  if (!recipes) {
+    return <Loading />;
+  }
 
   return (
     <Page>
