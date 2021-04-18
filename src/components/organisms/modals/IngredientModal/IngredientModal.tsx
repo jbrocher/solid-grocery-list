@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import StyledModal from "components/organisms/modals/components/StyledModal";
 import Button from "components/atoms/Button";
 import FoodSelector from "components/organisms/FoodSelector";
-import { useFoodList } from "utils/api/hooks";
+import { useFoodList } from "utils/api/hooks/food";
 import { Food } from "utils/api/types";
 import Input from "components/atoms/Input";
 
@@ -26,7 +26,7 @@ const IngredientModal: React.FunctionComponent<IngredientModalProps> = ({
   const handleSelect = (selected: Food | null) => {
     setSelectedFoodItem(selected);
   };
-  const food = useFoodList();
+  const foodList = useFoodList();
 
   const submit = () => {
     if (selectedFoodItem !== null) {
@@ -44,7 +44,7 @@ const IngredientModal: React.FunctionComponent<IngredientModalProps> = ({
       onEscapeKeydown={toggle}
     >
       <FoodSelector
-        foodItems={food.foodItems}
+        foodItems={foodList ? foodList : []}
         selected={selectedFoodItem}
         onSelect={handleSelect}
       />
