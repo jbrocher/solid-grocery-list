@@ -87,7 +87,7 @@ const RecipeForm: React.FunctionComponent = () => {
                     {values.ingredients.map((ingredient, index) => (
                       <div key={index}>
                         <Text type="body">
-                          {ingredient.food.identifier}: {ingredient.quantity}
+                          {ingredient.food.name}: {ingredient.quantity}
                         </Text>
                       </div>
                     ))}
