@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
+import Loading from "pages/Loading";
 import Input from "components/atoms/Input";
 import { useFoodList, useCreateFood } from "utils/api/hooks";
 import Page from "components/templates/Page";
@@ -34,7 +35,7 @@ const FoodForm: React.FunctionComponent = () => {
   };
 
   if (!foodList || loading) {
-    return <div> Loading ... </div>;
+    return <Loading />;
   }
   return (
     <Formik

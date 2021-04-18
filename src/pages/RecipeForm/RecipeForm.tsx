@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
+import Loading from "pages/Loading";
 import { Formik, FormikProps, FieldArray } from "formik";
 import IngredientModal from "components/organisms/modals/IngredientModal";
 import Button from "components/atoms/Button";
@@ -41,7 +42,7 @@ const RecipeForm: React.FunctionComponent = () => {
   };
 
   if (!recipes || !ready) {
-    return <div> loading ... </div>;
+    return <Loading />;
   }
 
   const handleSubmit = async (data: RecipeFormValues) => {
