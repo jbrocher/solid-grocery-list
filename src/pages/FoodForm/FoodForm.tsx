@@ -3,7 +3,7 @@ import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import Loading from "pages/Loading";
 import Input from "components/atoms/Input";
-import { useFoodList, useCreateFood } from "utils/api/hooks";
+import { useCreateFood } from "utils/api/hooks/food";
 import Page from "components/templates/Page";
 import Card from "components/atoms/Card";
 import Button from "components/atoms/Button";
@@ -27,14 +27,13 @@ const initialValues = {
 const FoodForm: React.FunctionComponent = () => {
   const history = useHistory();
 
-  const { foodList } = useFoodList();
-  const { loading, createFood } = useCreateFood(foodList);
+  const { loading, createFood } = useCreateFood();
   const handleSubmit = async (values: FormValues): Promise<void> => {
     await createFood(values["id"], values["category"]);
     return history.push("/food-list");
   };
 
-  if (!foodList || loading) {
+  if (loading) {
     return <Loading />;
   }
   return (
