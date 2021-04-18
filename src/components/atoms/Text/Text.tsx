@@ -30,7 +30,7 @@ const Text = styled.div<TextProps>(
       },
       h3: {
         fontSize: 1,
-        fontWeights: "bold",
+        fontWeight: "bold",
       },
       body: {
         fontSize: 0,
