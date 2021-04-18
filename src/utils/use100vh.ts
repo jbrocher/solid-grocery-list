@@ -14,7 +14,7 @@ export const use100vh = () => {
     };
     updateHeight();
     window.addEventListener("resize", updateHeight);
-    return window.removeEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
   }, []);
   return measuredWindowHeight > 0 ? measuredWindowHeight : "100vh";
 };
