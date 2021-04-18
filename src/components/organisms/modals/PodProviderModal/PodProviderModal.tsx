@@ -14,7 +14,7 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
   handleSelectPodProvider,
   toggle,
 }: PodProviderModalProps) => {
-  const [podProvider, setPodProvider] = useState("");
+  const [podProvider, setPodProvider] = useState("https://inrupt.net");
   const handleClick = () => {
     handleSelectPodProvider(podProvider);
   };
