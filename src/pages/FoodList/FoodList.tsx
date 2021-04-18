@@ -14,10 +14,10 @@ const FoodList: React.FunctionComponent = () => {
   const goToFoodForm = () => {
     history.push("/food-form");
   };
-  const renderFoodItem = (identifier: string, shoppingCategory: string) => {
+  const renderFoodItem = (name: string, shoppingCategory: string) => {
     return (
-      <Card p={1} marginY={1} key={identifier}>
-        <Text type="h3"> {identifier} </Text>
+      <Card p={1} marginY={1} key={name}>
+        <Text type="h3"> {name} </Text>
         <Text type="body"> {`Rayon: ${shoppingCategory}`} </Text>
       </Card>
     );
@@ -27,7 +27,7 @@ const FoodList: React.FunctionComponent = () => {
     <Page>
       <ContentContainer>
         {food.foodItems.map((foodItem) =>
-          renderFoodItem(foodItem.identifier, foodItem.category)
+          renderFoodItem(foodItem.name, foodItem.category)
         )}
       </ContentContainer>
       <Button onClick={goToFoodForm}> Add a Food </Button>
