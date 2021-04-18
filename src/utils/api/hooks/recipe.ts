@@ -24,7 +24,7 @@ export const useRecipes = () => {
 
 export const useRecipeList = () => {
   const recipes = useRecipes();
-  const [recipeItems, setRecipeItems] = useState<Recipe[]>([]);
+  const [recipeItems, setRecipeItems] = useState<Recipe[] | null>(null);
   const { ready: serializerReady, recipeSerializer } = useRecipeSerializer();
 
   useEffect(() => {
