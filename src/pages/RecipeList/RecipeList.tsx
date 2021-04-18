@@ -1,6 +1,6 @@
 import React from "react";
 import Page from "components/templates/Page";
-import Box from "components/atoms/Box";
+import ContentContainer from "components/templates/ContentContainer";
 import { useRecipeList } from "utils/api/hooks/recipe";
 import RecipeDetail from "./components/RecipeDetail";
 import Button from "components/atoms/Button";
@@ -16,11 +16,11 @@ const RecipeList: React.FunctionComponent = () => {
 
   return (
     <Page>
-      <Box flexShrink={1} overflow="scroll" mb={1} minHeight={0} flexGrow={1}>
+      <ContentContainer>
         {recipes.map((recipe) => (
           <RecipeDetail key={recipe.identifier} recipe={recipe} />
         ))}
-      </Box>
+      </ContentContainer>
       <Button onClick={goToRecipeForm}> Add a Recipe </Button>
     </Page>
   );
