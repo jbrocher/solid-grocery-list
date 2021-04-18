@@ -30,10 +30,10 @@ const FoodForm: React.FunctionComponent = () => {
   const { loading, createFood } = useCreateFood(foodList);
   const handleSubmit = async (values: FormValues): Promise<void> => {
     await createFood(values["id"], values["category"]);
-    history.push("/food-list");
+    return history.push("/food-list");
   };
 
-  if (!foodList) {
+  if (!foodList || loading) {
     return <div> Loading ... </div>;
   }
   return (
@@ -41,12 +41,13 @@ const FoodForm: React.FunctionComponent = () => {
       onSubmit={handleSubmit}
       initialValues={initialValues}
       validationSchema={validationSchema}
+      validateOnMount={true}
     >
       {({
         handleBlur,
-        handleReset,
         handleChange,
         isValid,
+        isSubmitting,
         handleSubmit,
         values,
       }: FormikProps<FormValues>) => (
@@ -71,7 +72,7 @@ const FoodForm: React.FunctionComponent = () => {
                 name="category"
               />
               <Button
-                disabled={!isValid || loading}
+                disabled={!isValid || isSubmitting}
                 mt={1}
                 width="100%"
                 type="submit"
