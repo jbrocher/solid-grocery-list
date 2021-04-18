@@ -1,9 +1,17 @@
 import styled from "styled-components";
-import { padding, PaddingProps, FlexboxProps, flexbox } from "styled-system";
+import {
+  height,
+  HeightProps,
+  padding,
+  PaddingProps,
+  FlexboxProps,
+  flexbox,
+} from "styled-system";
 
-type PageProps = PaddingProps & FlexboxProps;
+type PageProps = PaddingProps & FlexboxProps & HeightProps;
 
 const Page = styled.div<PageProps>`
+  ${height};
   ${padding};
   ${flexbox};
   display: flex;
