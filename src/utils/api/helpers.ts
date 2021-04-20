@@ -57,20 +57,6 @@ export const getPublicTypeIndex = async (
   }
 };
 
-const createFoodList = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-): Promise<TripleDocument> => {
-  return createRessource(profile, publicTypeIndex, "food");
-};
-
-const createRecipeList = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-): Promise<TripleDocument> => {
-  return createRessource(profile, publicTypeIndex, "recipe");
-};
-
 const createRessource = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument,
@@ -85,7 +71,9 @@ const createRessource = async (
   list.save();
 
   // Store a reference to that Document in the public Type Index for `schema:TextDigitalDocument`:
-  const typeRegistration = publicTypeIndex.addSubject();
+  const typeRegistration = publicTypeIndex.addSubject({
+    identifier: ressource,
+  });
   typeRegistration.addRef(rdf.type, solid.TypeRegistration);
   typeRegistration.addRef(solid.instance, list.asRef());
   typeRegistration.addRef(solid.forClass, RESSOURCES[ressource].iri);
@@ -94,42 +82,11 @@ const createRessource = async (
   return test;
 };
 
-export const getOrCreateFoodList = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-): Promise<TripleDocument> => {
-  const foodListEntry = publicTypeIndex.findSubject(solid.forClass, FOOD);
-
-  if (foodListEntry == null) {
-    return await createFoodList(profile, publicTypeIndex);
-  } else {
-    const foodListRef = foodListEntry.getRef(solid.instance);
-    if (foodListRef) {
-      const foodList = await fetchDocument(foodListRef);
-      return foodList;
-    } else {
-      throw new Error("Invalid food list type registry");
-    }
-  }
-};
-
-export const getOrCreateRecipeList = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-): Promise<TripleDocument> => {
-  const recipeListEntry = publicTypeIndex.findSubject(solid.forClass, RECIPE);
-
-  if (recipeListEntry == null) {
-    return await createRecipeList(profile, publicTypeIndex);
-  } else {
-    const foodListRef = recipeListEntry.getRef(solid.instance);
-    if (foodListRef) {
-      const foodList = await fetchDocument(foodListRef);
-      return foodList;
-    } else {
-      throw new Error("Invalid recipe list type registry");
-    }
-  }
+type ResourceQueryKey = {
+  queryKey: [
+    string,
+    { profile: TripleSubject; publicTypeIndex: TripleDocument }
+  ];
 };
 
 export const getOrCreateRessource = async (
@@ -167,4 +124,11 @@ export const getFoods = async (
   publicTypeIndex: TripleDocument
 ) => {
   return getOrCreateRessource(profile, publicTypeIndex, "food");
+};
+
+export const getRecipes = async ({
+  queryKey,
+}: ResourceQueryKey): Promise<TripleDocument> => {
+  const [, { profile, publicTypeIndex }] = queryKey;
+  return getOrCreateRessource(profile, publicTypeIndex, "recipe");
 };
