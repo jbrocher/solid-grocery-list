@@ -29,6 +29,9 @@ const ProfileProvider: React.FunctionComponent = ({ children }) => {
 
   useEffect(() => {
     if (profile) {
+      // In the future if other app uses the same tech we might
+      // need to get an up to date verion of the public type index
+      // before registering a new resource
       getPublicTypeIndex(profile).then((publicTypeIndex) => {
         setPublicTypeIndex(publicTypeIndex);
       });
