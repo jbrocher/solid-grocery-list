@@ -8,18 +8,30 @@ import IngredientList from "./IngredientList";
 
 interface RecipeProps {
   recipe: Recipe;
+  isCheckBox: boolean;
+  isChecked: boolean;
+  onClickCheckBox: () => void;
 }
 
 const RecipeDetail: React.FunctionComponent<RecipeProps> = ({
   recipe,
+  isCheckBox,
+  isChecked,
+  onClickCheckBox,
 }: RecipeProps) => {
   const [isIngredientListOpen, setIsIngredientListOpen] = useState(false);
   const toggleIngredientList = () => {
     setIsIngredientListOpen(!isIngredientListOpen);
   };
+  const renderCheckBox = () => {
+    return isCheckBox ? (
+      <input onClick={onClickCheckBox} type="checkbox" checked={isChecked} />
+    ) : null;
+  };
   return (
     <Box onClick={toggleIngredientList} width="100%" marginY={1}>
       <Box display="flex" flexDirection="row" alignItems="center">
+        {renderCheckBox()}
         {isIngredientListOpen ? <ExpandMoreIcon /> : <KeyboardArrowRightIcon />}
         <Text type="h3" textAlign="center">
           {recipe.title}
