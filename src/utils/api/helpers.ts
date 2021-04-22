@@ -1,5 +1,13 @@
 import { rdf, solid, space } from "rdf-namespaces";
-import { METRIC_QUANTITY, TITLE, INGREDIENT, FOOD, RECIPE } from "models/iris";
+import {
+  METRIC_QUANTITY,
+  TITLE,
+  INGREDIENT,
+  FOOD,
+  RECIPE,
+  GroceryList,
+  GroceryListItem,
+} from "models/iris";
 import {
   createDocument,
   fetchDocument,
@@ -27,6 +35,14 @@ export const RESSOURCES = {
   ingredient: {
     storage: "public/ingredient-list.ttl",
     iri: INGREDIENT,
+  },
+  groceryList: {
+    storage: "public/grocery-list.ttl",
+    iri: GroceryList,
+  },
+  groceryListItem: {
+    storage: "public/grocery-list-item.ttl",
+    iri: GroceryListItem,
   },
 };
 
@@ -135,6 +151,30 @@ export const getRecipeResources = async (
   const recipes = await getRecipes(profile, publicTypeIndex);
 
   return { foods, ingredients, recipes };
+};
+
+export const getGroceryLists = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+): Promise<TripleDocument> => {
+  return getOrCreateRessource(profile, publicTypeIndex, "groceryList");
+};
+
+export const getGroceryListItems = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+): Promise<TripleDocument> => {
+  return getOrCreateRessource(profile, publicTypeIndex, "groceryListItem");
+};
+
+export const getGroceryListsResources = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+) => {
+  const groceryLists = await getGroceryLists(profile, publicTypeIndex);
+  const groceryListItems = await getGroceryListItems(profile, publicTypeIndex);
+  const foods = await getFoods(profile, publicTypeIndex);
+  return { groceryLists, groceryListItems, foods };
 };
 
 export const createIngredient = async (
