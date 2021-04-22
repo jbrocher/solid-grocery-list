@@ -1,12 +1,10 @@
 import { RECIPE } from "models/iris";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useIngredients } from "utils/api/hooks/ingredients";
-import { rdf } from "rdf-namespaces";
 import { Recipe } from "utils/api/types";
 import { TripleSubject, TripleDocument } from "tripledoc";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
 import {
-  createIngredient,
   createRecipe,
   getRecipes,
   getRecipeResources,
