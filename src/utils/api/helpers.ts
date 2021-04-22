@@ -148,11 +148,20 @@ export const getRecipeResources = async (
   return { foods, ingredients, recipes };
 };
 
-export const getGroceryList = async (
+export const getGroceryLists = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ): Promise<TripleDocument> => {
   return getOrCreateRessource(profile, publicTypeIndex, "groceryList");
+};
+
+export const getGroceryListsResources = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+) => {
+  const groceryLists = await getGroceryLists(profile, publicTypeIndex);
+  const foods = await getFoods(profile, publicTypeIndex);
+  return { groceryLists, foods };
 };
 
 export const createIngredient = async (
