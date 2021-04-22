@@ -6,6 +6,7 @@ import {
   FOOD,
   RECIPE,
   GroceryList,
+  GroceryListItem,
 } from "models/iris";
 import {
   createDocument,
@@ -36,8 +37,12 @@ export const RESSOURCES = {
     iri: INGREDIENT,
   },
   groceryList: {
-    storage: "publict/grocery-list.ttl",
+    storage: "public/grocery-list.ttl",
     iri: GroceryList,
+  },
+  groceryListItem: {
+    storage: "public/grocery-list-item.ttl",
+    iri: GroceryListItem,
   },
 };
 
@@ -155,13 +160,21 @@ export const getGroceryLists = async (
   return getOrCreateRessource(profile, publicTypeIndex, "groceryList");
 };
 
+export const getGroceryListItems = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+): Promise<TripleDocument> => {
+  return getOrCreateRessource(profile, publicTypeIndex, "groceryListItem");
+};
+
 export const getGroceryListsResources = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ) => {
   const groceryLists = await getGroceryLists(profile, publicTypeIndex);
+  const groceryListItems = await getGroceryListItems(profile, publicTypeIndex);
   const foods = await getFoods(profile, publicTypeIndex);
-  return { groceryLists, foods };
+  return { groceryLists, groceryListItems, foods };
 };
 
 export const createIngredient = async (

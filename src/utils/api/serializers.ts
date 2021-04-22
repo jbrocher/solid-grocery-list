@@ -90,17 +90,17 @@ export const groceryListItemSerializer = (
 
 export const groceryListSerializer = (
   groceryList: TripleSubject,
-  groceryLists: TripleDocument,
+  groceryListItems: TripleDocument,
   foods: TripleDocument
 ): GroceryList => {
   const groceryListItemsRefs = groceryList.getAllRefs(rdfs.member);
 
-  const groceryListItems = groceryListItemsRefs.map((ref) => {
-    const groceryListItem = groceryLists.getSubject(ref);
+  const groceryListItemsList = groceryListItemsRefs.map((ref) => {
+    const groceryListItem = groceryListItems.getSubject(ref);
     return groceryListItemSerializer(groceryListItem, foods);
   });
   return {
     title: groceryList.getString(rdfs.label) ?? "",
-    items: groceryListItems,
+    items: groceryListItemsList,
   };
 };

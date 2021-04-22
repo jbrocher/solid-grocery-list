@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { ModalProvider } from "styled-react-modal";
 import FoodForm from "./pages/FoodForm";
+import Groceries from "./pages/Groceries";
 import Box from "components/atoms/Box";
 import RecipeForm from "./pages/RecipeForm";
 import FoodList from "./pages/FoodList";
@@ -34,6 +35,7 @@ function App() {
                   <Route exact path="/recipe-form" component={RecipeForm} />
                   <Route exact path="/food-form" component={FoodForm} />
                   <Route exact path="/food-list" component={FoodList} />
+                  <Route exact path="/groceries" component={Groceries} />
                   <Redirect to="/recipe-list" />
                 </Switch>
                 <BottomBar />

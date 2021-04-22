@@ -10,14 +10,15 @@ export const getGroceryLists = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ) => {
-  const { foods, groceryLists } = await getGroceryListsResources(
-    profile,
-    publicTypeIndex
-  );
+  const {
+    foods,
+    groceryLists,
+    groceryListItems,
+  } = await getGroceryListsResources(profile, publicTypeIndex);
   return groceryLists
     .getAllSubjectsOfType(GroceryList)
     .map((groceryList) =>
-      groceryListSerializer(groceryList, groceryLists, foods)
+      groceryListSerializer(groceryList, groceryListItems, foods)
     );
 };
 

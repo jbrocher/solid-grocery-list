@@ -17,7 +17,7 @@ export interface Recipe {
 }
 
 export interface GroceryListItem {
-  object: Food | string;
+  object: Food;
   done: boolean;
   quantity: number;
 }
