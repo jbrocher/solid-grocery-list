@@ -25,7 +25,7 @@ const RecipeDetail: React.FunctionComponent<RecipeProps> = ({
   };
   const renderCheckBox = () => {
     return isCheckBox ? (
-      <input onClick={onClickCheckBox} type="checkbox" checked={isChecked} />
+      <input onChange={onClickCheckBox} type="checkbox" checked={isChecked} />
     ) : null;
   };
   return (

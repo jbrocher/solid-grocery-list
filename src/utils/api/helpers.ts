@@ -15,7 +15,7 @@ import {
   TripleDocument,
 } from "tripledoc";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
-import { Ingredient } from "utils/api/types";
+import { Ingredient, Recipe } from "utils/api/types";
 
 export const getProfile = async (webId: string): Promise<TripleSubject> => {
   const webIdDoc = await fetchDocument(webId);
@@ -221,3 +221,9 @@ export const createRecipe = async (
     identifier: recipeSubject.asRef().split("#")[1],
   };
 };
+
+export const createGroceryListFromRecipes = (
+  recipes: Recipe[],
+  groceryLists: TripleDocument,
+  groceryListItemsList: TripleDocument
+) => {};
