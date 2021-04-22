@@ -15,3 +15,14 @@ export interface Recipe {
   identifier: string;
   ingredients: Ingredient[];
 }
+
+export interface GroceryListItem {
+  object: Food | string;
+  done: boolean;
+  quantity: number;
+}
+
+export interface GroceryList {
+  title: string;
+  items: GroceryListItem[];
+}

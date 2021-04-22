@@ -1,5 +1,12 @@
 import { rdf, solid, space } from "rdf-namespaces";
-import { METRIC_QUANTITY, TITLE, INGREDIENT, FOOD, RECIPE } from "models/iris";
+import {
+  METRIC_QUANTITY,
+  TITLE,
+  INGREDIENT,
+  FOOD,
+  RECIPE,
+  GroceryList,
+} from "models/iris";
 import {
   createDocument,
   fetchDocument,
@@ -27,6 +34,10 @@ export const RESSOURCES = {
   ingredient: {
     storage: "public/ingredient-list.ttl",
     iri: INGREDIENT,
+  },
+  groceryList: {
+    storage: "publict/grocery-list.ttl",
+    iri: GroceryList,
   },
 };
 
@@ -135,6 +146,13 @@ export const getRecipeResources = async (
   const recipes = await getRecipes(profile, publicTypeIndex);
 
   return { foods, ingredients, recipes };
+};
+
+export const getGroceryList = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+): Promise<TripleDocument> => {
+  return getOrCreateRessource(profile, publicTypeIndex, "groceryList");
 };
 
 export const createIngredient = async (

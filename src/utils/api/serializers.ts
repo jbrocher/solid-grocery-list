@@ -1,5 +1,15 @@
-import { Food, Ingredient, Recipe } from "./types";
 import {
+  Food,
+  Ingredient,
+  Recipe,
+  GroceryListItem,
+  GroceryList,
+} from "./types";
+import { rdfs } from "rdf-namespaces";
+import {
+  groceryListItemObject,
+  groceryListItemDone,
+  QUANTITY,
   TITLE,
   METRIC_QUANTITY,
   INGREDIENT,
@@ -57,5 +67,40 @@ export const recipeSerializer = (
     title: title ?? "",
     identifier: recipe.asRef().split("#")[1],
     ingredients: ingredientList,
+  };
+};
+
+export const groceryListItemSerializer = (
+  groceryListItem: TripleSubject,
+  foods: TripleDocument
+): GroceryListItem => {
+  // If we allow groceryList as object we must determine the type here
+  const foodRef = groceryListItem.getRef(groceryListItemObject);
+  if (!foodRef) {
+    throw new Error("No foodRef");
+  }
+  const food = foods.getSubject(foodRef);
+
+  return {
+    object: foodSerializer(food),
+    done: groceryListItem.getString(groceryListItemDone) === "true",
+    quantity: groceryListItem.getInteger(QUANTITY) ?? 0,
+  };
+};
+
+export const groceryListSerializer = (
+  groceryList: TripleSubject,
+  groceryLists: TripleDocument,
+  foods: TripleDocument
+): GroceryList => {
+  const groceryListItemsRefs = groceryList.getAllRefs(rdfs.member);
+
+  const groceryListItems = groceryListItemsRefs.map((ref) => {
+    const groceryListItem = groceryLists.getSubject(ref);
+    return groceryListItemSerializer(groceryListItem, foods);
+  });
+  return {
+    title: groceryList.getString(rdfs.label) ?? "",
+    items: groceryListItems,
   };
 };
