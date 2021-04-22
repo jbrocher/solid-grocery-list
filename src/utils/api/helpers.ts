@@ -1,11 +1,13 @@
 import { rdf, solid, space } from "rdf-namespaces";
-import { INGREDIENT, FOOD, RECIPE } from "models/iris";
+import { METRIC_QUANTITY, TITLE, INGREDIENT, FOOD, RECIPE } from "models/iris";
 import {
   createDocument,
   fetchDocument,
   TripleSubject,
   TripleDocument,
 } from "tripledoc";
+import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
+import { Ingredient } from "utils/api/types";
 
 export const getProfile = async (webId: string): Promise<TripleSubject> => {
   const webIdDoc = await fetchDocument(webId);
@@ -133,4 +135,49 @@ export const getRecipeResources = async (
   const recipes = await getRecipes(profile, publicTypeIndex);
 
   return { foods, ingredients, recipes };
+};
+
+export const createIngredient = async (
+  ingredient: Ingredient,
+  ingredients: TripleDocument,
+  profile: TripleSubject
+) => {
+  // Create a new subject of type ingredient
+  // with a GUI
+  const ingredientSubject = ingredients.addSubject();
+  ingredientSubject.addRef(rdf.type, INGREDIENT);
+  ingredientSubject.addRef(
+    FOOD,
+    makeRef(ingredient.food.identifier, profile, "food")
+  );
+  ingredientSubject.addInteger(METRIC_QUANTITY, ingredient.quantity);
+  await ingredients.save();
+  return ingredientSubject;
+};
+
+export const createRecipe = async (
+  recipe: RecipeFormValues,
+  recipes: TripleDocument,
+  ingredients: TripleDocument,
+  profile: TripleSubject
+) => {
+  const recipeSubject = recipes.addSubject();
+  recipeSubject.addRef(rdf.type, RECIPE);
+  recipeSubject.addString(TITLE, recipe.title);
+  await Promise.all(
+    recipe.ingredients.map(async (ingredient) => {
+      const createdIngredient = await createIngredient(
+        ingredient,
+        ingredients,
+        profile
+      );
+      recipeSubject.addRef(INGREDIENT, createdIngredient.asRef());
+      return createdIngredient;
+    })
+  );
+  await recipes.save();
+  return {
+    ...recipe,
+    identifier: recipeSubject.asRef().split("#")[1],
+  };
 };

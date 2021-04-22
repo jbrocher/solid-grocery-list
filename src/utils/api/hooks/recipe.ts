@@ -1,12 +1,18 @@
-import { INGREDIENT, TITLE, RECIPE } from "models/iris";
-import { useQuery, useMutation } from "react-query";
+import { RECIPE } from "models/iris";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useIngredients } from "utils/api/hooks/ingredients";
 import { rdf } from "rdf-namespaces";
 import { Recipe } from "utils/api/types";
-import { getRecipes, getRecipeResources } from "utils/api/helpers";
+import { TripleSubject, TripleDocument } from "tripledoc";
+import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
+import {
+  createIngredient,
+  createRecipe,
+  getRecipes,
+  getRecipeResources,
+} from "utils/api/helpers";
 import { useProfile } from "ProfileContext";
 import { recipeSerializer } from "utils/api/serializers";
-import { useCreateIngredient } from "./ingredients";
-import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
 
 export const useRecipes = () => {
   const { profile, publicTypeIndex } = useProfile();
@@ -21,53 +27,55 @@ export const useRecipes = () => {
   return { recipes, isSuccess };
 };
 
+export const getRecipeList = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+) => {
+  const { foods, recipes, ingredients } = await getRecipeResources(
+    profile,
+    publicTypeIndex
+  );
+  return recipes
+    .getAllSubjectsOfType(RECIPE)
+    .map((recipe) => recipeSerializer(recipe, ingredients, foods));
+};
+
 export const useRecipeList = () => {
   const { profile, publicTypeIndex } = useProfile();
 
   const recipesListQuery = useQuery(
     ["recipes_list", profile, publicTypeIndex],
-    () => getRecipeResources(profile!, publicTypeIndex!),
+    () => getRecipeList(profile!, publicTypeIndex!),
     {
       enabled: !!profile && !!publicTypeIndex,
     }
   );
 
-  let recipeList: Recipe[] = [];
-  if (recipesListQuery.isSuccess) {
-    const recipesData = recipesListQuery.data;
-    recipeList = recipesData.recipes
-      .getAllSubjectsOfType(RECIPE)
-      .map((recipe) =>
-        recipeSerializer(recipe, recipesData.ingredients, recipesData.foods)
-      );
-  }
-
+  const recipeList = recipesListQuery.data;
   return { isSuccess: recipesListQuery.isSuccess, recipeList };
 };
 
 export const useCreateRecipe = () => {
-  const { ready: ingredientsReady, createIngredient } = useCreateIngredient();
   const { recipes } = useRecipes();
+  const { ingredients } = useIngredients();
+  const { profile, publicTypeIndex } = useProfile();
+  const mutationFn = (recipe: RecipeFormValues) =>
+    createRecipe(recipe, recipes!, ingredients!, profile!);
 
-  const createRecipe = async (recipe: RecipeFormValues) => {
-    if (ingredientsReady == null || recipes == null) {
-      throw new Error("Missing intialization");
-    }
+  const queryClient = useQueryClient();
+  const recipeMutation = useMutation(mutationFn, {
+    onSuccess: (data) => {
+      const recipeList: Recipe[] =
+        queryClient.getQueryData(["recipes_list", profile, publicTypeIndex]) ??
+        [];
+      recipeList.push(data);
+      queryClient.setQueryData(
+        ["recipes_list", profile, publicTypeIndex],
+        recipeList
+      );
+    },
+  });
+  const ready = !!recipes && !!ingredients && !!profile;
 
-    const recipeSubject = recipes.addSubject();
-    recipeSubject.addRef(rdf.type, RECIPE);
-    recipeSubject.addString(TITLE, recipe.title);
-    await Promise.all(
-      recipe.ingredients.map(async (ingredient) => {
-        const createdIngredient = await createIngredient(ingredient);
-        recipeSubject.addRef(INGREDIENT, createdIngredient.asRef());
-        return createdIngredient;
-      })
-    );
-    await recipes.save();
-    console.log(recipes);
-    return recipeSubject;
-  };
-  const ready = !!ingredientsReady && !!recipes;
-  return { ready, createRecipe };
+  return { ready, recipeMutation };
 };

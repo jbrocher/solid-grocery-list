@@ -31,7 +31,7 @@ const initialValues = {
   ingredients: [],
 };
 const RecipeForm: React.FunctionComponent = () => {
-  const { ready, createRecipe } = useCreateRecipe();
+  const { ready, recipeMutation } = useCreateRecipe();
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
   const history = useHistory();
   const toggleIngredientModal = () => {
@@ -39,7 +39,7 @@ const RecipeForm: React.FunctionComponent = () => {
   };
 
   const handleSubmit = async (data: RecipeFormValues) => {
-    await createRecipe(data);
+    await recipeMutation.mutateAsync(data);
     return history.push("/recipe-list");
   };
 

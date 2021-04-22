@@ -22,7 +22,7 @@ const RecipeList: React.FunctionComponent = () => {
   return (
     <Page>
       <ContentContainer>
-        {recipes.map((recipe) => (
+        {recipes!.map((recipe) => (
           <RecipeDetail key={recipe.identifier} recipe={recipe} />
         ))}
       </ContentContainer>
