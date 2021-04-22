@@ -1,5 +1,4 @@
 import { Food, Ingredient, Recipe } from "./types";
-import { useCallback } from "react";
 import {
   TITLE,
   METRIC_QUANTITY,
@@ -8,9 +7,7 @@ import {
   FOOD_NAME,
   SHOPPING_CATEGORY,
 } from "models/iris";
-import { TripleSubject } from "tripledoc";
-import { useIngredients } from "utils/api/hooks/ingredients";
-import { useFoods } from "utils/api/hooks/food";
+import { TripleDocument, TripleSubject } from "tripledoc";
 
 export const foodSerializer = (food: TripleSubject): Food => {
   return {
@@ -19,65 +16,46 @@ export const foodSerializer = (food: TripleSubject): Food => {
     category: food.getString(SHOPPING_CATEGORY) ?? "default",
   };
 };
+export const ingredientSerializer = (
+  ingredient: TripleSubject,
+  foods: TripleDocument
+): Ingredient => {
+  const foodRef = ingredient.getRef(FOOD);
+  if (!foods || foodRef === null) {
+    throw new Error("no foods");
+  }
 
-export const useIngredientSerializer = () => {
-  const foods = useFoods();
-  const ingredientSerializer = useCallback(
-    (ingredient: TripleSubject): Ingredient => {
-      const foodRef = ingredient.getRef(FOOD);
-      if (foods === null || foodRef === null) {
-        throw new Error("no foods");
-      }
-
-      return {
-        food: foodSerializer(foods.getSubject(foodRef)),
-        identifier: ingredient.asRef().split("#")[1],
-        quantity: ingredient.getInteger(METRIC_QUANTITY) ?? 0,
-      };
-    },
-    [foods]
-  );
-
-  const ready = foods !== null;
   return {
-    ready,
-    ingredientSerializer,
+    food: foodSerializer(foods.getSubject(foodRef)),
+    identifier: ingredient.asRef().split("#")[1],
+    quantity: ingredient.getInteger(METRIC_QUANTITY) ?? 0,
   };
 };
 
-export const useRecipeSerializer = () => {
-  const ingredients = useIngredients();
-  const {
-    ready: readyIngredientSerializer,
-    ingredientSerializer,
-  } = useIngredientSerializer();
+export const recipeSerializer = (
+  recipe: TripleSubject,
+  ingredients: TripleDocument,
+  foods: TripleDocument
+): Recipe => {
+  if (!ingredients) {
+    throw new Error("no ingredients");
+  }
+  const ingredientsRefs = recipe.getAllRefs(INGREDIENT);
+  let ingredientList: Ingredient[] = [];
 
-  const recipeSerializer = useCallback(
-    (recipe: TripleSubject): Recipe => {
-      if (ingredients === null) {
-        throw new Error("no ingredients");
-      }
-      const ingredientsRefs = recipe.getAllRefs(INGREDIENT);
-      let ingredientList: Ingredient[] = [];
+  if (ingredientsRefs.length) {
+    ingredientList = ingredientsRefs.map((ingredientRef) => {
+      const ingredient = ingredients.getSubject(ingredientRef);
 
-      if (ingredientsRefs.length) {
-        ingredientList = ingredientsRefs.map((ingredientRef) => {
-          const ingredient = ingredients.getSubject(ingredientRef);
-          const serialialized_ingredient = ingredientSerializer(ingredient);
-          return serialialized_ingredient;
-        });
-      }
+      const serialialized_ingredient = ingredientSerializer(ingredient, foods);
+      return serialialized_ingredient;
+    });
+  }
 
-      const title = recipe.getString(TITLE);
-      return {
-        title: title ?? "",
-        identifier: recipe.asRef().split("#")[1],
-        ingredients: ingredientList,
-      };
-    },
-    [ingredients, ingredientSerializer]
-  );
-
-  const ready = ingredients !== null && readyIngredientSerializer;
-  return { ready, recipeSerializer };
+  const title = recipe.getString(TITLE);
+  return {
+    title: title ?? "",
+    identifier: recipe.asRef().split("#")[1],
+    ingredients: ingredientList,
+  };
 };

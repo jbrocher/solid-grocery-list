@@ -8,14 +8,14 @@ import Button from "components/atoms/Button";
 import { useHistory } from "react-router";
 
 const RecipeList: React.FunctionComponent = () => {
-  const recipes = useRecipeList();
+  const { isSuccess, recipeList: recipes } = useRecipeList();
   const history = useHistory();
 
   const goToRecipeForm = () => {
     history.push("/recipe-form");
   };
 
-  if (!recipes) {
+  if (!isSuccess) {
     return <Loading />;
   }
 

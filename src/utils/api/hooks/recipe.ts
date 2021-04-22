@@ -1,48 +1,53 @@
 import { INGREDIENT, TITLE, RECIPE } from "models/iris";
-import { useEffect, useState } from "react";
+import { useQuery, useMutation } from "react-query";
 import { rdf } from "rdf-namespaces";
 import { Recipe } from "utils/api/types";
-import { getOrCreateRecipeList } from "utils/api/helpers";
-import { TripleDocument } from "tripledoc";
+import { getRecipes, getRecipeResources } from "utils/api/helpers";
 import { useProfile } from "ProfileContext";
-import { useRecipeSerializer } from "utils/api/serializers";
+import { recipeSerializer } from "utils/api/serializers";
 import { useCreateIngredient } from "./ingredients";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
 
 export const useRecipes = () => {
   const { profile, publicTypeIndex } = useProfile();
-  const [recipeList, setRecipeList] = useState<TripleDocument | null>(null);
-  useEffect(() => {
-    if (profile && publicTypeIndex) {
-      getOrCreateRecipeList(profile, publicTypeIndex).then((recipeList) => {
-        setRecipeList(recipeList);
-      });
+  const { isSuccess, data: recipes } = useQuery(
+    // typescript doesn't understand enabled
+    ["recipes", profile, publicTypeIndex],
+    () => getRecipes(profile!, publicTypeIndex!),
+    {
+      enabled: !!profile && !!publicTypeIndex,
     }
-  }, [profile, publicTypeIndex]);
-  return recipeList;
+  );
+  return { recipes, isSuccess };
 };
 
 export const useRecipeList = () => {
-  const recipes = useRecipes();
-  const [recipeItems, setRecipeItems] = useState<Recipe[] | null>(null);
-  const { ready: serializerReady, recipeSerializer } = useRecipeSerializer();
+  const { profile, publicTypeIndex } = useProfile();
 
-  useEffect(() => {
-    if (recipes && serializerReady) {
-      setRecipeItems(
-        recipes
-          .getAllSubjectsOfType(RECIPE)
-          .map((recipe) => recipeSerializer(recipe))
-      );
+  const recipesListQuery = useQuery(
+    ["recipes_list", profile, publicTypeIndex],
+    () => getRecipeResources(profile!, publicTypeIndex!),
+    {
+      enabled: !!profile && !!publicTypeIndex,
     }
-  }, [recipes, serializerReady, recipeSerializer]);
+  );
 
-  return recipeItems;
+  let recipeList: Recipe[] = [];
+  if (recipesListQuery.isSuccess) {
+    const recipesData = recipesListQuery.data;
+    recipeList = recipesData.recipes
+      .getAllSubjectsOfType(RECIPE)
+      .map((recipe) =>
+        recipeSerializer(recipe, recipesData.ingredients, recipesData.foods)
+      );
+  }
+
+  return { isSuccess: recipesListQuery.isSuccess, recipeList };
 };
 
 export const useCreateRecipe = () => {
   const { ready: ingredientsReady, createIngredient } = useCreateIngredient();
-  const recipes = useRecipes();
+  const { recipes } = useRecipes();
 
   const createRecipe = async (recipe: RecipeFormValues) => {
     if (ingredientsReady == null || recipes == null) {
@@ -60,8 +65,9 @@ export const useCreateRecipe = () => {
       })
     );
     await recipes.save();
+    console.log(recipes);
     return recipeSubject;
   };
-  const ready = ingredientsReady !== null && recipes !== null;
+  const ready = !!ingredientsReady && !!recipes;
   return { ready, createRecipe };
 };

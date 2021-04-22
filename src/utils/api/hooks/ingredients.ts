@@ -1,32 +1,35 @@
 import { METRIC_QUANTITY, FOOD, INGREDIENT } from "models/iris";
+import { useQuery } from "react-query";
 import { makeRef } from "utils/api/helpers";
 import { rdf } from "rdf-namespaces";
 import { useProfile } from "ProfileContext";
-import { TripleDocument } from "tripledoc";
+import { TripleSubject, TripleDocument } from "tripledoc";
 import { Ingredient } from "utils/api/types";
-import { useEffect, useState } from "react";
 import { getIngredients } from "utils/api/helpers";
 
 export const useIngredients = () => {
   const { profile, publicTypeIndex } = useProfile();
-  const [ingredients, setIngredients] = useState<TripleDocument | null>(null);
-  useEffect(() => {
-    if (profile && publicTypeIndex) {
-      getIngredients(profile, publicTypeIndex).then((ingredients) =>
-        setIngredients(ingredients)
-      );
+  const { isLoading, data: ingredients } = useQuery<TripleDocument, Error>(
+    ["ingredients", profile, publicTypeIndex],
+    () =>
+      getIngredients(
+        profile as TripleSubject,
+        publicTypeIndex as TripleDocument
+      ),
+    {
+      enabled: !!profile && !!publicTypeIndex,
     }
-  }, [profile, publicTypeIndex]);
+  );
 
-  return ingredients;
+  return { isLoading, ingredients };
 };
 
 export const useCreateIngredient = () => {
-  const ingredients = useIngredients();
+  const { ingredients } = useIngredients();
   const { profile } = useProfile();
 
   const createIngredient = async (ingredient: Ingredient) => {
-    if (ingredients === null || profile === null) {
+    if (!ingredients || !profile) {
       throw new Error("Missing Ingredients Document");
     }
 
@@ -42,7 +45,7 @@ export const useCreateIngredient = () => {
     await ingredients.save();
     return ingredientSubject;
   };
-  const ready = ingredients && profile;
+  const ready = !!ingredients && !!profile;
 
   return { ready, createIngredient };
 };

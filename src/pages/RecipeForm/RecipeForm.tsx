@@ -39,7 +39,7 @@ const RecipeForm: React.FunctionComponent = () => {
   };
 
   const handleSubmit = async (data: RecipeFormValues) => {
-    await createRecipe(data).then((result) => console.log(result));
+    await createRecipe(data);
     return history.push("/recipe-list");
   };
 

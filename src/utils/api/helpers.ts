@@ -77,16 +77,7 @@ const createRessource = async (
   typeRegistration.addRef(rdf.type, solid.TypeRegistration);
   typeRegistration.addRef(solid.instance, list.asRef());
   typeRegistration.addRef(solid.forClass, RESSOURCES[ressource].iri);
-  const test = publicTypeIndex.save([typeRegistration]);
-
-  return test;
-};
-
-type ResourceQueryKey = {
-  queryKey: [
-    string,
-    { profile: TripleSubject; publicTypeIndex: TripleDocument }
-  ];
+  return await publicTypeIndex.save([typeRegistration]);
 };
 
 export const getOrCreateRessource = async (
@@ -126,9 +117,20 @@ export const getFoods = async (
   return getOrCreateRessource(profile, publicTypeIndex, "food");
 };
 
-export const getRecipes = async ({
-  queryKey,
-}: ResourceQueryKey): Promise<TripleDocument> => {
-  const [, { profile, publicTypeIndex }] = queryKey;
+export const getRecipes = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+): Promise<TripleDocument> => {
   return getOrCreateRessource(profile, publicTypeIndex, "recipe");
+};
+
+export const getRecipeResources = async (
+  profile: TripleSubject,
+  publicTypeIndex: TripleDocument
+) => {
+  const foods = await getFoods(profile, publicTypeIndex);
+  const ingredients = await getIngredients(profile, publicTypeIndex);
+  const recipes = await getRecipes(profile, publicTypeIndex);
+
+  return { foods, ingredients, recipes };
 };
