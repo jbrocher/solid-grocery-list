@@ -1,4 +1,6 @@
-import { rdf, solid, space } from "rdf-namespaces";
+import { rdfs, rdf, solid, space } from "rdf-namespaces";
+import dayjs from "dayjs";
+import { groupByIngredients } from "utils/dataManipulation";
 import {
   METRIC_QUANTITY,
   TITLE,
@@ -7,6 +9,9 @@ import {
   RECIPE,
   GroceryList,
   GroceryListItem,
+  groceryListItemObject,
+  groceryListItemName,
+  groceryListItemDone,
 } from "models/iris";
 import {
   createDocument,
@@ -15,7 +20,11 @@ import {
   TripleDocument,
 } from "tripledoc";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
-import { Ingredient, Recipe } from "utils/api/types";
+import {
+  Ingredient,
+  Recipe,
+  GroceryListItem as GroceryListItemType,
+} from "utils/api/types";
 
 export const getProfile = async (webId: string): Promise<TripleSubject> => {
   const webIdDoc = await fetchDocument(webId);
@@ -153,7 +162,7 @@ export const getRecipeResources = async (
   return { foods, ingredients, recipes };
 };
 
-export const getGroceryLists = async (
+export const getGroceries = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ): Promise<TripleDocument> => {
@@ -171,7 +180,7 @@ export const getGroceryListsResources = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ) => {
-  const groceryLists = await getGroceryLists(profile, publicTypeIndex);
+  const groceryLists = await getGroceries(profile, publicTypeIndex);
   const groceryListItems = await getGroceryListItems(profile, publicTypeIndex);
   const foods = await getFoods(profile, publicTypeIndex);
   return { groceryLists, groceryListItems, foods };
@@ -222,8 +231,53 @@ export const createRecipe = async (
   };
 };
 
-export const createGroceryListFromRecipes = (
-  recipes: Recipe[],
-  groceryLists: TripleDocument,
+interface GroceryListItemValues {
+  done: boolean;
+  object: string;
+  quantity: number;
+}
+export const createGroceryListItem = async (
+  item: GroceryListItemValues,
+  profile: TripleSubject,
   groceryListItemsList: TripleDocument
-) => {};
+) => {
+  const itemSubject = groceryListItemsList.addSubject();
+  itemSubject.addRef(rdf.type, GroceryListItem);
+  itemSubject.addRef(
+    groceryListItemObject,
+    makeRef(item.object, profile, "food")
+  );
+  itemSubject.addString(groceryListItemDone, item.done ? "true" : "false");
+  await groceryListItemsList.save();
+  return itemSubject;
+};
+
+export const createGroceryListFromRecipes = async (
+  recipes: Recipe[],
+  groceries: TripleDocument,
+  groceryListItemsList: TripleDocument,
+  profile: TripleSubject
+) => {
+  const ingredients = groupByIngredients(recipes);
+  const groceriesSubject = groceries.addSubject();
+  groceriesSubject.addRef(rdf.type, GroceryList);
+  const title = dayjs().format("YYYY-MM-DD");
+  await Promise.all(
+    Object.keys(ingredients).map(async (identifier) => {
+      const itemValues = {
+        object: identifier,
+        quantity: ingredients[identifier],
+        done: false,
+      };
+      const createdItem = await createGroceryListItem(
+        itemValues,
+        profile,
+        groceryListItemsList
+      );
+      groceriesSubject.addRef(rdfs.member, createdItem.asRef());
+      return createdItem;
+    })
+  );
+  groceriesSubject.addString(groceryListItemName, title);
+  groceries.save();
+};
