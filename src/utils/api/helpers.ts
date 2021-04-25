@@ -2,6 +2,7 @@ import { rdfs, rdf, solid, space } from "rdf-namespaces";
 import dayjs from "dayjs";
 import { groupByIngredients } from "utils/dataManipulation";
 import {
+  QUANTITY,
   METRIC_QUANTITY,
   TITLE,
   INGREDIENT,
@@ -248,6 +249,7 @@ export const createGroceryListItem = async (
     makeRef(item.object, profile, "food")
   );
   itemSubject.addString(groceryListItemDone, item.done ? "true" : "false");
+  itemSubject.addInteger(QUANTITY, item.quantity);
   await groceryListItemsList.save();
   return itemSubject;
 };
@@ -278,6 +280,6 @@ export const createGroceryListFromRecipes = async (
       return createdItem;
     })
   );
-  groceriesSubject.addString(groceryListItemName, title);
+  groceriesSubject.addString(rdfs.label, title);
   groceries.save();
 };
