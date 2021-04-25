@@ -101,6 +101,7 @@ export const groceryListSerializer = (
   });
   return {
     title: groceryList.getString(rdfs.label) ?? "",
+    identifier: groceryList.asRef().split("#")[1],
     items: groceryListItemsList,
   };
 };

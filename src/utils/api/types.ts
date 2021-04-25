@@ -24,5 +24,6 @@ export interface GroceryListItem {
 
 export interface GroceryList {
   title: string;
+  identifier: string;
   items: GroceryListItem[];
 }

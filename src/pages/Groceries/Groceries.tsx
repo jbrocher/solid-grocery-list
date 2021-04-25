@@ -11,9 +11,10 @@ const Groceries: React.FunctionComponent = () => {
   return (
     <div>
       {groceryLists!.map((list) => (
-        <span>
-          {list.title} {list.items[0].object.name}{" "}
-        </span>
+        <div key={list.identifier}>
+          <h1>{list.title} </h1>
+          {list.items.map((item) => `${item.object.name} - ${item.quantity}`)}
+        </div>
       ))}
     </div>
   );
