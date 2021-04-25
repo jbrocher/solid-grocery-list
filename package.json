@@ -19,6 +19,7 @@
     "@types/styled-components": "^5.1.7",
     "@types/styled-react-modal": "^1.2.0",
     "@types/styled-system": "^5.1.10",
+    "dayjs": "^1.10.4",
     "formik": "^2.2.6",
     "prettier": "^2.2.1",
     "rdf-namespaces": "^1.9.2",
