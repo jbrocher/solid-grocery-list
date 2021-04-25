@@ -4,6 +4,7 @@ import { Recipe } from "utils/api/types";
 import ContentContainer from "components/templates/ContentContainer";
 import Loading from "pages/Loading";
 import { useRecipeList } from "utils/api/hooks/recipe";
+import { useCreateGroceryList } from "utils/api/hooks/groceryLists";
 import RecipeDetail from "./components/RecipeDetail";
 import Button from "components/atoms/Button";
 import { useHistory } from "react-router";
@@ -12,11 +13,21 @@ const RecipeList: React.FunctionComponent = () => {
   const { isSuccess, recipeList: recipes } = useRecipeList();
   const [isGroceriesModeOn, setIsGroceriesModeOn] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
+  const { ready, groceryListMutation } = useCreateGroceryList();
   const history = useHistory();
 
   const isChecked = (recipe: Recipe) => {
     return !!selectedRecipes.find(
       (identifier) => identifier === recipe.identifier
+    );
+  };
+
+  const getSelectedRecipes = () => {
+    if (!recipes) {
+      return [];
+    }
+    return recipes.filter((recipe) =>
+      selectedRecipes.includes(recipe.identifier)
     );
   };
 
@@ -40,6 +51,32 @@ const RecipeList: React.FunctionComponent = () => {
     return <Loading />;
   }
 
+  const renderGroceriesButton = () => {
+    if (isGroceriesModeOn) {
+      return (
+        <>
+          <Button mt={1} variant="outlined" onClick={toggleGroceriesMode}>
+            cancel
+          </Button>
+          <Button
+            mt={1}
+            disabled={!ready}
+            variant="outlined"
+            onClick={() => groceryListMutation.mutate(getSelectedRecipes())}
+          >
+            go
+          </Button>
+        </>
+      );
+    } else {
+      return (
+        <Button mt={1} variant="outlined" onClick={toggleGroceriesMode}>
+          create list
+        </Button>
+      );
+    }
+  };
+
   return (
     <Page>
       <ContentContainer>
@@ -54,9 +91,7 @@ const RecipeList: React.FunctionComponent = () => {
         ))}
       </ContentContainer>
       <Button onClick={goToRecipeForm}> Add a Recipe </Button>
-      <Button mt={1} variant="outlined" onClick={toggleGroceriesMode}>
-        {isGroceriesModeOn ? "Cancel" : "Generate list"}
-      </Button>
+      {renderGroceriesButton()}
     </Page>
   );
 };
