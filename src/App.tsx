@@ -35,7 +35,7 @@ function App() {
                   <Route exact path="/recipe-form" component={RecipeForm} />
                   <Route exact path="/food-form" component={FoodForm} />
                   <Route exact path="/food-list" component={FoodList} />
-                  <Route exact path="/groceries" component={Groceries} />
+                  <Route path="/groceries" component={Groceries} />
                   <Redirect to="/recipe-list" />
                 </Switch>
                 <BottomBar />

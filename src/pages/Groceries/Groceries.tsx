@@ -1,5 +1,6 @@
 import React from "react";
 import { useGroceryLists } from "utils/api/hooks/groceryLists";
+import { Link } from "react-router-dom";
 import Loading from "pages/Loading";
 
 const Groceries: React.FunctionComponent = () => {
@@ -10,10 +11,9 @@ const Groceries: React.FunctionComponent = () => {
 
   return (
     <div>
-      {groceryLists!.map((list) => (
+      {groceryLists.map((list) => (
         <div key={list.identifier}>
-          <h1>{list.title} </h1>
-          {list.items.map((item) => `${item.object.name} - ${item.quantity}`)}
+          <Link to={`/groceries/${list.identifier}`}> {list.title} </Link>
         </div>
       ))}
     </div>
