@@ -12,7 +12,6 @@ import { useHistory } from "react-router";
 const RecipeList: React.FunctionComponent = () => {
   const { isSuccess, recipeList: recipes } = useRecipeList();
   const [isGroceriesModeOn, setIsGroceriesModeOn] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const { ready, groceryListMutation } = useCreateGroceryList();
   const history = useHistory();
@@ -36,10 +35,8 @@ const RecipeList: React.FunctionComponent = () => {
     history.push("/recipe-form");
   };
 
-  const handleCreateList = async () => {
-    setIsSubmitting(true);
-    await groceryListMutation.mutateAsync(getSelectedRecipes());
-    history.push("/groceries");
+  const handleCreateList = () => {
+    history.push("/grocries");
   };
 
   const toggleRecipe = (recipe: Recipe) => {
@@ -67,9 +64,9 @@ const RecipeList: React.FunctionComponent = () => {
           </Button>
           <Button
             mt={1}
-            disabled={!ready || isSubmitting}
+            disabled={!ready}
             variant="outlined"
-            onClick={handleCreateList}
+            onClick={() => groceryListMutation.mutate(getSelectedRecipes())}
           >
             go
           </Button>

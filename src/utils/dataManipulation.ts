@@ -28,9 +28,10 @@ export const groupByShoppingCategory = (groceryList: GroceryList) => {
       if (result[ingredient.object.category]) {
         result[ingredient.object.category].push(ingredient);
       } else {
-        result[ingredient.object.category] = [];
+        result[ingredient.object.category] = [ingredient];
       }
       return result;
+      console.log(result);
     },
     {} as GroupedByCategory
   );

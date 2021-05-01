@@ -83,6 +83,7 @@ export const groceryListItemSerializer = (
 
   return {
     object: foodSerializer(food),
+    identifier: groceryListItem.asRef().split("#")[1],
     done: groceryListItem.getString(groceryListItemDone) === "true",
     quantity: groceryListItem.getInteger(QUANTITY) ?? 0,
   };
