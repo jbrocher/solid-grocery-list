@@ -1,11 +1,12 @@
 import {
   createGroceryListFromRecipes,
+  makeRef,
   getGroceryListItems,
   getGroceryListsResources,
   getGroceries,
 } from "utils/api/helpers";
 
-import { Recipe } from "utils/api/types";
+import { Recipe, GroceryList as GroceryListType } from "utils/api/types";
 import { useProfile } from "ProfileContext";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { groceryListSerializer } from "utils/api/serializers";
@@ -30,28 +31,67 @@ export const getGroceryLists = async (
 
 export const useGroceries = () => {
   const { profile, publicTypeIndex } = useProfile();
-  const { isSuccess, data: groceries } = useQuery(
+  const query = useQuery(
     ["groceries", profile, publicTypeIndex],
     () => getGroceries(profile!, publicTypeIndex!),
     {
       enabled: !!profile && !!publicTypeIndex,
     }
   );
-  return { isSuccess, groceries };
+
+  if (!query.isSuccess) {
+    return {
+      isSuccess: query.isSuccess,
+      groceries: null,
+    };
+  }
+  return { isSuccess: query.isSuccess, groceries: query.data };
 };
 
-export const useGroceryLists = () => {
+export const useGroceriesResources = () => {
   const { profile, publicTypeIndex } = useProfile();
-  const groceryListsQuery = useQuery(
-    ["grocery_lists", profile, publicTypeIndex],
-    () => getGroceryLists(profile!, publicTypeIndex!),
+  const query = useQuery(
+    ["groceriesResources", profile, publicTypeIndex],
+    () => getGroceryListsResources(profile!, publicTypeIndex!),
     {
       enabled: !!profile && !!publicTypeIndex,
     }
   );
 
-  const groceryLists = groceryListsQuery.data;
-  return { isSuccess: groceryListsQuery.isSuccess, groceryLists };
+  return { ...query, profile };
+};
+export const useGroceryLists = () => {
+  const groceriesResources = useGroceriesResources();
+
+  let groceryLists: GroceryListType[] = [];
+  if (groceriesResources.isSuccess) {
+    groceryLists = groceriesResources.data.groceryLists
+      .getAllSubjectsOfType(GroceryList)
+      .map((groceryList) =>
+        groceryListSerializer(
+          groceryList,
+          groceriesResources.data.groceryListItems,
+          groceriesResources.data.foods
+        )
+      );
+  }
+  return { isSuccess: groceriesResources.isSuccess, groceryLists };
+};
+
+export const useGroceryList = (identifier: string) => {
+  const groceriesResources = useGroceriesResources();
+  let groceryList;
+  if (groceriesResources.isSuccess) {
+    const ref = makeRef(identifier, groceriesResources.profile!, "groceryList");
+    groceryList = groceryListSerializer(
+      groceriesResources.data.groceryLists.getSubject(ref),
+      groceriesResources.data.groceryListItems,
+      groceriesResources.data.foods
+    );
+    console.log(groceryList);
+  }
+
+  return { isSuccess: groceriesResources.isSuccess, groceryList };
 };
 
 export const useGroceryListItems = () => {
