@@ -1,14 +1,11 @@
 import { RECIPE } from "models/iris";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import RecipeManager from "models/Recipe";
 import { useIngredients } from "utils/api/hooks/ingredients";
 import { Recipe } from "utils/api/types";
 import { TripleSubject, TripleDocument } from "tripledoc";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
-import {
-  createRecipe,
-  getRecipes,
-  getRecipeResources,
-} from "utils/api/helpers";
+import { createRecipe } from "utils/api/helpers";
 import { useProfile } from "ProfileContext";
 import { recipeSerializer } from "utils/api/serializers";
 
@@ -17,7 +14,10 @@ export const useRecipes = () => {
   const { isSuccess, data: recipes } = useQuery(
     // typescript doesn't understand enabled
     ["recipes", profile, publicTypeIndex],
-    () => getRecipes(profile!, publicTypeIndex!),
+    async () => {
+      const manager = new RecipeManager(profile!, publicTypeIndex!);
+      return await manager.getRecipes();
+    },
     {
       enabled: !!profile && !!publicTypeIndex,
     }
@@ -29,10 +29,8 @@ export const getRecipeList = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ) => {
-  const { foods, recipes, ingredients } = await getRecipeResources(
-    profile,
-    publicTypeIndex
-  );
+  const manager = new RecipeManager(profile, publicTypeIndex);
+  const { foods, recipes, ingredients } = await manager.getRecipeResources();
   return recipes
     .getAllSubjectsOfType(RECIPE)
     .map((recipe) => recipeSerializer(recipe, ingredients, foods));
@@ -54,11 +52,11 @@ export const useRecipeList = () => {
 };
 
 export const useCreateRecipe = () => {
-  const { recipes } = useRecipes();
-  const { ingredients } = useIngredients();
   const { profile, publicTypeIndex } = useProfile();
-  const mutationFn = (recipe: RecipeFormValues) =>
-    createRecipe(recipe, recipes!, ingredients!, profile!);
+  const mutationFn = async (recipe: RecipeFormValues) => {
+    const manager = new RecipeManager(profile!, publicTypeIndex!);
+    return await manager.create(recipe);
+  };
 
   const queryClient = useQueryClient();
   const recipeMutation = useMutation(mutationFn, {
@@ -73,7 +71,7 @@ export const useCreateRecipe = () => {
       );
     },
   });
-  const ready = !!recipes && !!ingredients && !!profile;
+  const ready = !!profile && !!publicTypeIndex;
 
   return { ready, recipeMutation };
 };
