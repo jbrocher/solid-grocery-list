@@ -11,7 +11,6 @@ import {
   GroceryList,
   GroceryListItem,
   groceryListItemObject,
-  groceryListItemName,
   groceryListItemDone,
 } from "models/iris";
 import {
@@ -21,11 +20,7 @@ import {
   TripleDocument,
 } from "tripledoc";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
-import {
-  Ingredient,
-  Recipe,
-  GroceryListItem as GroceryListItemType,
-} from "utils/api/types";
+import { Ingredient, Recipe } from "utils/api/types";
 
 export const getProfile = async (webId: string): Promise<TripleSubject> => {
   const webIdDoc = await fetchDocument(webId);

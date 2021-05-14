@@ -1,25 +1,8 @@
-import { rdf, solid, space } from "rdf-namespaces";
-import {
-  Ingredient,
-  Recipe,
-  GroceryListItem as GroceryListItemType,
-} from "utils/api/types";
-import { makeRef } from "utils/api/helpers";
+import { rdf } from "rdf-namespaces";
+import { Ingredient } from "utils/api/types";
 import ResourceManager from "./Resource";
-import {
-  METRIC_QUANTITY,
-  INGREDIENT,
-  FOOD,
-  RECIPE,
-  GroceryList,
-  GroceryListItem,
-} from "models/iris";
-import {
-  createDocument,
-  fetchDocument,
-  TripleSubject,
-  TripleDocument,
-} from "tripledoc";
+import { METRIC_QUANTITY, INGREDIENT, FOOD } from "models/iris";
+import { TripleSubject, TripleDocument } from "tripledoc";
 import FoodManager from "models/Food";
 
 export class IngredientsManager extends ResourceManager {
