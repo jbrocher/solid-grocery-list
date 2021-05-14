@@ -1,11 +1,5 @@
-import {
-  createGroceryListFromRecipes,
-  makeRef,
-  getGroceryListItems,
-  getGroceryListsResources,
-  getGroceries,
-} from "utils/api/helpers";
-
+import GroceriesManager from "models/Groceries";
+import GroceryListItemManager from "models/GroceryListItem";
 import { Recipe, GroceryList as GroceryListType } from "utils/api/types";
 import { useProfile } from "ProfileContext";
 import { useQuery, useQueryClient, useMutation } from "react-query";
@@ -17,11 +11,12 @@ export const getGroceryLists = async (
   profile: TripleSubject,
   publicTypeIndex: TripleDocument
 ) => {
+  const manager = new GroceriesManager(profile, publicTypeIndex);
   const {
     foods,
     groceryLists,
     groceryListItems,
-  } = await getGroceryListsResources(profile, publicTypeIndex);
+  } = await manager.getGroceriesResources();
   return groceryLists
     .getAllSubjectsOfType(GroceryList)
     .map((groceryList) =>
@@ -33,7 +28,10 @@ export const useGroceries = () => {
   const { profile, publicTypeIndex } = useProfile();
   const query = useQuery(
     ["groceries", profile, publicTypeIndex],
-    () => getGroceries(profile!, publicTypeIndex!),
+    async () => {
+      const manager = new GroceriesManager(profile!, publicTypeIndex!);
+      return await manager.getGroceries();
+    },
     {
       enabled: !!profile && !!publicTypeIndex,
     }
@@ -52,13 +50,16 @@ export const useGroceriesResources = () => {
   const { profile, publicTypeIndex } = useProfile();
   const query = useQuery(
     ["groceriesResources", profile, publicTypeIndex],
-    () => getGroceryListsResources(profile!, publicTypeIndex!),
+    async () => {
+      const manager = new GroceriesManager(profile!, publicTypeIndex!);
+      return await manager.getGroceriesResources();
+    },
     {
       enabled: !!profile && !!publicTypeIndex,
     }
   );
 
-  return { ...query, profile };
+  return { ...query, profile, publicTypeIndex };
 };
 export const useGroceryLists = () => {
   const groceriesResources = useGroceriesResources();
@@ -82,13 +83,16 @@ export const useGroceryList = (identifier: string) => {
   const groceriesResources = useGroceriesResources();
   let groceryList;
   if (groceriesResources.isSuccess) {
-    const ref = makeRef(identifier, groceriesResources.profile!, "groceryList");
+    const manager = new GroceriesManager(
+      groceriesResources.profile!,
+      groceriesResources.publicTypeIndex!
+    );
+    const ref = manager.makeRef(identifier);
     groceryList = groceryListSerializer(
       groceriesResources.data.groceryLists.getSubject(ref),
       groceriesResources.data.groceryListItems,
       groceriesResources.data.foods
     );
-    console.log(groceryList);
   }
 
   return { isSuccess: groceriesResources.isSuccess, groceryList };
@@ -98,7 +102,10 @@ export const useGroceryListItems = () => {
   const { profile, publicTypeIndex } = useProfile();
   const { isSuccess, data: groceryListItems } = useQuery(
     ["grocery_list_items", profile, publicTypeIndex],
-    () => getGroceryListItems(profile!, publicTypeIndex!),
+    async () => {
+      const manager = new GroceryListItemManager(profile!, publicTypeIndex!);
+      return await manager.getGroceryListItems();
+    },
     {
       enabled: !!profile && !!publicTypeIndex,
     }
@@ -107,24 +114,22 @@ export const useGroceryListItems = () => {
 };
 
 export const useCreateGroceryList = () => {
-  const { isSuccess, groceries } = useGroceries();
-  const { isSuccess: isSuccessItems, groceryListItems } = useGroceryListItems();
-  const { profile } = useProfile();
+  const { profile, publicTypeIndex } = useProfile();
 
   const queryClient = useQueryClient();
-  const mutationFn = (recipes: Recipe[]) =>
-    createGroceryListFromRecipes(
-      recipes,
-      groceries!,
-      groceryListItems!,
-      profile!
-    );
+  const mutationFn = async (recipes: Recipe[]) => {
+    if (!profile || !publicTypeIndex) {
+      throw new Error("Resources not ready");
+    }
+    const manager = new GroceriesManager(profile, publicTypeIndex);
+    return await manager.createFromRecipes(recipes);
+  };
   const groceryListMutation = useMutation(mutationFn, {
     onSuccess: () => {
       queryClient.invalidateQueries("grocery_lists");
     },
   });
 
-  const ready = !!isSuccess && !!isSuccessItems;
+  const ready = !!profile && !!publicTypeIndex;
   return { ready, groceryListMutation };
 };

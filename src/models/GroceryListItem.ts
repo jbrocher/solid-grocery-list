@@ -36,7 +36,7 @@ class GroceryListItemManager extends ResourceManager {
     itemSubject.addRef(rdf.type, GroceryListItem);
     itemSubject.addRef(
       groceryListItemObject,
-      this.makeRef(groceryListItem.object)
+      this.foods.makeRef(groceryListItem.object)
     );
     itemSubject.addString(
       groceryListItemDone,

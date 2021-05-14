@@ -1,17 +1,13 @@
-import Resource from "models/Resource";
+import ResourceManager from "models/Resource";
 import dayjs from "dayjs";
 import { groupByIngredients } from "utils/dataManipulation";
 import { Recipe } from "utils/api/types";
-import ResourceManager from "./Resource";
 import { rdf, rdfs } from "rdf-namespaces";
-import IngredientManager from "./Ingredient";
-import FoodManager from "./Food";
 import GrocerylistItemManager from "./GroceryListItem";
-import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
 import { TripleSubject, TripleDocument } from "tripledoc";
-import { GroceryList, INGREDIENT, RECIPE, TITLE } from "models/iris";
+import { GroceryList } from "models/iris";
 
-class GroceriesManager extends Resource {
+class GroceriesManager extends ResourceManager {
   items: GrocerylistItemManager;
   constructor(profile: TripleSubject, publicTypeIndex: TripleDocument) {
     super(
@@ -20,7 +16,7 @@ class GroceriesManager extends Resource {
 
       {
         identifier: "groceries",
-        storage: "public/groceries-list.ttl",
+        storage: "public/grocery-list.ttl",
         iri: GroceryList,
       }
     );
@@ -60,3 +56,5 @@ class GroceriesManager extends Resource {
     groceries.save();
   }
 }
+
+export default GroceriesManager;

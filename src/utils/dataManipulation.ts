@@ -31,7 +31,6 @@ export const groupByShoppingCategory = (groceryList: GroceryList) => {
         result[ingredient.object.category] = [ingredient];
       }
       return result;
-      console.log(result);
     },
     {} as GroupedByCategory
   );
