@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { animated } from "react-spring";
 import {
   space,
+  border,
+  BorderProps,
   color,
   layout,
   flexbox,
@@ -15,7 +17,8 @@ interface BoxInterface
   extends SpaceProps,
     ColorProps,
     LayoutProps,
-    FlexboxProps {}
+    FlexboxProps,
+    BorderProps {}
 
 const Box = animated(
   styled.div<BoxInterface>(
@@ -27,7 +30,8 @@ const Box = animated(
     space,
     color,
     layout,
-    flexbox
+    flexbox,
+    border
   )
 );
 
