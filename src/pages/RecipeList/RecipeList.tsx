@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Page from "components/templates/Page";
 import { Recipe } from "utils/api/types";
 import ContentContainer from "components/templates/ContentContainer";
+import GoBackHeader from "components/atoms/GoBackHeader";
 import Loading from "pages/Loading";
 import { useRecipeList } from "utils/api/hooks/recipe";
 import { useCreateGroceryList } from "utils/api/hooks/groceryLists";
@@ -86,6 +87,7 @@ const RecipeList: React.FunctionComponent = () => {
 
   return (
     <Page>
+      <GoBackHeader title="Recipes" />
       <ContentContainer>
         {recipes!.map((recipe) => (
           <RecipeDetail

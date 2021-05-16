@@ -1,6 +1,7 @@
 import React from "react";
 import { groupByShoppingCategory } from "utils/dataManipulation";
 import Page from "components/templates/Page";
+import GoBackHeader from "components/atoms/GoBackHeader";
 import { useParams } from "react-router-dom";
 import { useGroceryList } from "utils/api/hooks/groceryLists";
 import Text from "components/atoms/Text";
@@ -38,7 +39,7 @@ export const GroceryList: React.FunctionComponent = () => {
   };
   return (
     <Page>
-      <Text type="h1"> {list.title} </Text>
+      <GoBackHeader title={list.title} />
       {renderList()}
     </Page>
   );
