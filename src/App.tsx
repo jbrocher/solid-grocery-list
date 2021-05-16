@@ -15,6 +15,7 @@ import Box from "components/atoms/Box";
 import RecipeForm from "./pages/RecipeForm";
 import FoodList from "./pages/FoodList";
 import RecipeList from "./pages/RecipeList";
+import Homepage from "./pages/Homepage";
 import AuthentificationProvider from "AuthentificationContext";
 import ProfileProvider from "ProfileContext";
 
@@ -36,7 +37,8 @@ function App() {
                   <Route exact path="/food-form" component={FoodForm} />
                   <Route exact path="/food-list" component={FoodList} />
                   <Route path="/groceries" component={Groceries} />
-                  <Redirect to="/recipe-list" />
+                  <Route path="/" component={Homepage} />
+                  <Redirect to="/" />
                 </Switch>
                 <BottomBar />
               </Box>
