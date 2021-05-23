@@ -4,21 +4,28 @@ import NavButton from "components/molecules/NavButton";
 import ShoppingCart from "components/icons/ShoppingCart";
 import Egg from "components/icons/Egg";
 import Recipe from "components/icons/Recipe";
+import Text from "components/atoms/Text";
 
 import Box from "components/atoms/Box";
 
 export const Homepage: React.FunctionComponent = () => {
   return (
     <Page justifyContent="center" alignItems="center">
+      <Text type="h1"> Solid Grocery List </Text>
       <Box>
-        <NavButton to="/food-list" Icon={Egg}>
+        <NavButton m={1} variant="outlined" to="/food-list" Icon={Egg}>
           Foods
         </NavButton>
         <Box display="flex">
-          <NavButton to="/recipe-list" Icon={Recipe}>
+          <NavButton m={1} variant="outlined" to="/recipe-list" Icon={Recipe}>
             Recipes
           </NavButton>
-          <NavButton to="/groceries" Icon={ShoppingCart}>
+          <NavButton
+            m={1}
+            variant="outlined"
+            to="/groceries"
+            Icon={ShoppingCart}
+          >
             Groceries
           </NavButton>
         </Box>
