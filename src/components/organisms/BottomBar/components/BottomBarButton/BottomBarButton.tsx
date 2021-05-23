@@ -8,7 +8,9 @@ const BottomBarButton: React.FunctionComponent<BottomBarProps> = ({
   ...rest
 }: BottomBarProps) => {
   const location = useLocation();
-  return <>{to !== location.pathname && <NavButton to={to} {...rest} />}</>;
+  return (
+    <>{!location.pathname.includes(to) && <NavButton to={to} {...rest} />}</>
+  );
 };
 
 export default BottomBarButton;

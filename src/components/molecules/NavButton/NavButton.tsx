@@ -35,6 +35,7 @@ const StyledNavLink = styled(NavLink)`
 export type NavButtonProps = {
   children: React.ReactNode;
   variant?: "outlined";
+  to: string;
   Icon?: React.FunctionComponent;
 } & NavLinkProps &
   MarginProps;
@@ -42,10 +43,11 @@ export type NavButtonProps = {
 const NavButton: React.FunctionComponent<NavButtonProps> = ({
   children,
   Icon,
+  to,
   ...navLinkProps
 }: NavButtonProps) => {
   return (
-    <StyledNavLink activeClassName="active" {...navLinkProps}>
+    <StyledNavLink activeClassName="active" to={to} {...navLinkProps}>
       <Box width="1em" height="1em">
         {Icon && <Icon />}
       </Box>
