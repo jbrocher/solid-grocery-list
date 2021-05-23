@@ -1,6 +1,7 @@
 import ResourceManager from "models/Resource";
 import { rdf } from "rdf-namespaces";
 import { TripleSubject, TripleDocument } from "tripledoc";
+import { GroceryListItem as GroceryListItemType } from "utils/api/types";
 
 import {
   GroceryListItem,
@@ -28,6 +29,17 @@ class GroceryListItemManager extends ResourceManager {
 
   getGroceryListItems = async () => {
     return this.getOrCreate();
+  };
+
+  toggle = async (item: GroceryListItemType) => {
+    const groceryListItems = await this.getGroceryListItems();
+    const subject = groceryListItems.getSubject(this.makeRef(item.identifier));
+    const checked = subject.getString(groceryListItemDone) === "true";
+    subject.setString(groceryListItemDone, checked ? "false" : "true");
+    groceryListItems.save();
+    item.done = !checked;
+    console.log(item);
+    return item;
   };
 
   create = async (groceryListItem: GroceryListItemValues) => {

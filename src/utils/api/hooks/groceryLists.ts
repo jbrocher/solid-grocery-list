@@ -1,6 +1,10 @@
 import GroceriesManager from "models/Groceries";
 import GroceryListItemManager from "models/GroceryListItem";
-import { Recipe, GroceryList as GroceryListType } from "utils/api/types";
+import {
+  GroceryListItem,
+  Recipe,
+  GroceryList as GroceryListType,
+} from "utils/api/types";
 import { useProfile } from "ProfileContext";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { groceryListSerializer } from "utils/api/serializers";
@@ -80,22 +84,58 @@ export const useGroceryLists = () => {
 };
 
 export const useGroceryList = (identifier: string) => {
-  const groceriesResources = useGroceriesResources();
-  let groceryList;
-  if (groceriesResources.isSuccess) {
-    const manager = new GroceriesManager(
-      groceriesResources.profile!,
-      groceriesResources.publicTypeIndex!
-    );
-    const ref = manager.makeRef(identifier);
-    groceryList = groceryListSerializer(
-      groceriesResources.data.groceryLists.getSubject(ref),
-      groceriesResources.data.groceryListItems,
-      groceriesResources.data.foods
-    );
-  }
+  const { profile, publicTypeIndex } = useProfile();
+  const query = useQuery(
+    ["grocery_list", identifier],
+    async () => {
+      const manager = new GroceriesManager(profile!, publicTypeIndex!);
+      const groceriesResources = await manager.getGroceriesResources();
+      const ref = manager.makeRef(identifier);
+      return groceryListSerializer(
+        groceriesResources.groceryLists.getSubject(ref),
+        groceriesResources.groceryListItems,
+        groceriesResources.foods
+      );
+    },
+    {
+      enabled: !!profile && !!publicTypeIndex,
+    }
+  );
+  return query;
+};
 
-  return { isSuccess: groceriesResources.isSuccess, groceryList };
+export const useEditGroceryList = (listIdentifier: string) => {
+  const { profile, publicTypeIndex } = useProfile();
+  const queryClient = useQueryClient();
+  const mutationFn = async (item: GroceryListItem) => {
+    if (!profile || !publicTypeIndex) {
+      throw new Error("Resources not ready");
+    }
+    const manager = new GroceriesManager(profile, publicTypeIndex);
+    return await manager.items.toggle(item);
+  };
+  const groceryListMutation = useMutation(mutationFn, {
+    onMutate: async (item) => {
+      const queryKey = ["grocery_list", listIdentifier];
+      await queryClient.cancelQueries(queryKey);
+      const groceryList: GroceryListType | undefined = queryClient.getQueryData(
+        queryKey
+      );
+
+      console.log(groceryList);
+      if (!groceryList) return;
+
+      const itemIndex = groceryList.items.findIndex(
+        (listItem) => listItem.identifier === item.identifier
+      );
+      item.done = !item.done;
+      groceryList.items[itemIndex] = item;
+      queryClient.setQueryData(queryKey, groceryList);
+    },
+  });
+
+  const ready = !!profile && !!publicTypeIndex;
+  return { ready, check: groceryListMutation };
 };
 
 export const useGroceryListItems = () => {
@@ -126,7 +166,7 @@ export const useCreateGroceryList = () => {
   };
   const groceryListMutation = useMutation(mutationFn, {
     onSuccess: () => {
-      queryClient.invalidateQueries("grocery_lists");
+      queryClient.invalidateQueries("groceriesResources");
     },
   });
 

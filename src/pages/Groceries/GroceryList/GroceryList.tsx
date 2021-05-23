@@ -3,7 +3,10 @@ import { groupByShoppingCategory } from "utils/dataManipulation";
 import Page from "components/templates/Page";
 import GoBackHeader from "components/atoms/GoBackHeader";
 import { useParams } from "react-router-dom";
-import { useGroceryList } from "utils/api/hooks/groceryLists";
+import {
+  useGroceryList,
+  useEditGroceryList,
+} from "utils/api/hooks/groceryLists";
 import Text from "components/atoms/Text";
 import Box from "components/atoms/Box";
 import Loading from "pages/Loading";
@@ -15,10 +18,12 @@ export const GroceryList: React.FunctionComponent = () => {
   const { identifier } = useParams<GroceryListParams>();
 
   const groceryListQuery = useGroceryList(identifier);
-  if (!groceryListQuery.isSuccess) {
+  const { ready, check } = useEditGroceryList(identifier);
+  if (!groceryListQuery.isSuccess || !ready) {
     return <Loading />;
   }
-  const list = groceryListQuery.groceryList!;
+  console.log(groceryListQuery.data.items.map((item) => item.done));
+  const list = groceryListQuery.data!;
   const groupedByCategory = groupByShoppingCategory(list);
 
   const renderList = () => {
@@ -29,6 +34,11 @@ export const GroceryList: React.FunctionComponent = () => {
           {groupedByCategory[category].map((item) => {
             return (
               <li key={item.identifier}>
+                <input
+                  onChange={() => check.mutate(item)}
+                  type="checkbox"
+                  checked={item.done}
+                />
                 {`${item.object.name} -x${item.quantity}`}
               </li>
             );
