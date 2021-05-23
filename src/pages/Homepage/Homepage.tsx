@@ -11,7 +11,7 @@ import Box from "components/atoms/Box";
 export const Homepage: React.FunctionComponent = () => {
   return (
     <Page justifyContent="center" alignItems="center">
-      <Text type="h1"> Solid Grocery List </Text>
+      <Text type="h2"> Solid Grocery List </Text>
       <Box>
         <NavButton m={1} variant="outlined" to="/food-list" Icon={Egg}>
           Foods
