@@ -88,7 +88,6 @@ const RecipeForm: React.FunctionComponent = () => {
                       isOpen={isIngredientModalOpen}
                       toggle={toggleIngredientModal}
                       handleSubmit={(ingredient) => {
-                        console.log(ingredient);
                         arrayHelpers.push(ingredient);
                         toggleIngredientModal();
                       }}
