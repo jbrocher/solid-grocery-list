@@ -32,6 +32,7 @@
     "react-spring": "^9.1.0",
     "resize-observer-polyfill": "^1.5.1",
     "solid-auth-client": "^2.5.5",
+    "spoonacular_api": "^1.0.0",
     "styled-components": "^5.2.1",
     "styled-react-modal": "^2.1.0",
     "styled-system": "^5.1.5",
