@@ -42,6 +42,11 @@ export const useCreateFood = () => {
     food.addString(FOOD_NAME, name);
     await foods.save();
     setLoading(false);
+    return {
+      identifier: food.asRef().split("#")[1],
+      name: name,
+      category: shoppingCategory,
+    };
   };
   return { loading, createFood };
 };
