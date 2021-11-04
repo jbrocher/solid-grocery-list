@@ -1,32 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  useAutocompleteIngredient,
+  SpoonacularIntgredient,
+} from "utils/spoonacular";
 import { Autocomplete } from "@material-ui/lab";
 import { TextField } from "@material-ui/core";
-import { Food } from "utils/api/types";
 
 export interface FoodSelectorProps {
-  foodItems: Food[];
-  selected: Food | null;
-  onSelect: (value: Food | null) => void;
+  selected: SpoonacularIntgredient | null;
+  onSelect: (value: SpoonacularIntgredient | null) => void;
 }
+
 const FoodSelector: React.FunctionComponent<FoodSelectorProps> = ({
-  foodItems,
   selected,
   onSelect,
 }: FoodSelectorProps) => {
-  const handleChange = (_event: any, newValue: Food | null) => {
+  const [query, setQuery] = useState("");
+  const { isSuccess, data } = useAutocompleteIngredient(query);
+
+  const handleChange = async (
+    _event: any,
+    newValue: SpoonacularIntgredient | null
+  ) => {
     onSelect(newValue);
   };
 
   return (
     <Autocomplete
-      options={foodItems}
+      options={data ?? []}
       getOptionLabel={(food) => food.name}
       style={{ width: "100%" }}
-      getOptionSelected={(food_a, food_b) => {
-        return food_a.identifier === food_b.identifier;
-      }}
       value={selected}
       onChange={handleChange}
+      onInputChange={(_e, newInputVaule) => {
+        setQuery(newInputVaule);
+      }}
+      inputValue={query}
       renderInput={(params) => (
         <TextField
           {...params}

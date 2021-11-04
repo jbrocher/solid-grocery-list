@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { SpoonacularIntgredient } from "utils/spoonacular";
 import StyledModal from "components/organisms/modals/components/StyledModal";
 import Button from "components/atoms/Button";
 import FoodSelector from "components/organisms/FoodSelector";
-import { useFoodList } from "utils/api/hooks/food";
+import { useFoodList, useCreateFood } from "utils/api/hooks/food";
 import { Food } from "utils/api/types";
 import Input from "components/atoms/Input";
 
@@ -21,20 +22,32 @@ const IngredientModal: React.FunctionComponent<IngredientModalProps> = ({
   isOpen,
   toggle,
 }: IngredientModalProps) => {
-  const [selectedFoodItem, setSelectedFoodItem] = useState<Food | null>(null);
+  const [selectedFoodItem, setSelectedFoodItem] =
+    useState<SpoonacularIntgredient | null>(null);
   const [quantity, setQuantity] = useState(0);
-  const handleSelect = (selected: Food | null) => {
+  const { createFood } = useCreateFood();
+  const handleSelect = (selected: SpoonacularIntgredient | null) => {
     setSelectedFoodItem(selected);
   };
   const foodList = useFoodList();
 
-  const submit = () => {
-    if (selectedFoodItem !== null) {
-      handleSubmit({
-        food: selectedFoodItem,
-        quantity: quantity,
-      });
+  const submit = async () => {
+    if (selectedFoodItem === null) {
+      return;
     }
+    let existingFood = foodList?.find(
+      (food) => food.name === selectedFoodItem.name
+    );
+    if (existingFood === undefined) {
+      existingFood = await createFood(
+        selectedFoodItem.name,
+        selectedFoodItem.aisle
+      );
+    }
+    handleSubmit({
+      food: existingFood,
+      quantity: quantity,
+    });
   };
 
   return (
@@ -43,11 +56,7 @@ const IngredientModal: React.FunctionComponent<IngredientModalProps> = ({
       onBackgroundClick={toggle}
       onEscapeKeydown={toggle}
     >
-      <FoodSelector
-        foodItems={foodList ? foodList : []}
-        selected={selectedFoodItem}
-        onSelect={handleSelect}
-      />
+      <FoodSelector selected={selectedFoodItem} onSelect={handleSelect} />
       <Input
         name="quantity"
         value={quantity.toString()}
