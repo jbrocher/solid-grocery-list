@@ -3,6 +3,7 @@ import StyledModal from "components/organisms/modals/components/StyledModal";
 import Input from "components/atoms/Input";
 import Button from "components/atoms/Button";
 import auth from "solid-auth-client";
+import { login } from "@inrupt/solid-client-authn-browser";
 
 export interface PodProviderModalProps {
   isOpen: boolean;
@@ -15,10 +16,16 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
 }: PodProviderModalProps) => {
   const [podProvider, setPodProvider] = useState("https://inrupt.net");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const handleClick = () => {
     setIsButtonDisabled(true);
-    auth.login(podProvider);
+    login({
+      oidcIssuer: podProvider,
+      redirectUrl: window.location.href,
+      clientName: "Solid Grocery List",
+    });
   };
+
   return (
     <StyledModal
       isOpen={isOpen}

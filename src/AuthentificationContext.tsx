@@ -1,27 +1,30 @@
 import React, { useEffect, useState, useContext } from "react";
-import auth from "solid-auth-client";
+import {
+  handleIncomingRedirect,
+  login,
+  fetch,
+  getDefaultSession,
+} from "@inrupt/solid-client-authn-browser";
 import LoginForm from "pages/LoginForm";
 
 interface AuthentificationContextProps {
   webId: string;
 }
-const AuthentificationContext = React.createContext<AuthentificationContextProps>(
-  {
+const AuthentificationContext =
+  React.createContext<AuthentificationContextProps>({
     webId: "",
-  }
-);
+  });
 const AuthentificationProvider: React.FunctionComponent = ({ children }) => {
   const [webId, setWebId] = useState("");
   useEffect(() => {
-    // WARNING: this run twice
-    async function getWebId() {
-      /* 1. Check if we've already got the user's WebID and access to their Pod: */
-      let session = await auth.currentSession();
-      if (session) {
-        return session.webId;
+    const handleLogin = async () => {
+      await handleIncomingRedirect();
+      const session = getDefaultSession();
+      if (session.info.isLoggedIn) {
+        setWebId(session.info.webId ? session.info.webId : "");
       }
-    }
-    getWebId().then((webId) => setWebId(webId ? webId : ""));
+    };
+    handleLogin();
   }, []);
 
   return (
