@@ -5,6 +5,16 @@ import { FOOD_NAME, FOOD, SHOPPING_CATEGORY } from "models/iris";
 import { useState } from "react";
 import FoodManager from "models/Food";
 import { foodSerializer } from "utils/api/serializers";
+import {
+  asUrl,
+  setThing,
+  Thing,
+  SolidDataset,
+  saveSolidDatasetAt,
+  getThingAll,
+  buildThing,
+  createThing,
+} from "@inrupt/solid-client";
 
 export const useFoods = () => {
   const { profile, publicTypeIndex } = useProfile();
@@ -22,7 +32,7 @@ export const useFoods = () => {
 export const useFoodList = () => {
   const foods = useFoods();
   if (foods) {
-    return foods.getAllSubjectsOfType(FOOD).map((food) => foodSerializer(food));
+    return getThingAll(foods).map((food) => foodSerializer(food));
   } else {
     return null;
   }
@@ -30,23 +40,16 @@ export const useFoodList = () => {
 
 export const useCreateFood = () => {
   const [loading, setLoading] = useState(false);
-  const foods = useFoods();
+  const { profile, publicTypeIndex } = useProfile();
+  const foodManager = new FoodManager(
+    profile as Thing,
+    publicTypeIndex as SolidDataset
+  );
   const createFood = async (name: string, shoppingCategory: string) => {
-    if (!foods) {
-      throw new Error("Missing FoodList");
-    }
-
-    const food = foods.addSubject();
-    food.addRef(rdf.type, FOOD);
-    food.addString(SHOPPING_CATEGORY, shoppingCategory);
-    food.addString(FOOD_NAME, name);
-    await foods.save();
+    setLoading(true);
+    const createdFood = await foodManager.create(name, shoppingCategory);
     setLoading(false);
-    return {
-      identifier: food.asRef().split("#")[1],
-      name: name,
-      category: shoppingCategory,
-    };
+    return createdFood;
   };
   return { loading, createFood };
 };
