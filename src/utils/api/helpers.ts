@@ -1,31 +1,17 @@
-import { rdfs, rdf, solid, space } from "rdf-namespaces";
-import dayjs from "dayjs";
-import { groupByIngredients } from "utils/dataManipulation";
+import { solid, space } from "rdf-namespaces";
 import {
-  QUANTITY,
-  METRIC_QUANTITY,
-  TITLE,
   INGREDIENT,
   FOOD,
   RECIPE,
   GroceryList,
   GroceryListItem,
-  groceryListItemObject,
-  groceryListItemDone,
 } from "models/iris";
-import {
-  createDocument,
-  fetchDocument,
-  TripleSubject,
-  TripleDocument,
-} from "tripledoc";
-import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
-import { Ingredient, Recipe } from "utils/api/types";
+import { Thing, getUrl, getSolidDataset, getThing } from "@inrupt/solid-client";
 
-export const getProfile = async (webId: string): Promise<TripleSubject> => {
-  const webIdDoc = await fetchDocument(webId);
+export const getProfile = async (webId: string) => {
+  const webIdDoc = await getSolidDataset(webId);
 
-  return webIdDoc.getSubject(webId);
+  return getThing(webIdDoc, webId);
 };
 
 export const RESSOURCES = {
@@ -55,226 +41,23 @@ export type Ressource = keyof typeof RESSOURCES;
 
 export const makeRef = (
   identifier: string,
-  profile: TripleSubject,
+  profile: Thing,
   ressource: Ressource
 ) => {
-  const storage = profile.getRef(space.storage);
+  const storage = getUrl(profile, space.storage);
 
   // Decide at what URL within the user's Pod the new Document should be stored:
   return `${storage}${RESSOURCES[ressource].storage}#${identifier}`;
 };
 
-export const getPublicTypeIndex = async (
-  profile: TripleSubject
-): Promise<TripleDocument> => {
+export const getPublicTypeIndex = async (profile: Thing) => {
   /* 1. Check if a Document tracking our notes already exists. */
-  const publicTypeIndexRef = (profile as TripleSubject).getRef(
-    solid.publicTypeIndex
-  );
+  const publicTypeIndexRef = getUrl(profile, solid.publicTypeIndex);
 
   if (publicTypeIndexRef) {
-    const publicTypeIndex = await fetchDocument(publicTypeIndexRef);
+    const publicTypeIndex = await getSolidDataset(publicTypeIndexRef);
     return publicTypeIndex;
   } else {
     throw new Error("Missing public type index");
   }
-};
-
-const createRessource = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument,
-  ressource: keyof typeof RESSOURCES
-): Promise<TripleDocument> => {
-  const storage = profile.getRef(space.storage);
-
-  // Decide at what URL within the user's Pod the new Document should be stored:
-  const ref = storage + RESSOURCES[ressource].storage;
-  // Create the new Document:
-  const list = createDocument(ref);
-  list.save();
-
-  // Store a reference to that Document in the public Type Index for `schema:TextDigitalDocument`:
-  const typeRegistration = publicTypeIndex.addSubject({
-    identifier: ressource,
-  });
-  typeRegistration.addRef(rdf.type, solid.TypeRegistration);
-  typeRegistration.addRef(solid.instance, list.asRef());
-  typeRegistration.addRef(solid.forClass, RESSOURCES[ressource].iri);
-  return await publicTypeIndex.save([typeRegistration]);
-};
-
-export const getOrCreateRessource = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument,
-  ressource: keyof typeof RESSOURCES
-): Promise<TripleDocument> => {
-  const entry = publicTypeIndex.findSubject(
-    solid.forClass,
-    RESSOURCES[ressource].iri
-  );
-
-  if (entry == null) {
-    return await createRessource(profile, publicTypeIndex, ressource);
-  } else {
-    const ressourceRef = entry.getRef(solid.instance);
-    if (ressourceRef) {
-      const ressourceList = await fetchDocument(ressourceRef);
-      return ressourceList;
-    } else {
-      throw new Error("Invalid recipe list type registry");
-    }
-  }
-};
-
-export const getIngredients = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-) => {
-  return getOrCreateRessource(profile, publicTypeIndex, "ingredient");
-};
-
-export const getFoods = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-) => {
-  return getOrCreateRessource(profile, publicTypeIndex, "food");
-};
-
-export const getRecipes = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-): Promise<TripleDocument> => {
-  return getOrCreateRessource(profile, publicTypeIndex, "recipe");
-};
-
-export const getRecipeResources = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-) => {
-  const foods = await getFoods(profile, publicTypeIndex);
-  const ingredients = await getIngredients(profile, publicTypeIndex);
-  const recipes = await getRecipes(profile, publicTypeIndex);
-
-  return { foods, ingredients, recipes };
-};
-
-export const getGroceries = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-): Promise<TripleDocument> => {
-  return getOrCreateRessource(profile, publicTypeIndex, "groceryList");
-};
-
-export const getGroceryListItems = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-): Promise<TripleDocument> => {
-  return getOrCreateRessource(profile, publicTypeIndex, "groceryListItem");
-};
-
-export const getGroceryListsResources = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-) => {
-  const groceryLists = await getGroceries(profile, publicTypeIndex);
-  const groceryListItems = await getGroceryListItems(profile, publicTypeIndex);
-  const foods = await getFoods(profile, publicTypeIndex);
-  return { groceryLists, groceryListItems, foods };
-};
-
-export const createIngredient = async (
-  ingredient: Ingredient,
-  ingredients: TripleDocument,
-  profile: TripleSubject
-) => {
-  // Create a new subject of type ingredient
-  // with a GUI
-  const ingredientSubject = ingredients.addSubject();
-  ingredientSubject.addRef(rdf.type, INGREDIENT);
-  ingredientSubject.addRef(
-    FOOD,
-    makeRef(ingredient.food.identifier, profile, "food")
-  );
-  ingredientSubject.addInteger(METRIC_QUANTITY, ingredient.quantity);
-  await ingredients.save();
-  return ingredientSubject;
-};
-
-export const createRecipe = async (
-  recipe: RecipeFormValues,
-  recipes: TripleDocument,
-  ingredients: TripleDocument,
-  profile: TripleSubject
-) => {
-  const recipeSubject = recipes.addSubject();
-  recipeSubject.addRef(rdf.type, RECIPE);
-  recipeSubject.addString(TITLE, recipe.title);
-  await Promise.all(
-    recipe.ingredients.map(async (ingredient) => {
-      const createdIngredient = await createIngredient(
-        ingredient,
-        ingredients,
-        profile
-      );
-      recipeSubject.addRef(INGREDIENT, createdIngredient.asRef());
-      return createdIngredient;
-    })
-  );
-  await recipes.save();
-  return {
-    ...recipe,
-    identifier: recipeSubject.asRef().split("#")[1],
-  };
-};
-
-interface GroceryListItemValues {
-  done: boolean;
-  object: string;
-  quantity: number;
-}
-export const createGroceryListItem = async (
-  item: GroceryListItemValues,
-  profile: TripleSubject,
-  groceryListItemsList: TripleDocument
-) => {
-  const itemSubject = groceryListItemsList.addSubject();
-  itemSubject.addRef(rdf.type, GroceryListItem);
-  itemSubject.addRef(
-    groceryListItemObject,
-    makeRef(item.object, profile, "food")
-  );
-  itemSubject.addString(groceryListItemDone, item.done ? "true" : "false");
-  itemSubject.addInteger(QUANTITY, item.quantity);
-  await groceryListItemsList.save();
-  return itemSubject;
-};
-
-export const createGroceryListFromRecipes = async (
-  recipes: Recipe[],
-  groceries: TripleDocument,
-  groceryListItemsList: TripleDocument,
-  profile: TripleSubject
-) => {
-  const ingredients = groupByIngredients(recipes);
-  const groceriesSubject = groceries.addSubject();
-  groceriesSubject.addRef(rdf.type, GroceryList);
-  const title = dayjs().format("YYYY-MM-DD");
-  await Promise.all(
-    Object.keys(ingredients).map(async (identifier) => {
-      const itemValues = {
-        object: identifier,
-        quantity: ingredients[identifier],
-        done: false,
-      };
-      const createdItem = await createGroceryListItem(
-        itemValues,
-        profile,
-        groceryListItemsList
-      );
-      groceriesSubject.addRef(rdfs.member, createdItem.asRef());
-      return createdItem;
-    })
-  );
-  groceriesSubject.addString(rdfs.label, title);
-  groceries.save();
 };
