@@ -17,92 +17,104 @@ import {
   FOOD_NAME,
   SHOPPING_CATEGORY,
 } from "models/iris";
-import { TripleDocument, TripleSubject } from "tripledoc";
+import {
+  getStringNoLocale,
+  getUrl,
+  getUrlAll,
+  asUrl,
+  getThing,
+  SolidDataset,
+  getInteger,
+  ThingPersisted,
+  Thing,
+} from "@inrupt/solid-client";
 
-export const foodSerializer = (food: TripleSubject): Food => {
+export const foodSerializer = (food: ThingPersisted) => {
   return {
-    identifier: food.asRef().split("#")[1],
-    name: food.getString(FOOD_NAME) ?? "",
-    category: food.getString(SHOPPING_CATEGORY) ?? "default",
+    identifier: asUrl(food).split("#")[1],
+    name: getStringNoLocale(food, FOOD_NAME) ?? "",
+    category: getStringNoLocale(food, SHOPPING_CATEGORY) ?? "default",
   };
 };
+
 export const ingredientSerializer = (
-  ingredient: TripleSubject,
-  foods: TripleDocument
+  ingredient: Thing,
+  foods: SolidDataset
 ): Ingredient => {
-  const foodRef = ingredient.getRef(FOOD);
+  const foodRef = getUrl(ingredient, FOOD);
   if (!foods || foodRef === null) {
     throw new Error("no foods");
   }
 
   return {
-    food: foodSerializer(foods.getSubject(foodRef)),
-    identifier: ingredient.asRef().split("#")[1],
-    quantity: ingredient.getInteger(METRIC_QUANTITY) ?? 0,
+    food: foodSerializer(getThing(foods, foodRef) as ThingPersisted),
+    identifier: asUrl(ingredient).split("#")[1],
+    quantity: getInteger(ingredient, METRIC_QUANTITY) ?? 0,
   };
 };
 
 export const recipeSerializer = (
-  recipe: TripleSubject,
-  ingredients: TripleDocument,
-  foods: TripleDocument
+  recipe: Thing,
+  ingredients: SolidDataset,
+  foods: SolidDataset
 ): Recipe => {
   if (!ingredients) {
     throw new Error("no ingredients");
   }
-  const ingredientsRefs = recipe.getAllRefs(INGREDIENT);
+  const ingredientsRefs = getUrlAll(recipe, INGREDIENT);
   let ingredientList: Ingredient[] = [];
 
   if (ingredientsRefs.length) {
     ingredientList = ingredientsRefs.map((ingredientRef) => {
-      const ingredient = ingredients.getSubject(ingredientRef);
+      const ingredient = getThing(ingredients, ingredientRef) as ThingPersisted;
 
       const serialialized_ingredient = ingredientSerializer(ingredient, foods);
       return serialialized_ingredient;
     });
   }
 
-  const title = recipe.getString(TITLE);
+  const title = getStringNoLocale(recipe, TITLE);
   return {
     title: title ?? "",
-    identifier: recipe.asRef().split("#")[1],
+    identifier: asUrl(recipe).split("#")[1],
     ingredients: ingredientList,
   };
 };
 
 export const groceryListItemSerializer = (
-  groceryListItem: TripleSubject,
-  foods: TripleDocument
+  groceryListItem: Thing,
+  foods: SolidDataset
 ): GroceryListItem => {
   // If we allow groceryList as object we must determine the type here
-  const foodRef = groceryListItem.getRef(groceryListItemObject);
+  console.log(groceryListItem);
+  const foodRef = getUrl(groceryListItem, groceryListItemObject);
   if (!foodRef) {
     throw new Error("No foodRef");
   }
-  const food = foods.getSubject(foodRef);
+  const food = getThing(foods, foodRef) as ThingPersisted;
 
   return {
     object: foodSerializer(food),
-    identifier: groceryListItem.asRef().split("#")[1],
-    done: groceryListItem.getString(groceryListItemDone) === "true",
-    quantity: groceryListItem.getInteger(QUANTITY) ?? 0,
+    identifier: asUrl(groceryListItem).split("#")[1],
+    done: getStringNoLocale(groceryListItem, groceryListItemDone) === "true",
+    quantity: getInteger(groceryListItem, QUANTITY) ?? 0,
   };
 };
 
 export const groceryListSerializer = (
-  groceryList: TripleSubject,
-  groceryListItems: TripleDocument,
-  foods: TripleDocument
+  groceryList: Thing,
+  groceryListItems: SolidDataset,
+  foods: SolidDataset
 ): GroceryList => {
-  const groceryListItemsRefs = groceryList.getAllRefs(rdfs.member);
+  const groceryListItemsRefs = getUrlAll(groceryList, rdfs.member);
 
   const groceryListItemsList = groceryListItemsRefs.map((ref) => {
-    const groceryListItem = groceryListItems.getSubject(ref);
+    const groceryListItem = getThing(groceryListItems, ref) as ThingPersisted;
     return groceryListItemSerializer(groceryListItem, foods);
   });
   return {
-    title: groceryList.getString(rdfs.label) ?? "",
-    identifier: groceryList.asRef().split("#")[1],
+    title: getStringNoLocale(groceryList, rdfs.label) ?? "",
+    identifier: asUrl(groceryList).split("#")[1],
     items: groceryListItemsList,
   };
 };
