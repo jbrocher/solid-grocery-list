@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 
 import { getProfile, getPublicTypeIndex } from "utils/api/helpers";
-import { TripleSubject, TripleDocument } from "tripledoc";
+import { SolidDataset, Thing } from "@inrupt/solid-client";
+
 import { useWebId } from "AuthentificationContext";
 
 interface ProfileProps {
-  profile: TripleSubject | null;
-  publicTypeIndex: TripleDocument | null;
+  profile: Thing | null;
+  publicTypeIndex: SolidDataset | null;
 }
 
 const ProfileContext = React.createContext<ProfileProps>({
@@ -16,8 +17,8 @@ const ProfileContext = React.createContext<ProfileProps>({
 
 const ProfileProvider: React.FunctionComponent = ({ children }) => {
   const { webId } = useWebId();
-  const [profile, setProfile] = useState<TripleSubject | null>(null);
-  const [publicTypeIndex, setPublicTypeIndex] = useState<TripleDocument | null>(
+  const [profile, setProfile] = useState<Thing | null>(null);
+  const [publicTypeIndex, setPublicTypeIndex] = useState<SolidDataset | null>(
     null
   );
 
