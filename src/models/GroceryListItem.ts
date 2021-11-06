@@ -54,7 +54,6 @@ class GroceryListItemManager extends ResourceManager {
     setStringNoLocale(subject, groceryListItemDone, checked ? "false" : "true");
     saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, { fetch: fetch });
     item.done = !checked;
-    console.log(item);
     return item;
   };
 
