@@ -1,8 +1,9 @@
-import { RECIPE } from "models/iris";
 import { useQuery, useMutation, useQueryClient } from "react-query";
+import { RECIPE } from "models/iris";
+import { rdf } from "rdf-namespaces";
 import RecipeManager from "models/Recipe";
 import { Recipe } from "utils/api/types";
-import { TripleSubject, TripleDocument } from "tripledoc";
+import { getUrl, getThingAll, Thing, SolidDataset } from "@inrupt/solid-client";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
 import { useProfile } from "ProfileContext";
 import { recipeSerializer } from "utils/api/serializers";
@@ -24,13 +25,14 @@ export const useRecipes = () => {
 };
 
 export const getRecipeList = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
+  profile: Thing,
+  publicTypeIndex: SolidDataset
 ) => {
   const manager = new RecipeManager(profile, publicTypeIndex);
   const { foods, recipes, ingredients } = await manager.getRecipeResources();
-  return recipes
-    .getAllSubjectsOfType(RECIPE)
+  console.log(recipes);
+  return getThingAll(recipes)
+    .filter((recipe) => getUrl(recipe, rdf.type) === RECIPE)
     .map((recipe) => recipeSerializer(recipe, ingredients, foods));
 };
 
