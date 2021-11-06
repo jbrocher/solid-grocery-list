@@ -9,24 +9,13 @@ import { useProfile } from "ProfileContext";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { groceryListSerializer } from "utils/api/serializers";
 import { GroceryList } from "models/iris";
-import { TripleSubject, TripleDocument } from "tripledoc";
-
-export const getGroceryLists = async (
-  profile: TripleSubject,
-  publicTypeIndex: TripleDocument
-) => {
-  const manager = new GroceriesManager(profile, publicTypeIndex);
-  const {
-    foods,
-    groceryLists,
-    groceryListItems,
-  } = await manager.getGroceriesResources();
-  return groceryLists
-    .getAllSubjectsOfType(GroceryList)
-    .map((groceryList) =>
-      groceryListSerializer(groceryList, groceryListItems, foods)
-    );
-};
+import {
+  getThing,
+  getThingAll,
+  ThingPersisted,
+  Thing,
+  SolidDataset,
+} from "@inrupt/solid-client";
 
 export const useGroceries = () => {
   const { profile, publicTypeIndex } = useProfile();
@@ -70,15 +59,14 @@ export const useGroceryLists = () => {
 
   let groceryLists: GroceryListType[] = [];
   if (groceriesResources.isSuccess) {
-    groceryLists = groceriesResources.data.groceryLists
-      .getAllSubjectsOfType(GroceryList)
-      .map((groceryList) =>
+    groceryLists = getThingAll(groceriesResources.data.groceryLists).map(
+      (groceryList) =>
         groceryListSerializer(
           groceryList,
           groceriesResources.data.groceryListItems,
           groceriesResources.data.foods
         )
-      );
+    );
   }
   return { isSuccess: groceriesResources.isSuccess, groceryLists };
 };
@@ -92,7 +80,7 @@ export const useGroceryList = (identifier: string) => {
       const groceriesResources = await manager.getGroceriesResources();
       const ref = manager.makeRef(identifier);
       return groceryListSerializer(
-        groceriesResources.groceryLists.getSubject(ref),
+        getThing(groceriesResources.groceryLists, ref) as ThingPersisted,
         groceriesResources.groceryListItems,
         groceriesResources.foods
       );
@@ -118,9 +106,8 @@ export const useEditGroceryList = (listIdentifier: string) => {
     onMutate: async (item) => {
       const queryKey = ["grocery_list", listIdentifier];
       await queryClient.cancelQueries(queryKey);
-      const groceryList: GroceryListType | undefined = queryClient.getQueryData(
-        queryKey
-      );
+      const groceryList: GroceryListType | undefined =
+        queryClient.getQueryData(queryKey);
 
       console.log(groceryList);
       if (!groceryList) return;
