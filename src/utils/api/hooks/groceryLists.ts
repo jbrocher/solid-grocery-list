@@ -8,14 +8,7 @@ import {
 import { useProfile } from "ProfileContext";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { groceryListSerializer } from "utils/api/serializers";
-import { GroceryList } from "models/iris";
-import {
-  getThing,
-  getThingAll,
-  ThingPersisted,
-  Thing,
-  SolidDataset,
-} from "@inrupt/solid-client";
+import { getThing, getThingAll, ThingPersisted } from "@inrupt/solid-client";
 
 export const useGroceries = () => {
   const { profile, publicTypeIndex } = useProfile();

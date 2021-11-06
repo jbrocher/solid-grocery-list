@@ -1,20 +1,9 @@
 import { useProfile } from "ProfileContext";
 import { useQuery } from "react-query";
-import { rdf } from "rdf-namespaces";
-import { FOOD_NAME, FOOD, SHOPPING_CATEGORY } from "models/iris";
 import { useState } from "react";
 import FoodManager from "models/Food";
 import { foodSerializer } from "utils/api/serializers";
-import {
-  asUrl,
-  setThing,
-  Thing,
-  SolidDataset,
-  saveSolidDatasetAt,
-  getThingAll,
-  buildThing,
-  createThing,
-} from "@inrupt/solid-client";
+import { Thing, SolidDataset, getThingAll } from "@inrupt/solid-client";
 
 export const useFoods = () => {
   const { profile, publicTypeIndex } = useProfile();
