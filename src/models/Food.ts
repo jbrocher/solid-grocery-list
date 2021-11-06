@@ -14,8 +14,8 @@ import {
 import { fetch } from "@inrupt/solid-client-authn-browser";
 
 class FoodManager extends ResourceManager {
-  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
-    super(profile, publicTypeIndex, {
+  constructor(profile: Thing) {
+    super(profile, {
       identifier: "food",
       storage: "public/food-list.ttl",
       iri: FOOD,
@@ -37,7 +37,6 @@ class FoodManager extends ResourceManager {
       .addStringNoLocale(SHOPPING_CATEGORY, shoppingCategory)
       .addStringNoLocale(FOOD_NAME, name)
       .build();
-
 
     foods = setThing(foods, food);
     foods = await saveSolidDatasetAt(this.getBaseUrl(), foods, {

@@ -21,18 +21,35 @@ interface Resource {
 }
 export class ResourceManager {
   profile: Thing;
-  publicTypeIndex: SolidDataset;
   resource: Resource;
+  _publicTypeIndex: SolidDataset | null;
 
-  constructor(
-    profile: Thing,
-    publicTypeIndex: SolidDataset,
-    resource: Resource
-  ) {
+  constructor(profile: Thing, resource: Resource) {
     this.profile = profile;
     this.resource = resource;
-    this.publicTypeIndex = publicTypeIndex;
+    this._publicTypeIndex = null;
   }
+
+  async getPublicTypeIndex() {
+    if (this._publicTypeIndex !== null) {
+      return this._publicTypeIndex;
+    }
+
+    this._publicTypeIndex = await getSolidDataset(
+      getUrl(this.profile, solid.publicTypeIndex) as string,
+      { fetch: fetch }
+    );
+    return this._publicTypeIndex;
+  }
+
+  async savePublicTypeIndex(index: SolidDataset) {
+    this._publicTypeIndex = await saveSolidDatasetAt(
+      getUrl(this.profile, solid.publicTypeIndex) as string,
+      index,
+      { fetch: fetch }
+    );
+  }
+
   makeRef(identifier: string) {
     const storage = getUrl(this.profile, space.storage);
     // Decide at what URL within the user's Pod the new Document should be stored:
@@ -65,24 +82,15 @@ export class ResourceManager {
       .addUrl(solid.forClass, this.resource.iri)
       .build();
 
-    let publicTypeIndex = await getSolidDataset(
-      getUrl(this.profile, solid.publicTypeIndex) as string
-    );
+    let publicTypeIndex = await this.getPublicTypeIndex();
     publicTypeIndex = setThing(publicTypeIndex, typeRegistration);
-    console.log(publicTypeIndex);
+    this.savePublicTypeIndex(publicTypeIndex);
 
-    publicTypeIndex = await saveSolidDatasetAt(
-      getUrl(this.profile, solid.publicTypeIndex) as string,
-      publicTypeIndex,
-      { fetch: fetch }
-    );
     return list;
   }
 
   async getOrCreate(): Promise<SolidDataset> {
-    const publicTypeIndex = await getSolidDataset(
-      getUrl(this.profile, solid.publicTypeIndex) as string
-    );
+    const publicTypeIndex = await this.getPublicTypeIndex();
     const entry = getThingAll(publicTypeIndex).find(
       (thing) => getUrl(thing, solid.forClass) === this.resource.iri
     );

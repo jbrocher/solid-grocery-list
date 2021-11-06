@@ -6,13 +6,20 @@ import {
   GroceryList,
   GroceryListItem,
 } from "models/iris";
-import { Thing, getUrl, getSolidDataset, getThing } from "@inrupt/solid-client";
+import {
+  Thing,
+  getUrl,
+  setThing,
+  SolidDataset,
+  asUrl,
+  buildThing,
+  createSolidDataset,
+  saveSolidDatasetAt,
+  getSolidDataset,
+  getThing,
+} from "@inrupt/solid-client";
 
-export const getProfile = async (webId: string) => {
-  const webIdDoc = await getSolidDataset(webId);
-
-  return getThing(webIdDoc, webId);
-};
+import { fetch } from "@inrupt/solid-client-authn-browser";
 
 export const RESSOURCES = {
   food: {
@@ -39,25 +46,45 @@ export const RESSOURCES = {
 
 export type Ressource = keyof typeof RESSOURCES;
 
-export const makeRef = (
-  identifier: string,
-  profile: Thing,
-  ressource: Ressource
-) => {
-  const storage = getUrl(profile, space.storage);
+export const getProfile = async (webId: string) => {
+  let webIdDoc = await getSolidDataset(webId);
 
-  // Decide at what URL within the user's Pod the new Document should be stored:
-  return `${storage}${RESSOURCES[ressource].storage}#${identifier}`;
-};
+  let profile = getThing(webIdDoc, webId) as Thing;
 
-export const getPublicTypeIndex = async (profile: Thing) => {
-  /* 1. Check if a Document tracking our notes already exists. */
-  const publicTypeIndexRef = getUrl(profile, solid.publicTypeIndex);
+  const profileUrl = asUrl(profile);
+  const podRootPosition = profileUrl.search(/\profile\/card\#me$/);
+  const podRoot = profileUrl.substr(0, podRootPosition);
 
-  if (publicTypeIndexRef) {
-    const publicTypeIndex = await getSolidDataset(publicTypeIndexRef);
-    return publicTypeIndex;
-  } else {
-    throw new Error("Missing public type index");
+  let publicTypeIndexRef = getUrl(profile, solid.publicTypeIndex);
+  if (!publicTypeIndexRef) {
+    // Get public type index url
+    publicTypeIndexRef = podRoot + "settings/publicTypeIndex.ttl";
+
+    // create publicTypeIndex
+    let publicTypeIndex = createSolidDataset();
+    publicTypeIndex = await saveSolidDatasetAt(
+      publicTypeIndexRef,
+      publicTypeIndex,
+      {
+        fetch: fetch,
+      }
+    );
   }
+
+  // Storage
+  let storageUrl = getUrl(profile, space.storage);
+  if (!storageUrl) {
+    storageUrl = podRoot + "/public";
+  }
+
+  //Update profile
+  profile = buildThing(profile)
+    .addUrl(solid.publicTypeIndex, publicTypeIndexRef)
+    .addUrl(space.storage, storageUrl)
+    .build();
+
+  webIdDoc = setThing(webIdDoc, profile);
+  webIdDoc = await saveSolidDatasetAt(webId, webIdDoc, { fetch: fetch });
+
+  return profile;
 };

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import StyledModal from "components/organisms/modals/components/StyledModal";
 import Input from "components/atoms/Input";
 import Button from "components/atoms/Button";
-import auth from "solid-auth-client";
 import { login } from "@inrupt/solid-client-authn-browser";
 
 export interface PodProviderModalProps {

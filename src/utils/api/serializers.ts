@@ -1,10 +1,4 @@
-import {
-  Food,
-  Ingredient,
-  Recipe,
-  GroceryListItem,
-  GroceryList,
-} from "./types";
+import { Ingredient, Recipe, GroceryListItem, GroceryList } from "./types";
 import { rdfs } from "rdf-namespaces";
 import {
   groceryListItemObject,
