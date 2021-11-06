@@ -22,7 +22,6 @@ export const GroceryList: React.FunctionComponent = () => {
   if (!groceryListQuery.isSuccess || !ready) {
     return <Loading />;
   }
-  console.log(groceryListQuery.data.items.map((item) => item.done));
   const list = groceryListQuery.data!;
   const groupedByCategory = groupByShoppingCategory(list);
 

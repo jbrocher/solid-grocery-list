@@ -109,7 +109,6 @@ export const useEditGroceryList = (listIdentifier: string) => {
       const groceryList: GroceryListType | undefined =
         queryClient.getQueryData(queryKey);
 
-      console.log(groceryList);
       if (!groceryList) return;
 
       const itemIndex = groceryList.items.findIndex(
