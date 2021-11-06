@@ -2,12 +2,20 @@ import { rdf } from "rdf-namespaces";
 import { Ingredient } from "utils/api/types";
 import ResourceManager from "./Resource";
 import { METRIC_QUANTITY, INGREDIENT, FOOD } from "models/iris";
-import { TripleSubject, TripleDocument } from "tripledoc";
+import {
+  setThing,
+  createThing,
+  saveSolidDatasetAt,
+  buildThing,
+  Thing,
+  SolidDataset,
+} from "@inrupt/solid-client";
+import { fetch } from "@inrupt/solid-client-authn-browser";
 import FoodManager from "models/Food";
 
 export class IngredientsManager extends ResourceManager {
   foods: FoodManager;
-  constructor(profile: TripleSubject, publicTypeIndex: TripleDocument) {
+  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
     super(profile, publicTypeIndex, {
       identifier: "ingredient",
       storage: "public/ingredient-list.ttl",
@@ -23,15 +31,16 @@ export class IngredientsManager extends ResourceManager {
   create = async (ingredient: Ingredient) => {
     // Create a new subject of type ingredient
     // with a GUI
-    const ingredients = await this.getIngredients();
-    const ingredientSubject = ingredients.addSubject();
-    ingredientSubject.addRef(rdf.type, INGREDIENT);
-    ingredientSubject.addRef(
-      FOOD,
-      this.foods.makeRef(ingredient.food.identifier)
-    );
-    ingredientSubject.addInteger(METRIC_QUANTITY, ingredient.quantity);
-    await ingredients.save();
+    let ingredients = await this.getIngredients();
+    const ingredientSubject = buildThing(createThing())
+      .addUrl(rdf.type, INGREDIENT)
+      .addUrl(FOOD, this.foods.makeRef(ingredient.food.identifier))
+      .addInteger(METRIC_QUANTITY, ingredient.quantity)
+      .build();
+    ingredients = setThing(ingredients, ingredientSubject);
+    ingredients = await saveSolidDatasetAt(this.getBaseUrl(), ingredients, {
+      fetch: fetch,
+    });
     return ingredientSubject;
   };
 }
