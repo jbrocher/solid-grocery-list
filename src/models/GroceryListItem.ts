@@ -1,6 +1,18 @@
 import ResourceManager from "models/Resource";
 import { rdf } from "rdf-namespaces";
-import { TripleSubject, TripleDocument } from "tripledoc";
+import {
+  setStringNoLocale,
+  saveSolidDatasetAt,
+  getThing,
+  getStringNoLocale,
+  createThing,
+  buildThing,
+  setThing,
+  ThingPersisted,
+  Thing,
+  SolidDataset,
+} from "@inrupt/solid-client";
+import { fetch } from "@inrupt/solid-client-authn-browser";
 import { GroceryListItem as GroceryListItemType } from "utils/api/types";
 
 import {
@@ -18,7 +30,7 @@ interface GroceryListItemValues {
 }
 class GroceryListItemManager extends ResourceManager {
   foods: FoodManager;
-  constructor(profile: TripleSubject, publicTypeIndex: TripleDocument) {
+  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
     super(profile, publicTypeIndex, {
       identifier: "groceryListItem",
       storage: "public/grocery-list-item.ttl",
@@ -33,29 +45,34 @@ class GroceryListItemManager extends ResourceManager {
 
   toggle = async (item: GroceryListItemType) => {
     const groceryListItems = await this.getGroceryListItems();
-    const subject = groceryListItems.getSubject(this.makeRef(item.identifier));
-    const checked = subject.getString(groceryListItemDone) === "true";
-    subject.setString(groceryListItemDone, checked ? "false" : "true");
-    groceryListItems.save();
+    const subject = getThing(
+      groceryListItems,
+      this.makeRef(item.identifier)
+    ) as ThingPersisted;
+    const checked = getStringNoLocale(subject, groceryListItemDone) === "true";
+
+    setStringNoLocale(subject, groceryListItemDone, checked ? "false" : "true");
+    saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, { fetch: fetch });
     item.done = !checked;
     console.log(item);
     return item;
   };
 
   create = async (groceryListItem: GroceryListItemValues) => {
-    const groceryListItems = await this.getGroceryListItems();
-    const itemSubject = groceryListItems.addSubject();
-    itemSubject.addRef(rdf.type, GroceryListItem);
-    itemSubject.addRef(
-      groceryListItemObject,
-      this.foods.makeRef(groceryListItem.object)
-    );
-    itemSubject.addString(
-      groceryListItemDone,
-      groceryListItem.done ? "true" : "false"
-    );
-    itemSubject.addInteger(QUANTITY, groceryListItem.quantity);
-    await groceryListItems.save();
+    let groceryListItems = await this.getGroceryListItems();
+    const itemSubject = buildThing(createThing())
+      .addUrl(rdf.type, GroceryListItem)
+      .addUrl(groceryListItemObject, this.foods.makeRef(groceryListItem.object))
+      .addStringNoLocale(
+        groceryListItemDone,
+        groceryListItem.done ? "true" : "false"
+      )
+      .addInteger(QUANTITY, groceryListItem.quantity)
+      .build();
+
+    groceryListItems = setThing(groceryListItems, itemSubject);
+    saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, { fetch: fetch });
+
     return itemSubject;
   };
 }

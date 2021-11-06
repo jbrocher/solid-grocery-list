@@ -4,12 +4,21 @@ import { groupByIngredients } from "utils/dataManipulation";
 import { Recipe } from "utils/api/types";
 import { rdf, rdfs } from "rdf-namespaces";
 import GrocerylistItemManager from "./GroceryListItem";
-import { TripleSubject, TripleDocument } from "tripledoc";
+import {
+  Thing,
+  SolidDataset,
+  asUrl,
+  saveSolidDatasetAt,
+  setThing,
+  buildThing,
+  createThing,
+} from "@inrupt/solid-client";
+import { fetch } from "@inrupt/solid-client-authn-browser";
 import { GroceryList } from "models/iris";
 
 class GroceriesManager extends ResourceManager {
   items: GrocerylistItemManager;
-  constructor(profile: TripleSubject, publicTypeIndex: TripleDocument) {
+  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
     super(
       profile,
       publicTypeIndex,
@@ -23,7 +32,7 @@ class GroceriesManager extends ResourceManager {
     this.items = new GrocerylistItemManager(profile, publicTypeIndex);
   }
 
-  async getGroceries(): Promise<TripleDocument> {
+  async getGroceries() {
     return this.getOrCreate();
   }
 
@@ -36,9 +45,13 @@ class GroceriesManager extends ResourceManager {
 
   async createFromRecipes(recipes: Recipe[]) {
     const ingredients = groupByIngredients(recipes);
-    const groceries = await this.getGroceries();
-    const groceriesSubject = groceries.addSubject();
-    groceriesSubject.addRef(rdf.type, GroceryList);
+    let groceries = await this.getGroceries();
+
+    const groceriesSubject = buildThing(createThing()).addUrl(
+      rdf.type,
+      GroceryList
+    );
+
     const title = dayjs().format("YYYY-MM-DD");
     await Promise.all(
       Object.keys(ingredients).map(async (identifier) => {
@@ -48,12 +61,16 @@ class GroceriesManager extends ResourceManager {
           done: false,
         };
         const createdItem = await this.items.create(itemValues);
-        groceriesSubject.addRef(rdfs.member, createdItem.asRef());
+        groceriesSubject.addUrl(
+          rdfs.member,
+          asUrl(createdItem, this.items.getBaseUrl())
+        );
         return createdItem;
       })
     );
-    groceriesSubject.addString(rdfs.label, title);
-    groceries.save();
+    groceriesSubject.addStringNoLocale(rdfs.label, title);
+    groceries = setThing(groceries, groceriesSubject.build());
+    saveSolidDatasetAt(this.getBaseUrl(), groceries, { fetch: fetch });
   }
 }
 
