@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
   handleIncomingRedirect,
-  login,
-  fetch,
   getDefaultSession,
 } from "@inrupt/solid-client-authn-browser";
 import LoginForm from "pages/LoginForm";
