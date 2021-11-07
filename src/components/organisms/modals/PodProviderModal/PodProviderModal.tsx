@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { Formik, FormikHelpers } from "formik";
+import * as yup from "yup";
+import styled from "styled-components";
+
 import StyledModal from "components/organisms/modals/components/StyledModal";
 import Input from "components/atoms/Input";
 import Button from "components/atoms/Button";
@@ -9,20 +13,39 @@ export interface PodProviderModalProps {
   toggle: (_e: any) => void;
 }
 
+const validationSchema = yup.object().shape({
+  podProvider: yup.string().required().url("Please enter a valid url"),
+});
+
+interface FormValues {
+  podProvider: string;
+}
+
+const StyledError = styled.div`
+  color: red;
+  margin-bottom: 8px;
+`;
+
 const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
   isOpen,
   toggle,
 }: PodProviderModalProps) => {
-  const [podProvider, setPodProvider] = useState("https://inrupt.net");
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
-  const handleClick = () => {
-    setIsButtonDisabled(true);
-    login({
-      oidcIssuer: podProvider,
-      redirectUrl: window.location.href,
-      clientName: "Solid Grocery List",
-    });
+  const handleSubmit = async (
+    values: FormValues,
+    { setFieldError }: FormikHelpers<FormValues>
+  ) => {
+    try {
+      await login({
+        oidcIssuer: values.podProvider,
+        redirectUrl: window.location.href,
+        clientName: "Solid Grocery List",
+      });
+    } catch {
+      setFieldError(
+        "podProvider",
+        "We're sorry something went wrong. Try again or enter a different provider"
+      );
+    }
   };
 
   return (
@@ -31,23 +54,43 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
       onBackgroundClick={toggle}
       onEscapeKeydown={toggle}
     >
-      <Input
-        name="pod_provider"
-        value={podProvider}
-        placeholder="https://inrupt.net"
-        onChange={(e: any) => {
-          setPodProvider(e.target.value);
-        }}
-        label="What is your pod provider ? "
-      />
-      <Button
-        disabled={isButtonDisabled}
-        mt={3}
-        type="button"
-        onClick={handleClick}
+      <Formik
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        initialValues={{ podProvider: "broker.pod.inrupt.com" }}
       >
-        Connect to pod
-      </Button>
+        {({
+          isValid,
+          isSubmitting,
+          submitForm,
+          values,
+          handleChange,
+          errors,
+          handleBlur,
+        }) => (
+          <>
+            {errors.podProvider && (
+              <StyledError> {errors.podProvider}</StyledError>
+            )}
+            <Input
+              name="podProvider"
+              value={values.podProvider}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              placeholder="https://inrupt.net"
+              label="What is your pod provider ? "
+            />
+            <Button
+              disabled={!isValid || isSubmitting}
+              mt={3}
+              type="button"
+              onClick={submitForm}
+            >
+              Connect to pod
+            </Button>
+          </>
+        )}
+      </Formik>
     </StyledModal>
   );
 };
