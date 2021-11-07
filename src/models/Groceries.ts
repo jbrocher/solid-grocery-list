@@ -18,18 +18,13 @@ import { GroceryList } from "models/iris";
 
 class GroceriesManager extends ResourceManager {
   items: GrocerylistItemManager;
-  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
-    super(
-      profile,
-      publicTypeIndex,
-
-      {
-        identifier: "groceries",
-        storage: "public/grocery-list.ttl",
-        iri: GroceryList,
-      }
-    );
-    this.items = new GrocerylistItemManager(profile, publicTypeIndex);
+  constructor(profile: Thing) {
+    super(profile, {
+      identifier: "groceries",
+      storage: "public/grocery-list.ttl",
+      iri: GroceryList,
+    });
+    this.items = new GrocerylistItemManager(profile);
   }
 
   async getGroceries() {

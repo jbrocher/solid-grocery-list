@@ -8,20 +8,19 @@ import {
   saveSolidDatasetAt,
   buildThing,
   Thing,
-  SolidDataset,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import FoodManager from "models/Food";
 
 export class IngredientsManager extends ResourceManager {
   foods: FoodManager;
-  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
-    super(profile, publicTypeIndex, {
+  constructor(profile: Thing) {
+    super(profile, {
       identifier: "ingredient",
       storage: "public/ingredient-list.ttl",
       iri: INGREDIENT,
     });
-    this.foods = new FoodManager(profile, publicTypeIndex);
+    this.foods = new FoodManager(profile);
   }
 
   getIngredients = async () => {

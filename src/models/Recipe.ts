@@ -18,14 +18,14 @@ import { INGREDIENT, RECIPE, TITLE } from "models/iris";
 class RecipeManager extends ResourceManager {
   ingredients: IngredientManager;
   foods: FoodManager;
-  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
-    super(profile, publicTypeIndex, {
+  constructor(profile: Thing) {
+    super(profile, {
       identifier: "recipe",
       storage: "public/recipe-list.ttl",
       iri: RECIPE,
     });
-    this.ingredients = new IngredientManager(profile, publicTypeIndex);
-    this.foods = new FoodManager(profile, publicTypeIndex);
+    this.ingredients = new IngredientManager(profile);
+    this.foods = new FoodManager(profile);
   }
   async getRecipes(): Promise<SolidDataset> {
     return this.getOrCreate();

@@ -11,15 +11,15 @@ import { groceryListSerializer } from "utils/api/serializers";
 import { getThing, getThingAll, ThingPersisted } from "@inrupt/solid-client";
 
 export const useGroceries = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const query = useQuery(
-    ["groceries", profile, publicTypeIndex],
+    ["groceries", profile],
     async () => {
-      const manager = new GroceriesManager(profile!, publicTypeIndex!);
+      const manager = new GroceriesManager(profile!);
       return await manager.getGroceries();
     },
     {
-      enabled: !!profile && !!publicTypeIndex,
+      enabled: !!profile,
     }
   );
 
@@ -33,19 +33,19 @@ export const useGroceries = () => {
 };
 
 export const useGroceriesResources = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const query = useQuery(
-    ["groceriesResources", profile, publicTypeIndex],
+    ["groceriesResources", profile],
     async () => {
-      const manager = new GroceriesManager(profile!, publicTypeIndex!);
+      const manager = new GroceriesManager(profile!);
       return await manager.getGroceriesResources();
     },
     {
-      enabled: !!profile && !!publicTypeIndex,
+      enabled: !!profile,
     }
   );
 
-  return { ...query, profile, publicTypeIndex };
+  return { ...query, profile };
 };
 export const useGroceryLists = () => {
   const groceriesResources = useGroceriesResources();
@@ -65,11 +65,11 @@ export const useGroceryLists = () => {
 };
 
 export const useGroceryList = (identifier: string) => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const query = useQuery(
     ["grocery_list", identifier],
     async () => {
-      const manager = new GroceriesManager(profile!, publicTypeIndex!);
+      const manager = new GroceriesManager(profile!);
       const groceriesResources = await manager.getGroceriesResources();
       const ref = manager.makeRef(identifier);
       return groceryListSerializer(
@@ -79,20 +79,20 @@ export const useGroceryList = (identifier: string) => {
       );
     },
     {
-      enabled: !!profile && !!publicTypeIndex,
+      enabled: !!profile,
     }
   );
   return query;
 };
 
 export const useEditGroceryList = (listIdentifier: string) => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const queryClient = useQueryClient();
   const mutationFn = async (item: GroceryListItem) => {
-    if (!profile || !publicTypeIndex) {
+    if (!profile) {
       throw new Error("Resources not ready");
     }
-    const manager = new GroceriesManager(profile, publicTypeIndex);
+    const manager = new GroceriesManager(profile);
     return await manager.items.toggle(item);
   };
   const groceryListMutation = useMutation(mutationFn, {
@@ -113,34 +113,34 @@ export const useEditGroceryList = (listIdentifier: string) => {
     },
   });
 
-  const ready = !!profile && !!publicTypeIndex;
+  const ready = !!profile;
   return { ready, check: groceryListMutation };
 };
 
 export const useGroceryListItems = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const { isSuccess, data: groceryListItems } = useQuery(
-    ["grocery_list_items", profile, publicTypeIndex],
+    ["grocery_list_items", profile],
     async () => {
-      const manager = new GroceryListItemManager(profile!, publicTypeIndex!);
+      const manager = new GroceryListItemManager(profile!);
       return await manager.getGroceryListItems();
     },
     {
-      enabled: !!profile && !!publicTypeIndex,
+      enabled: !!profile,
     }
   );
   return { isSuccess, groceryListItems };
 };
 
 export const useCreateGroceryList = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
 
   const queryClient = useQueryClient();
   const mutationFn = async (recipes: Recipe[]) => {
-    if (!profile || !publicTypeIndex) {
+    if (!profile) {
       throw new Error("Resources not ready");
     }
-    const manager = new GroceriesManager(profile, publicTypeIndex);
+    const manager = new GroceriesManager(profile);
     return await manager.createFromRecipes(recipes);
   };
   const groceryListMutation = useMutation(mutationFn, {
@@ -149,6 +149,6 @@ export const useCreateGroceryList = () => {
     },
   });
 
-  const ready = !!profile && !!publicTypeIndex;
+  const ready = !!profile;
   return { ready, groceryListMutation };
 };

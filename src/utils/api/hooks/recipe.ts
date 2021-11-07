@@ -9,26 +9,23 @@ import { useProfile } from "ProfileContext";
 import { recipeSerializer } from "utils/api/serializers";
 
 export const useRecipes = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const { isSuccess, data: recipes } = useQuery(
     // typescript doesn't understand enabled
-    ["recipes", profile, publicTypeIndex],
+    ["recipes", profile],
     async () => {
-      const manager = new RecipeManager(profile!, publicTypeIndex!);
+      const manager = new RecipeManager(profile!);
       return await manager.getRecipes();
     },
     {
-      enabled: !!profile && !!publicTypeIndex,
+      enabled: !!profile,
     }
   );
   return { recipes, isSuccess };
 };
 
-export const getRecipeList = async (
-  profile: Thing,
-  publicTypeIndex: SolidDataset
-) => {
-  const manager = new RecipeManager(profile, publicTypeIndex);
+export const getRecipeList = async (profile: Thing) => {
+  const manager = new RecipeManager(profile);
   const { foods, recipes, ingredients } = await manager.getRecipeResources();
   console.log(recipes);
   return getThingAll(recipes)
@@ -37,13 +34,13 @@ export const getRecipeList = async (
 };
 
 export const useRecipeList = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
 
   const recipesListQuery = useQuery(
-    ["recipes_list", profile, publicTypeIndex],
-    () => getRecipeList(profile!, publicTypeIndex!),
+    ["recipes_list", profile],
+    () => getRecipeList(profile!),
     {
-      enabled: !!profile && !!publicTypeIndex,
+      enabled: !!profile,
     }
   );
 
@@ -52,9 +49,9 @@ export const useRecipeList = () => {
 };
 
 export const useCreateRecipe = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const mutationFn = async (recipe: RecipeFormValues) => {
-    const manager = new RecipeManager(profile!, publicTypeIndex!);
+    const manager = new RecipeManager(profile!);
     return await manager.create(recipe);
   };
 
@@ -62,16 +59,12 @@ export const useCreateRecipe = () => {
   const recipeMutation = useMutation(mutationFn, {
     onSuccess: (data) => {
       const recipeList: Recipe[] =
-        queryClient.getQueryData(["recipes_list", profile, publicTypeIndex]) ??
-        [];
+        queryClient.getQueryData(["recipes_list", profile]) ?? [];
       recipeList.push(data);
-      queryClient.setQueryData(
-        ["recipes_list", profile, publicTypeIndex],
-        recipeList
-      );
+      queryClient.setQueryData(["recipes_list", profile], recipeList);
     },
   });
-  const ready = !!profile && !!publicTypeIndex;
+  const ready = !!profile;
 
   return { ready, recipeMutation };
 };

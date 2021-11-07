@@ -4,16 +4,16 @@ import { SolidDataset } from "@inrupt/solid-client";
 import { IngredientsManager } from "models/Ingredient";
 
 export const useIngredients = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const { isLoading, data: ingredients } = useQuery<SolidDataset, Error>(
-    ["ingredients", profile, publicTypeIndex],
+    ["ingredients", profile],
     async () => {
       // Profile and publicTypeIndex are defined thanks to enabled
-      const manager = new IngredientsManager(profile!, publicTypeIndex!);
+      const manager = new IngredientsManager(profile!);
       return await manager.getIngredients();
     },
     {
-      enabled: !!profile && !!publicTypeIndex,
+      enabled: !!profile,
     }
   );
 

@@ -30,13 +30,13 @@ interface GroceryListItemValues {
 }
 class GroceryListItemManager extends ResourceManager {
   foods: FoodManager;
-  constructor(profile: Thing, publicTypeIndex: SolidDataset) {
-    super(profile, publicTypeIndex, {
+  constructor(profile: Thing ) {
+    super(profile,  {
       identifier: "groceryListItem",
       storage: "public/grocery-list-item.ttl",
       iri: GroceryListItem,
     });
-    this.foods = new FoodManager(profile, publicTypeIndex);
+    this.foods = new FoodManager(profile);
   }
 
   getGroceryListItems = async () => {

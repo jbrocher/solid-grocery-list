@@ -3,17 +3,17 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import FoodManager from "models/Food";
 import { foodSerializer } from "utils/api/serializers";
-import { Thing, SolidDataset, getThingAll } from "@inrupt/solid-client";
+import { Thing, getThingAll } from "@inrupt/solid-client";
 
 export const useFoods = () => {
-  const { profile, publicTypeIndex } = useProfile();
+  const { profile } = useProfile();
   const { data: foods } = useQuery(
-    ["food", profile, publicTypeIndex],
+    ["food", profile],
     async () => {
-      const manager = new FoodManager(profile!, publicTypeIndex!);
+      const manager = new FoodManager(profile!);
       return await manager.getFoods();
     },
-    { enabled: !!profile && !!publicTypeIndex }
+    { enabled: !!profile }
   );
   return foods;
 };
@@ -29,11 +29,8 @@ export const useFoodList = () => {
 
 export const useCreateFood = () => {
   const [loading, setLoading] = useState(false);
-  const { profile, publicTypeIndex } = useProfile();
-  const foodManager = new FoodManager(
-    profile as Thing,
-    publicTypeIndex as SolidDataset
-  );
+  const { profile } = useProfile();
+  const foodManager = new FoodManager(profile as Thing);
   const createFood = async (name: string, shoppingCategory: string) => {
     setLoading(true);
     const createdFood = await foodManager.create(name, shoppingCategory);
