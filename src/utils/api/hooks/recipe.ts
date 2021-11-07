@@ -3,7 +3,7 @@ import { RECIPE } from "models/iris";
 import { rdf } from "rdf-namespaces";
 import RecipeManager from "models/Recipe";
 import { Recipe } from "utils/api/types";
-import { getUrl, getThingAll, Thing, SolidDataset } from "@inrupt/solid-client";
+import { getUrl, getThingAll, Thing } from "@inrupt/solid-client";
 import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
 import { useProfile } from "ProfileContext";
 import { recipeSerializer } from "utils/api/serializers";

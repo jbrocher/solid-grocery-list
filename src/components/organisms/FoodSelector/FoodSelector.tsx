@@ -16,7 +16,7 @@ const FoodSelector: React.FunctionComponent<FoodSelectorProps> = ({
   onSelect,
 }: FoodSelectorProps) => {
   const [query, setQuery] = useState("");
-  const { isSuccess, data } = useAutocompleteIngredient(query);
+  const { data } = useAutocompleteIngredient(query);
 
   const handleChange = async (
     _event: any,

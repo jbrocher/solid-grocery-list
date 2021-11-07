@@ -37,7 +37,7 @@ export class IngredientsManager extends ResourceManager {
       .addInteger(METRIC_QUANTITY, ingredient.quantity)
       .build();
     ingredients = setThing(ingredients, ingredientSubject);
-    ingredients = await saveSolidDatasetAt(this.getBaseUrl(), ingredients, {
+    await saveSolidDatasetAt(this.getBaseUrl(), ingredients, {
       fetch: fetch,
     });
     return ingredientSubject;

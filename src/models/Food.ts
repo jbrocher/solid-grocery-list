@@ -3,7 +3,6 @@ import { rdf } from "rdf-namespaces";
 import { FOOD_NAME, FOOD, SHOPPING_CATEGORY } from "models/iris";
 import {
   Thing,
-  SolidDataset,
   asUrl,
   setThing,
   saveSolidDatasetAt,

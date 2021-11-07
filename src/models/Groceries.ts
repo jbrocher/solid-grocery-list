@@ -6,7 +6,6 @@ import { rdf, rdfs } from "rdf-namespaces";
 import GrocerylistItemManager from "./GroceryListItem";
 import {
   Thing,
-  SolidDataset,
   asUrl,
   saveSolidDatasetAt,
   setThing,

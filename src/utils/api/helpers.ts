@@ -10,7 +10,6 @@ import {
   Thing,
   getUrl,
   setThing,
-  SolidDataset,
   asUrl,
   buildThing,
   createSolidDataset,
@@ -52,7 +51,7 @@ export const getProfile = async (webId: string) => {
   let profile = getThing(webIdDoc, webId) as Thing;
 
   const profileUrl = asUrl(profile);
-  const podRootPosition = profileUrl.search(/\profile\/card\#me$/);
+  const podRootPosition = profileUrl.search(/\profile\/card#me$/);
   const podRoot = profileUrl.substr(0, podRootPosition);
 
   let publicTypeIndexRef = getUrl(profile, solid.publicTypeIndex);
@@ -62,13 +61,9 @@ export const getProfile = async (webId: string) => {
 
     // create publicTypeIndex
     let publicTypeIndex = createSolidDataset();
-    publicTypeIndex = await saveSolidDatasetAt(
-      publicTypeIndexRef,
-      publicTypeIndex,
-      {
-        fetch: fetch,
-      }
-    );
+    await saveSolidDatasetAt(publicTypeIndexRef, publicTypeIndex, {
+      fetch: fetch,
+    });
   }
 
   // Storage

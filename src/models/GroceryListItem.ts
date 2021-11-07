@@ -10,7 +10,6 @@ import {
   setThing,
   ThingPersisted,
   Thing,
-  SolidDataset,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import { GroceryListItem as GroceryListItemType } from "utils/api/types";
@@ -30,8 +29,8 @@ interface GroceryListItemValues {
 }
 class GroceryListItemManager extends ResourceManager {
   foods: FoodManager;
-  constructor(profile: Thing ) {
-    super(profile,  {
+  constructor(profile: Thing) {
+    super(profile, {
       identifier: "groceryListItem",
       storage: "public/grocery-list-item.ttl",
       iri: GroceryListItem,
