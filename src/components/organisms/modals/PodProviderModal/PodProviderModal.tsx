@@ -57,7 +57,7 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
       <Formik
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        initialValues={{ podProvider: "broker.pod.inrupt.com" }}
+        initialValues={{ podProvider: "https://broker.pod.inrupt.com" }}
       >
         {({
           isValid,
