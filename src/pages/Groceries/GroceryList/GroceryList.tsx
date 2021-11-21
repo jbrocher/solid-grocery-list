@@ -24,6 +24,7 @@ export const GroceryList: React.FunctionComponent = () => {
   }
   const list = groceryListQuery.data!;
   const groupedByCategory = groupByShoppingCategory(list);
+  console.log(groupedByCategory);
 
   const renderList = () => {
     return Object.keys(groupedByCategory).map((category) => {

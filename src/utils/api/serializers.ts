@@ -102,7 +102,9 @@ export const groceryListSerializer = (
 ): GroceryList => {
   const groceryListItemsRefs = getUrlAll(groceryList, rdfs.member);
 
+  console.log(groceryList);
   const groceryListItemsList = groceryListItemsRefs.map((ref) => {
+    console.log(ref);
     const groceryListItem = getThing(groceryListItems, ref) as ThingPersisted;
     return groceryListItemSerializer(groceryListItem, foods);
   });
