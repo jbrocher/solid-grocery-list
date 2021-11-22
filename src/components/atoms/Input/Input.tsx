@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 
 const StyledInput = styled.input`
   font-family: ${(props) => props.theme.fonts.body};

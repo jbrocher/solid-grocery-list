@@ -8,7 +8,7 @@ import {
   useEditGroceryList,
 } from "utils/api/hooks/groceryLists";
 import Text from "components/atoms/Text";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 import Loading from "pages/Loading";
 
 type GroceryListParams = {
@@ -30,7 +30,7 @@ export const GroceryList: React.FunctionComponent = () => {
     return Object.keys(groupedByCategory).map((category) => {
       return (
         <Box key={category}>
-          <Text type="h3"> {category} </Text>
+          <Text variant="h3"> {category} </Text>
           {groupedByCategory[category].map((item) => {
             return (
               <li key={item.identifier}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SpoonacularIntgredient } from "utils/spoonacular";
 import StyledModal from "components/organisms/modals/components/StyledModal";
-import Button from "components/atoms/Button";
+import Button from "@mui/material/Button";
 import FoodSelector from "components/organisms/FoodSelector";
 import { useFoodList, useCreateFood } from "utils/api/hooks/food";
 import { Food } from "utils/api/types";

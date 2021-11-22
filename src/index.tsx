@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ThemeProvider } from "styled-components";
-import theme from "./theme";
+import { ThemeProvider } from "@mui/material/styles";
+import { muiTheme } from "./theme";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={muiTheme}>
       <App />
     </ThemeProvider>
   </React.StrictMode>,

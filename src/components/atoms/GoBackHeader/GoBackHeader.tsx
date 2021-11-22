@@ -1,7 +1,7 @@
 import React from "react";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 import Text from "components/atoms/Text";
-import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { useHistory } from "react-router";
 
 interface GoBackHeaderProps {
@@ -21,11 +21,10 @@ const GoBackHeader: React.FunctionComponent<GoBackHeaderProps> = ({
       display="flex"
       alignItems="center"
       borderBottom="solid"
-      borderWidth={3}
       borderColor="mandarinRed"
     >
       <KeyboardArrowLeftIcon />
-      <Text ml={2} type="h2">
+      <Text ml={2} variant="h2">
         {title}
       </Text>
     </Box>
