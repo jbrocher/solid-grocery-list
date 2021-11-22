@@ -1,12 +1,12 @@
 import React from "react";
-import Button from "components/atoms/Button";
+import Button from "@mui/material/Button";
 import { useFoodList } from "utils/api/hooks/food";
 import Page from "components/templates/Page";
 import GoBackHeader from "components/atoms/GoBackHeader";
 import Loading from "pages/Loading";
 import ContentContainer from "components/templates/ContentContainer";
 import { useHistory } from "react-router";
-import Card from "components/atoms/Card";
+import Card from "@mui/material/Card";
 import Text from "components/atoms/Text";
 
 const FoodList: React.FunctionComponent = () => {
@@ -18,9 +18,9 @@ const FoodList: React.FunctionComponent = () => {
   };
   const renderFoodItem = (name: string, shoppingCategory: string) => {
     return (
-      <Card p={1} marginY={1} key={name}>
-        <Text type="h3"> {name} </Text>
-        <Text type="body"> {`Rayon: ${shoppingCategory}`} </Text>
+      <Card sx={{ p: 1, marginY: 1 }} key={name}>
+        <Text variant="h3"> {name} </Text>
+        <Text variant="body1"> {`Rayon: ${shoppingCategory}`} </Text>
       </Card>
     );
   };

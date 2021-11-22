@@ -1,6 +1,6 @@
 import React from "react";
-import Box from "components/atoms/Box";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import Box from "@mui/material/Box";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Text from "components/atoms/Text";
 
 interface ButtonProps {
@@ -12,7 +12,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   return (
     <Box display="flex" flexDirection="row" alignItems="center">
       <KeyboardArrowRightIcon />
-      <Text type="h3" textAlign="center">
+      <Text variant="h3" textAlign="center">
         {title}
       </Text>
     </Box>

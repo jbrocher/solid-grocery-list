@@ -1,6 +1,6 @@
 import React from "react";
 import { useSpring, a } from "react-spring";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 import styled from "styled-components";
 import { useMeasure } from "utils/useMeasure";
 import { Ingredient } from "utils/api/types";
@@ -25,7 +25,7 @@ const IngredientList: React.FunctionComponent<IngredientListProps> = ({
     bounds: { height: viewHeight, top: paddingTop },
   } = useMeasure();
 
-  const { height, opacity } = useSpring({
+  const { height, opacity }: any = useSpring({
     from: { height: 0, opacity: 0 },
     to: {
       height: isOpen ? viewHeight + paddingTop : 0,

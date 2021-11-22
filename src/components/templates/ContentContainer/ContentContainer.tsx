@@ -1,5 +1,5 @@
 import React from "react";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 
 interface ContentContainerProps {
   children: React.ReactNode;

@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import StyledModal from "components/organisms/modals/components/StyledModal";
 import Input from "components/atoms/Input";
-import Button from "components/atoms/Button";
+import Button from "@mui/material/Button";
 import { login } from "@inrupt/solid-client-authn-browser";
 
 export interface PodProviderModalProps {
@@ -81,8 +81,10 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
               label="What is your pod provider ? "
             />
             <Button
+              sx={{
+                mt: 3,
+              }}
               disabled={!isValid || isSubmitting}
-              mt={3}
               type="button"
               onClick={submitForm}
             >

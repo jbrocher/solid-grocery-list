@@ -6,23 +6,21 @@ import Egg from "components/icons/Egg";
 import Recipe from "components/icons/Recipe";
 import Text from "components/atoms/Text";
 
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 
 export const Homepage: React.FunctionComponent = () => {
   return (
-    <Page justifyContent="center" alignItems="center">
-      <Text type="h2"> Solid Grocery List </Text>
+    <Page sx={{ justifyContent: "center", alignItems: "center" }}>
+      <Text variant="h2"> Solid Grocery List </Text>
       <Box>
-        <NavButton m={1} variant="outlined" to="/food-list" Icon={Egg}>
+        <NavButton   to="/food-list" Icon={Egg}>
           Foods
         </NavButton>
         <Box display="flex">
-          <NavButton m={1} variant="outlined" to="/recipe-list" Icon={Recipe}>
+          <NavButton    to="/recipe-list" Icon={Recipe}>
             Recipes
           </NavButton>
           <NavButton
-            m={1}
-            variant="outlined"
             to="/groceries"
             Icon={ShoppingCart}
           >

@@ -7,7 +7,7 @@ import Loading from "pages/Loading";
 import { useRecipeList } from "utils/api/hooks/recipe";
 import { useCreateGroceryList } from "utils/api/hooks/groceryLists";
 import RecipeDetail from "./components/RecipeDetail";
-import Button from "components/atoms/Button";
+import Button from "@mui/material/Button";
 import { useHistory } from "react-router";
 
 const RecipeList: React.FunctionComponent = () => {
@@ -63,11 +63,15 @@ const RecipeList: React.FunctionComponent = () => {
     if (isGroceriesModeOn) {
       return (
         <>
-          <Button mt={1} variant="outlined" onClick={toggleGroceriesMode}>
+          <Button
+            sx={{ mt: 1 }}
+            variant="outlined"
+            onClick={toggleGroceriesMode}
+          >
             cancel
           </Button>
           <Button
-            mt={1}
+            sx={{ mt: 1 }}
             disabled={!ready || isSubmitting}
             variant="outlined"
             onClick={handleCreateList}
@@ -78,7 +82,7 @@ const RecipeList: React.FunctionComponent = () => {
       );
     } else {
       return (
-        <Button mt={1} variant="outlined" onClick={toggleGroceriesMode}>
+        <Button sx={{ mt: 1 }} variant="outlined" onClick={toggleGroceriesMode}>
           create list
         </Button>
       );

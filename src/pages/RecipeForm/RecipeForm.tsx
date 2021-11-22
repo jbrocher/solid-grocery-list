@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Formik, FormikProps, FieldArray } from "formik";
 import IngredientModal from "components/organisms/modals/IngredientModal";
-import Button from "components/atoms/Button";
+import Button from "@mui/material/Button";
 import Input from "components/atoms/Input";
 import Text from "components/atoms/Text";
 import Page from "components/templates/Page";
-import Card from "components/atoms/Card";
+import Card from "@mui/material/Card";
 import { useCreateRecipe } from "utils/api/hooks/recipe";
 
 import { Ingredient } from "utils/api/types";
@@ -60,7 +60,7 @@ const RecipeForm: React.FunctionComponent = () => {
       }: FormikProps<RecipeFormValues>) => (
         <Page>
           <Card>
-            <Text textAlign="center" mb={2} type="h1">
+            <Text textAlign="center" mb={2} variant="h1">
               New recipe
             </Text>
             <form onSubmit={handleSubmit}>
@@ -74,12 +74,12 @@ const RecipeForm: React.FunctionComponent = () => {
                 name="ingredients"
                 render={(arrayHelpers) => (
                   <div>
-                    <Text mt={2} mb={1} type="h3">
+                    <Text mt={2} mb={1} variant="h3">
                       Ingredients
                     </Text>
                     {values.ingredients.map((ingredient, index) => (
                       <div key={index}>
-                        <Text type="body">
+                        <Text variant="body1">
                           {ingredient.food.name}: {ingredient.quantity}
                         </Text>
                       </div>
@@ -93,7 +93,9 @@ const RecipeForm: React.FunctionComponent = () => {
                       }}
                     />
                     <Button
-                      marginY={2}
+                      sx={{
+                        marginY: 2,
+                      }}
                       variant="outlined"
                       type="button"
                       onClick={toggleIngredientModal}
@@ -104,8 +106,10 @@ const RecipeForm: React.FunctionComponent = () => {
                 )}
               />
               <Button
+                sx={{
+                  marginY: 2,
+                }}
                 disabled={!isValid || isSubmitting || !ready}
-                marginY={2}
                 type="submit"
               >
                 Create recipe
