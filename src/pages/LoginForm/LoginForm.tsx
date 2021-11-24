@@ -22,7 +22,9 @@ const LoginForm: React.FunctionComponent = () => {
           Solid Grocery List
         </Text>
       </Box>
-      <Button onClick={toggleModal}>Login</Button>
+      <Button color="primary" variant="contained" onClick={toggleModal}>
+        Login
+      </Button>
 
       <PodProviderModal isOpen={isModalOpen} toggle={toggleModal} />
     </Page>
