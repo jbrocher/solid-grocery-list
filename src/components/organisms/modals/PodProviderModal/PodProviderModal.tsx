@@ -81,6 +81,7 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
               label="What is your pod provider ? "
             />
             <Button
+              variant="outlined"
               sx={{
                 mt: 3,
               }}

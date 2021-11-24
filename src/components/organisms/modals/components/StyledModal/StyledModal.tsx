@@ -7,7 +7,7 @@ const StyledModal = Modal.styled`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background-color: ${(props: any) => props.theme.colors.white};
+  background-color:${(props: any) => props.theme.palette.secondary.main};
 `;
 
 export default StyledModal;

@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { NavLink, NavLinkProps } from "react-router-dom";
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 import Text from "components/atoms/Text";
 
@@ -13,7 +13,7 @@ const StyledNavLink = styled(NavLink)`
   flex-direction: column;
   flex-grow: 1;
   flex-basis: 0px;
-  flex-shrin; :1;
+  flex-shrink: 1;
   &.active {
     color: ${(props) => props.theme.colors.mandarinRed};
   }
@@ -24,7 +24,7 @@ export type NavButtonProps = {
   children: React.ReactNode;
   to: string;
   Icon?: React.FunctionComponent;
-} 
+};
 
 const NavButton: React.FunctionComponent<NavButtonProps> = ({
   children,
@@ -37,7 +37,7 @@ const NavButton: React.FunctionComponent<NavButtonProps> = ({
       <Box width="1em" height="1em">
         {Icon && <Icon />}
       </Box>
-      <Text variant="h3" color="inherit">
+      <Text variant="h4" color="inherit">
         {children}
       </Text>
     </StyledNavLink>
