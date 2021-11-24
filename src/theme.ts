@@ -20,7 +20,7 @@ export const theme = {
   },
   palette: {
     primary: {
-      main: "#f8c291",
+      main: "#e55039",
     },
   },
   radii: [5, 10, 15, 20],
