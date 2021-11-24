@@ -1,4 +1,18 @@
+import React from "react";
 import { createTheme } from "@mui/material";
+import { LinkProps } from "@mui/material/Link";
+import {
+  Link as RouterLink,
+  LinkProps as RouterLinkProps,
+} from "react-router-dom";
+
+const LinkBehavior = React.forwardRef<
+  any,
+  Omit<RouterLinkProps, "to"> & { href: RouterLinkProps["to"] }
+>(({ href, ...other }, ref) => {
+  return <RouterLink ref={ref} to={href} {...other} />;
+});
+
 export const theme = {
   space: [0, 8, 16, 24, 32, 40, 48],
   fontSizes: [16, 20, 24, 32, 40, 48],
@@ -22,8 +36,18 @@ export const theme = {
     primary: {
       main: "#e55039",
     },
+    secondary: {
+      main: "#FFFFFF",
+    },
   },
   radii: [5, 10, 15, 20],
+  components: {
+    MuiButtonBase: {
+      defaultProps: {
+        LinkComponent: LinkBehavior,
+      },
+    },
+  },
 };
 export const muiTheme = createTheme(theme);
 
