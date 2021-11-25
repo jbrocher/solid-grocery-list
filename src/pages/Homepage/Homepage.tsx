@@ -12,10 +12,16 @@ import Grid from "@mui/material/Grid";
 
 export const Homepage: React.FunctionComponent = () => {
   return (
-    <Page sx={{ justifyContent: "center", alignItems: "center" }}>
+    <Page
+      sx={{
+        backgroundColor: "primary.main",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Grid padding={3} spacing={3} container>
         <Grid item xs={12}>
-          <Text fontSize="64px" textAlign="center" variant="h1">
+          <Text color="white" fontSize="64px" textAlign="center" variant="h1">
             Solid Grocery List
           </Text>
         </Grid>
