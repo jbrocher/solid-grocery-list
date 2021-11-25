@@ -36,9 +36,9 @@ function App() {
   return (
     <ModalProvider>
       <QueryClientProvider client={client}>
-        <AuthentificationProvider>
-          <ProfileProvider>
-            <Router>
+        <Router>
+          <AuthentificationProvider>
+            <ProfileProvider>
               <Box height={windowHeight} display="flex" flexDirection="column">
                 <Switch>
                   <Route exact path="/recipe-list" component={RecipeList} />
@@ -51,9 +51,9 @@ function App() {
                 </Switch>
                 <BottomBar />
               </Box>
-            </Router>
-          </ProfileProvider>
-        </AuthentificationProvider>
+            </ProfileProvider>
+          </AuthentificationProvider>
+        </Router>
       </QueryClientProvider>
     </ModalProvider>
   );
