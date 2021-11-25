@@ -96,4 +96,4 @@ declare module "@mui/material/styles" {
     radii?: number[];
   }
 }
-export default theme;
+export default muiTheme;
