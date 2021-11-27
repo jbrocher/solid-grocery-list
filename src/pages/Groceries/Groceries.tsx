@@ -1,9 +1,13 @@
 import React from "react";
 import { useGroceryLists } from "utils/api/hooks/groceryLists";
-import LinkButton from "components/atoms/LinkButton";
 import GoBackHeader from "components/atoms/GoBackHeader";
+import Typography from "@mui/material/Typography";
 import Loading from "pages/Loading";
 import Page from "components/templates/Page";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import { Link as RouterLink } from "react-router-dom";
 
 const Groceries: React.FunctionComponent = () => {
   const { isSuccess, groceryLists } = useGroceryLists();
@@ -14,14 +18,22 @@ const Groceries: React.FunctionComponent = () => {
   return (
     <Page>
       <GoBackHeader title="Groceries" />
-      {groceryLists.map((list) => (
-        <div key={list.identifier}>
-          <LinkButton
-            link={`/groceries/${list.identifier}`}
-            title={list.title}
-          />
-        </div>
-      ))}
+      <List>
+        {groceryLists.map((list) => (
+          <ListItem key={list.identifier}>
+            <ListItemButton
+              sx={{ flexDirection: "column", justifyContent: "flex-start" }}
+              component={RouterLink}
+              to={`/groceries/${list.identifier}`}
+            >
+              <Typography variant="h6"> {list.title} </Typography>
+              <Typography color="text.secondary" variant="body2">
+                {list.items.length} Items
+              </Typography>
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </Page>
   );
 };
