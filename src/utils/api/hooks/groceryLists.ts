@@ -67,7 +67,8 @@ export const useGroceryLists = () => {
           groceriesResources.data.groceryListItems,
           groceriesResources.data.foods
         )
-      );
+      )
+      .sort((list_a, list_b) => (list_a.title > list_b.title ? 1 : -1));
   }
   return { isSuccess: groceriesResources.isSuccess, groceryLists };
 };
