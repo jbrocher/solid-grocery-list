@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import Text from "components/atoms/Text";
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Recipe } from "utils/api/types";
 import IngredientList from "./IngredientList";
@@ -33,9 +33,9 @@ const RecipeDetail: React.FunctionComponent<RecipeProps> = ({
       <Box display="flex" flexDirection="row" alignItems="center">
         {renderCheckBox()}
         {isIngredientListOpen ? <ExpandMoreIcon /> : <KeyboardArrowRightIcon />}
-        <Text variant="h3" textAlign="center">
+        <Typography variant="h6" textAlign="center">
           {recipe.title}
-        </Text>
+        </Typography>
       </Box>
       <IngredientList
         isOpen={isIngredientListOpen}
