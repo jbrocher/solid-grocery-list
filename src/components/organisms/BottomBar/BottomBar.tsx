@@ -1,11 +1,11 @@
 import React from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import ShoppingCart from "components/icons/ShoppingCart";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Link as RouterLink } from "react-router-dom";
 import Egg from "components/icons/Egg";
 import Recipe from "components/icons/Recipe";
-import { useHistory, useLocation } from "react-router";
+import {  useLocation } from "react-router";
 
 const BottomBar: React.FunctionComponent = () => {
   const location = useLocation();
@@ -32,7 +32,7 @@ const BottomBar: React.FunctionComponent = () => {
         label="groceries"
         component={RouterLink}
         to="/groceries"
-        icon={<ShoppingCart />}
+        icon={<ShoppingCartIcon />}
       >
         Groceries
       </BottomNavigationAction>
