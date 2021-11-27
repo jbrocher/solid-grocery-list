@@ -37,7 +37,7 @@ class GroceriesManager extends ResourceManager {
     return { groceryLists, groceryListItems, foods };
   }
 
-  async createFromRecipes(recipes: Recipe[]) {
+  async createFromRecipes(recipes: Recipe[], listName: string) {
     const ingredients = groupByIngredients(recipes);
     let groceries = await this.getGroceries();
 
@@ -46,7 +46,6 @@ class GroceriesManager extends ResourceManager {
       GroceryList
     );
 
-    const title = dayjs().format("YYYY-MM-DD");
     await Promise.all(
       Object.keys(ingredients).map(async (identifier) => {
         const itemValues = {
@@ -62,7 +61,7 @@ class GroceriesManager extends ResourceManager {
         return createdItem;
       })
     );
-    groceriesSubject.addStringNoLocale(rdfs.label, title);
+    groceriesSubject.addStringNoLocale(rdfs.label, listName);
     groceries = setThing(groceries, groceriesSubject.build());
     saveSolidDatasetAt(this.getBaseUrl(), groceries, { fetch: fetch });
   }

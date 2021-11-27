@@ -1,7 +1,4 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import Text from "components/atoms/Text";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";

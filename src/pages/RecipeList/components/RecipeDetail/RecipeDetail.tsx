@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import Typography from "@mui/material/Typography";
+import CheckBox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import { Recipe } from "utils/api/types";
 import IngredientList from "./IngredientList";
@@ -25,17 +26,23 @@ const RecipeDetail: React.FunctionComponent<RecipeProps> = ({
   };
   const renderCheckBox = () => {
     return isCheckBox ? (
-      <input onChange={onClickCheckBox} type="checkbox" checked={isChecked} />
+      <CheckBox onChange={onClickCheckBox} checked={isChecked} />
     ) : null;
   };
   return (
-    <Box onClick={toggleIngredientList} width="100%" marginY={1}>
-      <Box display="flex" flexDirection="row" alignItems="center">
+    <Box>
+      <Box display="flex" alignItems="center" width="100%" marginY={1}>
         {renderCheckBox()}
-        {isIngredientListOpen ? <ExpandMoreIcon /> : <KeyboardArrowRightIcon />}
-        <Typography variant="h6" textAlign="center">
-          {recipe.title}
-        </Typography>
+        <Box onClick={toggleIngredientList} display="flex" alignItems="center">
+          {isIngredientListOpen ? (
+            <ExpandMoreIcon />
+          ) : (
+            <KeyboardArrowRightIcon />
+          )}
+          <Typography variant="h6" textAlign="center">
+            {recipe.title}
+          </Typography>
+        </Box>
       </Box>
       <IngredientList
         isOpen={isIngredientListOpen}

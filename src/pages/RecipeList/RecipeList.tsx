@@ -8,12 +8,17 @@ import { useRecipeList } from "utils/api/hooks/recipe";
 import { useCreateGroceryList } from "utils/api/hooks/groceryLists";
 import RecipeDetail from "./components/RecipeDetail";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Switch from "@mui/material/Switch";
+import GroceryListModal from "components/organisms/modals/GroceryListModal";
+import FromControlLabel from "@mui/material/FormControlLabel";
 import { useHistory } from "react-router";
 
 const RecipeList: React.FunctionComponent = () => {
   const { isSuccess, recipeList: recipes } = useRecipeList();
   const [isGroceriesModeOn, setIsGroceriesModeOn] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const { ready, groceryListMutation } = useCreateGroceryList();
   const history = useHistory();
@@ -37,9 +42,12 @@ const RecipeList: React.FunctionComponent = () => {
     history.push("/recipe-form");
   };
 
-  const handleCreateList = async () => {
+  const handleCreateList = async (name: string) => {
     setIsSubmitting(true);
-    await groceryListMutation.mutateAsync(getSelectedRecipes());
+    await groceryListMutation.mutateAsync({
+      recipes: getSelectedRecipes(),
+      listName: name,
+    });
     history.push("/groceries");
   };
 
@@ -59,40 +67,19 @@ const RecipeList: React.FunctionComponent = () => {
     return <Loading />;
   }
 
-  const renderGroceriesButton = () => {
-    if (isGroceriesModeOn) {
-      return (
-        <>
-          <Button
-            sx={{ mt: 1 }}
-            variant="outlined"
-            onClick={toggleGroceriesMode}
-          >
-            cancel
-          </Button>
-          <Button
-            sx={{ mt: 1 }}
-            disabled={!ready || isSubmitting}
-            variant="outlined"
-            onClick={handleCreateList}
-          >
-            go
-          </Button>
-        </>
-      );
-    } else {
-      return (
-        <Button sx={{ mt: 1 }} variant="outlined" onClick={toggleGroceriesMode}>
-          create list
-        </Button>
-      );
-    }
-  };
-
   return (
     <Page>
       <GoBackHeader title="Recipes" />
       <ContentContainer>
+        <FromControlLabel
+          control={
+            <Switch
+              checked={isGroceriesModeOn}
+              onChange={toggleGroceriesMode}
+            />
+          }
+          label="Grocries mode"
+        />
         {recipes!.map((recipe) => (
           <RecipeDetail
             isChecked={isChecked(recipe)}
@@ -103,8 +90,33 @@ const RecipeList: React.FunctionComponent = () => {
           />
         ))}
       </ContentContainer>
-      <Button onClick={goToRecipeForm}> Add a Recipe </Button>
-      {renderGroceriesButton()}
+      {isGroceriesModeOn ? (
+        <Box justifyContent="center" display="flex">
+          <Button
+            sx={{ m: 1 }}
+            variant="outlined"
+            color="info"
+            onClick={toggleGroceriesMode}
+          >
+            cancel
+          </Button>
+          <Button
+            sx={{ m: 1 }}
+            disabled={!ready || isSubmitting}
+            variant="outlined"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            Create Grocery List
+          </Button>
+        </Box>
+      ) : (
+        <Button onClick={goToRecipeForm}> Add a Recipe </Button>
+      )}
+      <GroceryListModal
+        open={isDialogOpen}
+        cancel={() => setIsDialogOpen(false)}
+        confirm={(name) => handleCreateList(name)}
+      />
     </Page>
   );
 };

@@ -144,12 +144,18 @@ export const useCreateGroceryList = () => {
   const { profile } = useProfile();
 
   const queryClient = useQueryClient();
-  const mutationFn = async (recipes: Recipe[]) => {
+  const mutationFn = async ({
+    recipes,
+    listName,
+  }: {
+    recipes: Recipe[];
+    listName: string;
+  }) => {
     if (!profile) {
       throw new Error("Resources not ready");
     }
     const manager = new GroceriesManager(profile);
-    return await manager.createFromRecipes(recipes);
+    return await manager.createFromRecipes(recipes, listName);
   };
   const groceryListMutation = useMutation(mutationFn, {
     onSuccess: () => {
