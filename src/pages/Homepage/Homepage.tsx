@@ -1,10 +1,9 @@
 import React from "react";
 import Page from "components/templates/Page";
 import Card from "@mui/material/Card";
-import Box from "@mui/material/Box";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import ShoppingCart from "components/icons/ShoppingCart";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Egg from "components/icons/Egg";
 import Recipe from "components/icons/Recipe";
 import Text from "components/atoms/Text";
@@ -17,6 +16,7 @@ export const Homepage: React.FunctionComponent = () => {
         backgroundColor: "primary.main",
         justifyContent: "center",
         alignItems: "center",
+        paddingTop: 0,
       }}
     >
       <Grid padding={3} spacing={3} container>
@@ -53,7 +53,7 @@ export const Homepage: React.FunctionComponent = () => {
                   flexDirection: "column",
                 }}
               >
-                <Egg />
+                <Recipe color="primary" />
                 <Text variant="subtitle1">Recipes </Text>
               </CardContent>
             </CardActionArea>
@@ -70,7 +70,7 @@ export const Homepage: React.FunctionComponent = () => {
                   flexDirection: "column",
                 }}
               >
-                <Egg />
+                <ShoppingCartIcon color="primary" />
                 <Text variant="subtitle1"> Groceries </Text>
               </CardContent>
             </CardActionArea>
