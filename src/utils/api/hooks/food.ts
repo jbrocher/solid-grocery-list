@@ -3,7 +3,9 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import FoodManager from "models/Food";
 import { foodSerializer } from "utils/api/serializers";
-import { Thing, getThingAll } from "@inrupt/solid-client";
+import { rdf } from "rdf-namespaces";
+import { FOOD } from "models/iris";
+import { getUrl, Thing, getThingAll } from "@inrupt/solid-client";
 
 export const useFoods = () => {
   const { profile } = useProfile();
@@ -21,7 +23,9 @@ export const useFoods = () => {
 export const useFoodList = () => {
   const foods = useFoods();
   if (foods) {
-    return getThingAll(foods).map((food) => foodSerializer(food));
+    return getThingAll(foods)
+      .filter((food) => getUrl(food, rdf.type) === FOOD)
+      .map((food) => foodSerializer(food));
   } else {
     return null;
   }
