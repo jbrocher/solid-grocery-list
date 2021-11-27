@@ -30,7 +30,7 @@ const AuthentificationProvider: React.FunctionComponent = ({ children }) => {
       history.replace("/");
     };
     handleLogin();
-  }, []);
+  }, [history]);
 
   if (webId === undefined) {
     return (

@@ -1,6 +1,5 @@
 import React from "react";
 import { createTheme } from "@mui/material";
-import { LinkProps } from "@mui/material/Link";
 import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,

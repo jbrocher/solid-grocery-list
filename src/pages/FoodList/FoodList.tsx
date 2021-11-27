@@ -4,12 +4,10 @@ import { useFoodList } from "utils/api/hooks/food";
 import Page from "components/templates/Page";
 import GoBackHeader from "components/atoms/GoBackHeader";
 import Loading from "pages/Loading";
-import ContentContainer from "components/templates/ContentContainer";
 import { useHistory } from "react-router";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import Grid from "@mui/material/Grid";
-import Text from "components/atoms/Text";
 
 const renderFoodItem = (name: string, shoppingCategory: string) => {
   return (
