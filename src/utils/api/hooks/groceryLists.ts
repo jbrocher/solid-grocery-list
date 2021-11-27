@@ -1,14 +1,21 @@
 import GroceriesManager from "models/Groceries";
 import GroceryListItemManager from "models/GroceryListItem";
+import { rdf } from "rdf-namespaces";
 import {
   GroceryListItem,
   Recipe,
   GroceryList as GroceryListType,
 } from "utils/api/types";
+import { GroceryList } from "models/iris";
 import { useProfile } from "ProfileContext";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { groceryListSerializer } from "utils/api/serializers";
-import { getThing, getThingAll, ThingPersisted } from "@inrupt/solid-client";
+import {
+  getThing,
+  getThingAll,
+  getUrl,
+  ThingPersisted,
+} from "@inrupt/solid-client";
 
 export const useGroceries = () => {
   const { profile } = useProfile();
@@ -52,14 +59,15 @@ export const useGroceryLists = () => {
 
   let groceryLists: GroceryListType[] = [];
   if (groceriesResources.isSuccess) {
-    groceryLists = getThingAll(groceriesResources.data.groceryLists).map(
-      (groceryList) =>
+    groceryLists = getThingAll(groceriesResources.data.groceryLists)
+      .filter((list) => getUrl(list, rdf.type) === GroceryList)
+      .map((groceryList) =>
         groceryListSerializer(
           groceryList,
           groceriesResources.data.groceryListItems,
           groceriesResources.data.foods
         )
-    );
+      );
   }
   return { isSuccess: groceriesResources.isSuccess, groceryLists };
 };
