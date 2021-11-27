@@ -1,8 +1,7 @@
 import React from "react";
-import { useSpring, a } from "react-spring";
-import Box from "@mui/material/Box";
-import styled from "styled-components";
-import { useMeasure } from "utils/useMeasure";
+import Collapse from "@mui/material/Collapse";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import { Ingredient } from "utils/api/types";
 
 interface IngredientListProps {
@@ -10,41 +9,22 @@ interface IngredientListProps {
   isOpen: boolean;
 }
 
-const StyledList = styled(a.ul)`
-  margin: 0px;
-  padding-top: ${(props) => props.theme.space[1]}px;
-  box-sizing: border-box;
-`;
-
 const IngredientList: React.FunctionComponent<IngredientListProps> = ({
   ingredients,
   isOpen,
 }: IngredientListProps) => {
-  const {
-    ref,
-    bounds: { height: viewHeight, top: paddingTop },
-  } = useMeasure();
-
-  const { height, opacity }: any = useSpring({
-    from: { height: 0, opacity: 0 },
-    to: {
-      height: isOpen ? viewHeight + paddingTop : 0,
-      opacity: isOpen ? 1 : 0,
-    },
-  });
-
   return (
-    <Box overflow="hidden" style={{ height }}>
-      <StyledList style={{ opacity }} ref={ref}>
+    <Collapse in={isOpen}>
+      <List>
         {ingredients.map((ingredient) => {
           return (
-            <li key={ingredient.identifier}>
+            <ListItem key={ingredient.identifier}>
               {ingredient.food.name} - x{ingredient.quantity}
-            </li>
+            </ListItem>
           );
         })}
-      </StyledList>
-    </Box>
+      </List>
+    </Collapse>
   );
 };
 
