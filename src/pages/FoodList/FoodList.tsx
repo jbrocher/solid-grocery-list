@@ -1,28 +1,35 @@
 import React from "react";
-import Button from "components/atoms/Button";
+import Button from "@mui/material/Button";
 import { useFoodList } from "utils/api/hooks/food";
 import Page from "components/templates/Page";
 import GoBackHeader from "components/atoms/GoBackHeader";
 import Loading from "pages/Loading";
 import ContentContainer from "components/templates/ContentContainer";
 import { useHistory } from "react-router";
-import Card from "components/atoms/Card";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import Grid from "@mui/material/Grid";
 import Text from "components/atoms/Text";
 
+const renderFoodItem = (name: string, shoppingCategory: string) => {
+  return (
+    <Grid xs item key={name}>
+      <Card>
+        <CardHeader
+          title={name}
+          subheader={`Rayon: ${shoppingCategory}`}
+          variant="h3"
+        />
+      </Card>
+    </Grid>
+  );
+};
 const FoodList: React.FunctionComponent = () => {
   const foodList = useFoodList();
 
   const history = useHistory();
   const goToFoodForm = () => {
     history.push("/food-form");
-  };
-  const renderFoodItem = (name: string, shoppingCategory: string) => {
-    return (
-      <Card p={1} marginY={1} key={name}>
-        <Text type="h3"> {name} </Text>
-        <Text type="body"> {`Rayon: ${shoppingCategory}`} </Text>
-      </Card>
-    );
   };
 
   if (!foodList) {
@@ -32,11 +39,11 @@ const FoodList: React.FunctionComponent = () => {
   return (
     <Page>
       <GoBackHeader title="foods" />
-      <ContentContainer>
+      <Grid padding={2} spacing={2} container>
         {foodList.map((foodItem) =>
           renderFoodItem(foodItem.name, foodItem.category)
         )}
-      </ContentContainer>
+      </Grid>
       <Button onClick={goToFoodForm}> Add a Food </Button>
     </Page>
   );

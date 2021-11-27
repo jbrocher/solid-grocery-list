@@ -3,8 +3,8 @@ import {
   useAutocompleteIngredient,
   SpoonacularIntgredient,
 } from "utils/spoonacular";
-import { Autocomplete } from "@material-ui/lab";
-import { TextField } from "@material-ui/core";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 export interface FoodSelectorProps {
   selected: SpoonacularIntgredient | null;

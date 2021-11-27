@@ -1,31 +1,14 @@
-import styled from "styled-components";
-import {
-  height,
-  HeightProps,
-  padding,
-  PaddingProps,
-  FlexboxProps,
-  flexbox,
-} from "styled-system";
+import { styled } from "@mui/material/styles";
+import theme from "theme";
 
-type PageProps = PaddingProps & FlexboxProps & HeightProps;
-
-const Page = styled.div<PageProps>`
-  ${height};
-  ${padding};
-  ${flexbox};
+const Page = styled("div")`
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
+  flex-direction: column;
   box-sizing: border-box;
   min-height: 0;
-  background-color: ${(props) => props.theme.colors.cyan};
+  padding-top: ${theme.spacing(8)};
 `;
-
-Page.defaultProps = {
-  flexDirection: "column",
-  alignItems: "center",
-  padding: 1,
-};
 
 export default Page;

@@ -8,8 +8,13 @@ import {
   useEditGroceryList,
 } from "utils/api/hooks/groceryLists";
 import Text from "components/atoms/Text";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import Checkbox from "@mui/material/Checkbox";
 import Loading from "pages/Loading";
+import Typography from "@mui/material/Typography";
 
 type GroceryListParams = {
   identifier: string;
@@ -29,19 +34,34 @@ export const GroceryList: React.FunctionComponent = () => {
     return Object.keys(groupedByCategory).map((category) => {
       return (
         <Box key={category}>
-          <Text type="h3"> {category} </Text>
-          {groupedByCategory[category].map((item) => {
-            return (
-              <li key={item.identifier}>
-                <input
-                  onChange={() => check.mutate(item)}
-                  type="checkbox"
-                  checked={item.done}
-                />
-                {`${item.object.name} -x${item.quantity}`}
-              </li>
-            );
-          })}
+          <Text variant="h6"> {category} </Text>
+          <List>
+            {groupedByCategory[category].map((item) => {
+              return (
+                <ListItemButton onClick={() => check.mutate(item)} dense>
+                  <ListItem
+                    sx={{
+                      justifyContent: "space-between",
+                    }}
+                    disablePadding
+                    key={item.identifier}
+                  >
+                    <Box>
+                      <Checkbox edge="start" checked={item.done} />
+                      {item.object.name}
+                    </Box>
+                    <Typography
+                      color="text.secondary"
+                      fontWeight="bolder"
+                      variant="body2"
+                    >
+                      {item.quantity}
+                    </Typography>
+                  </ListItem>
+                </ListItemButton>
+              );
+            })}
+          </List>
         </Box>
       );
     });

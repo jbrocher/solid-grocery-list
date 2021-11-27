@@ -43,14 +43,19 @@ class GroceryListItemManager extends ResourceManager {
   };
 
   toggle = async (item: GroceryListItemType) => {
-    const groceryListItems = await this.getGroceryListItems();
-    const subject = getThing(
+    let groceryListItems = await this.getGroceryListItems();
+    let subject = getThing(
       groceryListItems,
       this.makeRef(item.identifier)
     ) as ThingPersisted;
     const checked = getStringNoLocale(subject, groceryListItemDone) === "true";
 
-    setStringNoLocale(subject, groceryListItemDone, checked ? "false" : "true");
+    subject = setStringNoLocale(
+      subject,
+      groceryListItemDone,
+      checked ? "false" : "true"
+    );
+    groceryListItems = setThing(groceryListItems, subject);
     saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, { fetch: fetch });
     item.done = !checked;
     return item;

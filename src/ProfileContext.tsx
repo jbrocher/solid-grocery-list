@@ -16,8 +16,6 @@ const ProfileContext = React.createContext<ProfileProps>({
 const ProfileProvider: React.FunctionComponent = ({ children }) => {
   const { webId } = useWebId();
   const [profile, setProfile] = useState<Thing | null>(null);
-  console.log(profile);
-  console.log(webId);
 
   useEffect(() => {
     getProfile(webId).then((profile) => {

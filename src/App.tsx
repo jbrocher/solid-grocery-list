@@ -9,11 +9,11 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import {queryFn} from "utils/queryFn"
+import { queryFn } from "utils/queryFn";
 import { ModalProvider } from "styled-react-modal";
 import FoodForm from "./pages/FoodForm";
 import Groceries from "./pages/Groceries";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 import RecipeForm from "./pages/RecipeForm";
 import FoodList from "./pages/FoodList";
 import RecipeList from "./pages/RecipeList";
@@ -21,14 +21,13 @@ import Homepage from "./pages/Homepage";
 import AuthentificationProvider from "AuthentificationContext";
 import ProfileProvider from "ProfileContext";
 
-
 import BottomBar from "components/organisms/BottomBar";
 const client = new QueryClient({
   defaultOptions: {
     queries: {
-      queryFn: queryFn
-    }
-  }
+      queryFn: queryFn,
+    },
+  },
 });
 
 function App() {
@@ -37,9 +36,9 @@ function App() {
   return (
     <ModalProvider>
       <QueryClientProvider client={client}>
-        <AuthentificationProvider>
-          <ProfileProvider>
-            <Router>
+        <Router>
+          <AuthentificationProvider>
+            <ProfileProvider>
               <Box height={windowHeight} display="flex" flexDirection="column">
                 <Switch>
                   <Route exact path="/recipe-list" component={RecipeList} />
@@ -52,9 +51,9 @@ function App() {
                 </Switch>
                 <BottomBar />
               </Box>
-            </Router>
-          </ProfileProvider>
-        </AuthentificationProvider>
+            </ProfileProvider>
+          </AuthentificationProvider>
+        </Router>
       </QueryClientProvider>
     </ModalProvider>
   );

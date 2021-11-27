@@ -1,7 +1,12 @@
 import React from "react";
-import Box from "components/atoms/Box";
+import Box from "@mui/material/Box";
 import Text from "components/atoms/Text";
-import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import ArrowBack from "@mui/icons-material/ArrowBack";
+import Typogragpy from "@mui/material/Typography";
 import { useHistory } from "react-router";
 
 interface GoBackHeaderProps {
@@ -14,21 +19,14 @@ const GoBackHeader: React.FunctionComponent<GoBackHeaderProps> = ({
   const history = useHistory();
   const goBack = () => history.goBack();
   return (
-    <Box
-      mb={3}
-      p={1}
-      onClick={goBack}
-      display="flex"
-      alignItems="center"
-      borderBottom="solid"
-      borderWidth={3}
-      borderColor="mandarinRed"
-    >
-      <KeyboardArrowLeftIcon />
-      <Text ml={2} type="h2">
-        {title}
-      </Text>
-    </Box>
+    <AppBar>
+      <Toolbar>
+        <IconButton color="inherit" onClick={goBack}>
+          <ArrowBack />
+        </IconButton>
+        <Typogragpy variant="h6"> {title} </Typogragpy>
+      </Toolbar>
+    </AppBar>
   );
 };
 
