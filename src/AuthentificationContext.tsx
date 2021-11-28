@@ -20,7 +20,7 @@ const AuthentificationProvider: React.FunctionComponent = ({ children }) => {
   const history = useHistory();
   useEffect(() => {
     const handleLogin = async () => {
-      await handleIncomingRedirect();
+      await handleIncomingRedirect({ restorePreviousSession: true });
       const session = getDefaultSession();
       if (session.info.isLoggedIn) {
         setWebId(session.info.webId ? session.info.webId : "");
