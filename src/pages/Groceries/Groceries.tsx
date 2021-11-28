@@ -18,7 +18,7 @@ const Groceries: React.FunctionComponent = () => {
   return (
     <Page>
       <GoBackHeader title="Groceries" />
-      <List>
+      <List sx={{ overflow: "auto" }}>
         {groceryLists.map((list) => (
           <ListItem key={list.identifier}>
             <ListItemButton
