@@ -1418,6 +1418,25 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@inrupt/jose-legacy-modules@0.0.3-3.15.4":
+  version "0.0.3-3.15.4"
+  resolved "https://registry.yarnpkg.com/@inrupt/jose-legacy-modules/-/jose-legacy-modules-0.0.3-3.15.4.tgz#80a77054e15e93ab356d5fd96bacb7371ad402a1"
+  integrity sha512-gcmIqLLFyhNZWw9OKK3kNgEbpKU0z6kn6NPWQlJf0Dy5QtuIgwcS7aRU2GJScz+Dx9KGQVvyAapYX3buHyrBXw==
+  dependencies:
+    jose "3.15.4"
+
+"@inrupt/oidc-client-ext@^1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.11.2.tgz#90b8810fe350e6bab3cb17e051778ae0008dc7ab"
+  integrity sha512-htdqsFnLOSUhi+AkhyYCTA1vjUsZT8TeQOiXEtLDgneCRxwxCGfRwVSgXSC30OeophlgrZ7/QVixaz3BB5yXEA==
+  dependencies:
+    "@inrupt/jose-legacy-modules" "0.0.3-3.15.4"
+    "@inrupt/solid-client-authn-core" "^1.11.2"
+    "@types/uuid" "^8.3.0"
+    form-urlencoded "~6.0.3"
+    oidc-client "^1.11.3"
+    uuid "^8.3.1"
+
 "@inrupt/oidc-client-ext@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@inrupt/oidc-client-ext/-/oidc-client-ext-1.5.0.tgz#efa440e34c04b02ca87a3a22af071be364621720"
@@ -1432,6 +1451,21 @@
     jsonwebtoken "^8.5.1"
     node-jose "^2.0.0"
     oidc-client "^1.10.1"
+    uuid "^8.3.1"
+
+"@inrupt/solid-client-authn-browser@^1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-browser/-/solid-client-authn-browser-1.11.2.tgz#f8bac9966894bccefe147c16a110fc29aa51be65"
+  integrity sha512-DifF7hSMuFEB9+lDAYjRq6E7DOIZjQwdk9gUkPj93tdIb4icHXQ9JTMwBAxXmdTruPC2g5Pzu0PQ0PCvbIpuDA==
+  dependencies:
+    "@inrupt/jose-legacy-modules" "0.0.3-3.15.4"
+    "@inrupt/oidc-client-ext" "^1.11.2"
+    "@inrupt/solid-client-authn-core" "^1.11.2"
+    "@types/lodash.clonedeep" "^4.5.6"
+    "@types/node" "^15.0.1"
+    "@types/uuid" "^8.3.0"
+    events "^3.3.0"
+    lodash.clonedeep "^4.5.0"
     uuid "^8.3.1"
 
 "@inrupt/solid-client-authn-browser@^1.4.1":
@@ -1454,6 +1488,20 @@
     stream-browserify "^3.0.0"
     tsyringe "^4.4.0"
     util "^0.12.3"
+    uuid "^8.3.1"
+
+"@inrupt/solid-client-authn-core@^1.11.2":
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-client-authn-core/-/solid-client-authn-core-1.11.2.tgz#47b3648bffc7bf22ffcd4cb8e04f03178d581eb5"
+  integrity sha512-hL+BC81lE4V0EXZE8PJ418y/vFvW+rfcmHgHqi0ZKSSxLNVE08Ok4W2d+g6wcW3wyePZ9FOL2K8BIh7/jCGj8Q==
+  dependencies:
+    "@inrupt/jose-legacy-modules" "0.0.3-3.15.4"
+    "@inrupt/solid-common-vocab" "^1.0.0"
+    "@types/lodash.clonedeep" "^4.5.6"
+    "@types/uuid" "^8.3.0"
+    cross-fetch "^3.0.6"
+    events "^3.3.0"
+    lodash.clonedeep "^4.5.0"
     uuid "^8.3.1"
 
 "@inrupt/solid-client-authn-core@^1.5.0":
@@ -1502,6 +1550,11 @@
   integrity sha512-/BKKIInQaP/D6tCFOvViN2Duv2RLAbXCNpQUtQjkz3t6cbmxPBTwGuvwDLan7R+yLJhbiJmJP4yNYEw/5Zc+Rg==
   dependencies:
     "@types/rdf-js" "4.0.0"
+
+"@inrupt/solid-common-vocab@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@inrupt/solid-common-vocab/-/solid-common-vocab-1.0.0.tgz#b3c719fcf85cdcfc11ce846030c704ffd70f3da1"
+  integrity sha512-LcImhJqqPsNl/OlULzEEK2rYevty0eh1zaOLVz3lnydEU1DQkeaJ8fKBxKdp5/QjCtnIYcaDjh5U11PGh29Dgg==
 
 "@inrupt/solid-ui-react@^2.1.0":
   version "2.1.0"
@@ -3186,6 +3239,11 @@
   version "12.19.15"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.19.15.tgz#0de7e978fb43db62da369db18ea088a63673c182"
   integrity sha512-lowukE3GUI+VSYSu6VcBXl14d61Rp5hA1D+61r16qnwC0lYNSqdxcvRh0pswejorHfS+HgwBasM8jLXz0/aOsw==
+
+"@types/node@^15.0.1":
+  version "15.14.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.14.9.tgz#bc43c990c3c9be7281868bbc7b8fdd6e2b57adfa"
+  integrity sha512-qjd88DrCxupx/kJD5yQgZdcYKZKSIGBVDIBE1/LTGcNm3d2Np/jxojkdePDdfnBHJc5W7vSMpbJ1aB7p/Py69A==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -7473,6 +7531,11 @@ events@^3.0.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.2.0.tgz#93b87c18f8efcd4202a461aec4dfc0556b639379"
   integrity sha512-/46HWwbfCX2xTawVfkKLGxMifJYQBWMwY1mjywRtb4c9x8l5NP3KoJtnIOiL1hfdRkIuYhETxQlo62IF8tcnlg==
 
+events@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
+  integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
+
 eventsource@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-1.0.7.tgz#8fbc72c93fcd34088090bc0a4e64f4b5cee6d8d0"
@@ -8032,6 +8095,11 @@ form-urlencoded@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/form-urlencoded/-/form-urlencoded-4.2.1.tgz#264d0b4524a87332e94f606237493fb5d26dcd84"
   integrity sha512-0eFJroOH2qaqc/630d4YZpmsyKmh6sfq/1z3YMXvFab0O6teGnf8640C7gufikwbQJFaC6nPlG4d/GiYVN+Dcw==
+
+form-urlencoded@~6.0.3:
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/form-urlencoded/-/form-urlencoded-6.0.5.tgz#61263c5cb6806523d0c6124318a9bcb612b7742b"
+  integrity sha512-7M7IhZNujsHqjYovM1WTSqcAVOqfvgF8acu6ok1ct1a00l6LVrmagJKkOdRUH/PYKEDOZ7ZAw/Mtq1/Q8CuRTQ==
 
 format@^0.2.0:
   version "0.2.2"
@@ -10195,6 +10263,11 @@ jest@26.6.0:
     import-local "^3.0.2"
     jest-cli "^26.6.0"
 
+jose@3.15.4:
+  version "3.15.4"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-3.15.4.tgz#b9ebbbe596768539fc844daf470d3d9d12d05381"
+  integrity sha512-SXeGi+g5ZcNgV6o7f+Mx3Q1gaYMSBzAi3cmcZPxoeCEZPgfSCnnyfmMXzXoLDh+XL4KMtGvhOsYBoqQhnuR2rQ==
+
 jose@^2.0.2:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/jose/-/jose-2.0.4.tgz#7838354d28f64466db9fc7f275aa8a96db656f37"
@@ -11612,6 +11685,17 @@ oidc-client@^1.10.1:
   version "1.11.3"
   resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.11.3.tgz#08997f4925804ecb314810120a463eccc6487039"
   integrity sha512-kMA5KRP++88nn3nxogwDA4p8jH+YwyoA1JxxVHA9YZFgYqcnK8qjc6WLEoOBheKbxQSl89r0gDh8+zscZHmGlw==
+  dependencies:
+    acorn "^7.4.1"
+    base64-js "^1.5.1"
+    core-js "^3.8.3"
+    crypto-js "^4.0.0"
+    serialize-javascript "^4.0.0"
+
+oidc-client@^1.11.3:
+  version "1.11.5"
+  resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.11.5.tgz#020aa193d68a3e1f87a24fcbf50073b738de92bb"
+  integrity sha512-LcKrKC8Av0m/KD/4EFmo9Sg8fSQ+WFJWBrmtWd+tZkNn3WT/sQG3REmPANE9tzzhbjW6VkTNy4xhAXCfPApAOg==
   dependencies:
     acorn "^7.4.1"
     base64-js "^1.5.1"

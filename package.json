@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@inrupt/solid-client": "^1.15.0",
+    "@inrupt/solid-client-authn-browser": "^1.11.2",
     "@inrupt/solid-ui-react": "^2.1.0",
     "@mui/icons-material": "^5.1.1",
     "@mui/material": "^5.1.1",
