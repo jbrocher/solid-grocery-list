@@ -15,7 +15,7 @@ import {
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import { INGREDIENT, RECIPE, TITLE } from "models/iris";
 
-class RecipeManager extends ResourceManager {
+class Recipe extends Resource {
   ingredients: IngredientManager;
   foods: FoodManager;
   constructor(profile: Thing) {

@@ -38,7 +38,7 @@ const GroceryListModal: React.FunctionComponent<GroceryListModalProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={() => cancel()}>Cancel</Button>
-        <Button onClick={() => confirm(name)}>Subscribe</Button>
+        <Button onClick={() => confirm(name)}>Create Recipe</Button>
       </DialogActions>
     </Dialog>
   );
