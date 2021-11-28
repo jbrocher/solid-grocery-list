@@ -37,7 +37,7 @@ const FoodList: React.FunctionComponent = () => {
   return (
     <Page>
       <GoBackHeader title="foods" />
-      <Grid padding={2} spacing={2} container>
+      <Grid sx={{ overflow: "auto" }} padding={2} spacing={2} container>
         {foodList.map((foodItem) =>
           renderFoodItem(foodItem.name, foodItem.category)
         )}
