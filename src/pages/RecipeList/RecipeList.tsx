@@ -1,3 +1,5 @@
+import theme from "theme";
+
 import React, { useState } from "react";
 
 import { useHistory } from "react-router";
@@ -6,10 +8,18 @@ import { useCreateGroceryList } from "utils/api/hooks/groceryLists";
 import { useRecipeList } from "utils/api/hooks/recipe";
 import { Recipe } from "utils/api/types";
 
+import AddIcon from "@mui/icons-material/Add";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FromControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
+import Fab from "@mui/material/Fab";
+import Slide from "@mui/material/Slide";
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import Typography from "@mui/material/Typography";
 
 import Loading from "pages/Loading";
 
@@ -76,15 +86,6 @@ const RecipeList: React.FunctionComponent = () => {
     <Page>
       <GoBackHeader title="Recipes" />
       <ContentContainer>
-        <FromControlLabel
-          control={
-            <Switch
-              checked={isGroceriesModeOn}
-              onChange={toggleGroceriesMode}
-            />
-          }
-          label="Grocries mode"
-        />
         {recipes!.map((recipe) => (
           <RecipeDetail
             isChecked={isChecked(recipe)}
@@ -95,33 +96,49 @@ const RecipeList: React.FunctionComponent = () => {
           />
         ))}
       </ContentContainer>
-      {isGroceriesModeOn ? (
-        <Box justifyContent="center" display="flex">
-          <Button
-            sx={{ m: 1 }}
-            variant="outlined"
-            color="info"
-            onClick={toggleGroceriesMode}
-          >
-            cancel
-          </Button>
-          <Button
-            sx={{ m: 1 }}
-            disabled={!ready || isSubmitting}
-            variant="outlined"
+      <Slide in={isGroceriesModeOn} unmountOnExit direction="right">
+        <Box
+          position="absolute"
+          display="flex"
+          padding={1}
+          alignItems="center"
+          bottom={theme.spacing(7)}
+        >
+          <Typography>Create groceries list ?</Typography>
+          <Fab sx={{ margin: 2 }} size="small" onClick={toggleGroceriesMode}>
+            <CloseIcon />
+          </Fab>
+          <Fab
+            color="primary"
+            size="small"
             onClick={() => setIsDialogOpen(true)}
           >
-            Create Grocery List
-          </Button>
+            <CheckIcon />
+          </Fab>
         </Box>
-      ) : (
-        <Button onClick={goToRecipeForm}> Add a Recipe </Button>
-      )}
+      </Slide>
       <GroceryListModal
         open={isDialogOpen}
         cancel={() => setIsDialogOpen(false)}
         confirm={(name) => handleCreateList(name)}
       />
+      {!isGroceriesModeOn && (
+        <SpeedDial
+          ariaLabel="Recipe actions"
+          sx={{
+            position: "absolute",
+            bottom: theme.spacing(7),
+            right: theme.spacing(2),
+          }}
+          icon={<SpeedDialIcon />}
+        >
+          <SpeedDialAction onClick={goToRecipeForm} icon={<AddIcon />} />
+          <SpeedDialAction
+            onClick={toggleGroceriesMode}
+            icon={<ShoppingCartIcon />}
+          />
+        </SpeedDial>
+      )}
     </Page>
   );
 };
