@@ -103,10 +103,12 @@ export const groceryListSerializer = (
 ): GroceryList => {
   const groceryListItemsRefs = getUrlAll(groceryList, rdfs.member);
 
-  const groceryListItemsList = groceryListItemsRefs.map((ref) => {
-    const groceryListItem = getThing(groceryListItems, ref) as ThingPersisted;
-    return groceryListItemSerializer(groceryListItem, foods);
-  });
+  const groceryListItemsList = groceryListItemsRefs
+    .map((ref) => getThing(groceryListItems, ref) as ThingPersisted)
+    .filter((thing) => thing !== null)
+    .map((groceryListItem: ThingPersisted) => {
+      return groceryListItemSerializer(groceryListItem, foods);
+    });
   return {
     title: getStringNoLocale(groceryList, rdfs.label) ?? "",
     identifier: asUrl(groceryList).split("#")[1],
