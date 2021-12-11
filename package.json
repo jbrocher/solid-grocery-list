@@ -76,7 +76,13 @@
     "@storybook/addon-links": "^6.1.15",
     "@storybook/node-logger": "^6.1.15",
     "@storybook/preset-create-react-app": "^3.1.5",
-    "@storybook/react": "^6.1.15"
+    "@storybook/react": "^6.1.15",
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1"
+  },
+  "prettier": {
+    "importOrder": ["^react$","^react-router","utils/*","^@mui/(.*)$","pages/", "components/*", "^[./]"],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
   },
   "resolutions": {
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
