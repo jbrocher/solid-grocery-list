@@ -1,27 +1,33 @@
-import React from "react";
+import AuthentificationProvider from "AuthentificationContext";
+import ProfileProvider from "ProfileContext";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { use100vh } from "utils/use100vh";
-import "./App.css";
+import { ModalProvider } from "styled-react-modal";
+
+import React from "react";
+
 import {
+  Redirect,
+  Route,
   BrowserRouter as Router,
   Switch,
-  Route,
-  Redirect,
 } from "react-router-dom";
 
 import { queryFn } from "utils/queryFn";
-import { ModalProvider } from "styled-react-modal";
-import FoodForm from "./pages/FoodForm";
-import Groceries from "./pages/Groceries";
+import { use100vh } from "utils/use100vh";
+
 import Box from "@mui/material/Box";
-import RecipeForm from "./pages/RecipeForm";
+
+import FoodForm from "./pages/FoodForm";
 import FoodList from "./pages/FoodList";
-import RecipeList from "./pages/RecipeList";
+import Groceries from "./pages/Groceries";
 import Homepage from "./pages/Homepage";
-import AuthentificationProvider from "AuthentificationContext";
-import ProfileProvider from "ProfileContext";
+import RecipeForm from "./pages/RecipeForm";
+import RecipeList from "./pages/RecipeList";
 
 import BottomBar from "components/organisms/BottomBar";
+
+import "./App.css";
+
 const client = new QueryClient({
   defaultOptions: {
     queries: {

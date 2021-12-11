@@ -1,12 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import { useHistory } from "react-router-dom";
 import {
-  handleIncomingRedirect,
   getDefaultSession,
+  handleIncomingRedirect,
 } from "@inrupt/solid-client-authn-browser";
-import LoginForm from "pages/LoginForm";
+
+import React, { useContext, useEffect, useState } from "react";
+
+import { useHistory } from "react-router-dom";
+
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+
+import LoginForm from "pages/LoginForm";
 
 interface AuthentificationContextProps {
   webId: string;

@@ -1,5 +1,6 @@
-import { useRef, useState, useEffect } from "react";
 import ResizeObserver from "resize-observer-polyfill";
+
+import { useEffect, useRef, useState } from "react";
 
 export function useMeasure() {
   const ref = useRef<HTMLUListElement>(null);

@@ -1,18 +1,17 @@
-import { rdf, solid, space } from "rdf-namespaces";
-
 import {
+  SolidDataset,
+  Thing,
+  buildThing,
   createSolidDataset,
   createThing,
-  buildThing,
-  saveSolidDatasetAt,
-  setThing,
   getSolidDataset,
   getThingAll,
   getUrl,
-  Thing,
-  SolidDataset,
+  saveSolidDatasetAt,
+  setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
+import { rdf, solid, space } from "rdf-namespaces";
 
 interface Resource {
   identifier: string;

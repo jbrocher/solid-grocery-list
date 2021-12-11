@@ -1,20 +1,25 @@
 import React from "react";
-import { groupByShoppingCategory } from "utils/dataManipulation";
-import Page from "components/templates/Page";
-import GoBackHeader from "components/atoms/GoBackHeader";
+
 import { useParams } from "react-router-dom";
+
 import {
-  useGroceryList,
   useEditGroceryList,
+  useGroceryList,
 } from "utils/api/hooks/groceryLists";
-import Text from "components/atoms/Text";
+import { groupByShoppingCategory } from "utils/dataManipulation";
+
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import Checkbox from "@mui/material/Checkbox";
-import Loading from "pages/Loading";
 import Typography from "@mui/material/Typography";
+
+import Loading from "pages/Loading";
+
+import GoBackHeader from "components/atoms/GoBackHeader";
+import Text from "components/atoms/Text";
+import Page from "components/templates/Page";
 
 type GroceryListParams = {
   identifier: string;

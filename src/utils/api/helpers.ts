@@ -1,24 +1,23 @@
-import { solid, space } from "rdf-namespaces";
-import {
-  INGREDIENT,
-  FOOD,
-  RECIPE,
-  GroceryList,
-  GroceryListItem,
-} from "models/iris";
 import {
   Thing,
-  getUrl,
-  setThing,
   asUrl,
   buildThing,
   createSolidDataset,
-  saveSolidDatasetAt,
   getSolidDataset,
   getThing,
+  getUrl,
+  saveSolidDatasetAt,
+  setThing,
 } from "@inrupt/solid-client";
-
 import { fetch } from "@inrupt/solid-client-authn-browser";
+import {
+  FOOD,
+  GroceryList,
+  GroceryListItem,
+  INGREDIENT,
+  RECIPE,
+} from "models/iris";
+import { solid, space } from "rdf-namespaces";
 
 export const RESSOURCES = {
   food: {

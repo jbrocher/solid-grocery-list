@@ -1,12 +1,14 @@
-import React from "react";
+import { login } from "@inrupt/solid-client-authn-browser";
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
-import styled from "styled-components";
 
-import StyledModal from "components/organisms/modals/components/StyledModal";
-import Input from "components/atoms/Input";
+import React from "react";
+
 import Button from "@mui/material/Button";
-import { login } from "@inrupt/solid-client-authn-browser";
+
+import Input from "components/atoms/Input";
+import StyledModal from "components/organisms/modals/components/StyledModal";
+import styled from "styled-components";
 
 export interface PodProviderModalProps {
   isOpen: boolean;

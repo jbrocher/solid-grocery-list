@@ -1,13 +1,15 @@
 import React from "react";
-import Page from "components/templates/Page";
+
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Grid from "@mui/material/Grid";
+
+import Text from "components/atoms/Text";
 import Egg from "components/icons/Egg";
 import Recipe from "components/icons/Recipe";
-import Text from "components/atoms/Text";
-import Grid from "@mui/material/Grid";
+import Page from "components/templates/Page";
 
 export const Homepage: React.FunctionComponent = () => {
   return (

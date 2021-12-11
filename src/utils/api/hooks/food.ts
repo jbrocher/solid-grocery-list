@@ -1,11 +1,13 @@
+import { Thing, getThingAll, getUrl } from "@inrupt/solid-client";
 import { useProfile } from "ProfileContext";
-import { useQuery } from "react-query";
-import { useState } from "react";
 import FoodManager from "models/Food";
-import { foodSerializer } from "utils/api/serializers";
-import { rdf } from "rdf-namespaces";
 import { FOOD } from "models/iris";
-import { getUrl, Thing, getThingAll } from "@inrupt/solid-client";
+import { rdf } from "rdf-namespaces";
+import { useQuery } from "react-query";
+
+import { useState } from "react";
+
+import { foodSerializer } from "utils/api/serializers";
 
 export const useFoods = () => {
   const { profile } = useProfile();

@@ -1,19 +1,21 @@
-import ResourceManager from "./Resource";
-import { rdf } from "rdf-namespaces";
-import IngredientManager from "./Ingredient";
-import FoodManager from "./Food";
-import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
 import {
-  asUrl,
-  Thing,
   SolidDataset,
-  setThing,
-  createThing,
+  Thing,
+  asUrl,
   buildThing,
+  createThing,
   saveSolidDatasetAt,
+  setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import { INGREDIENT, RECIPE, TITLE } from "models/iris";
+import { rdf } from "rdf-namespaces";
+
+import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
+
+import FoodManager from "./Food";
+import IngredientManager from "./Ingredient";
+import ResourceManager from "./Resource";
 
 class RecipeManager extends ResourceManager {
   ingredients: IngredientManager;

@@ -1,9 +1,12 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import Text from "components/atoms/Text";
 
 import { useHistory } from "react-router";
+
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Box from "@mui/material/Box";
+
+import Text from "components/atoms/Text";
+
 interface LinkButtonProps {
   link: string;
   title: string;

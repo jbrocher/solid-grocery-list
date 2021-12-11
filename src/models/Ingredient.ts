@@ -1,16 +1,18 @@
-import { rdf } from "rdf-namespaces";
-import { Ingredient } from "utils/api/types";
-import ResourceManager from "./Resource";
-import { METRIC_QUANTITY, INGREDIENT, FOOD } from "models/iris";
 import {
-  setThing,
+  Thing,
+  buildThing,
   createThing,
   saveSolidDatasetAt,
-  buildThing,
-  Thing,
+  setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import FoodManager from "models/Food";
+import { FOOD, INGREDIENT, METRIC_QUANTITY } from "models/iris";
+import { rdf } from "rdf-namespaces";
+
+import { Ingredient } from "utils/api/types";
+
+import ResourceManager from "./Resource";
 
 export class IngredientsManager extends ResourceManager {
   foods: FoodManager;

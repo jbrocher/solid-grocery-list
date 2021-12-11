@@ -1,9 +1,11 @@
+import { Meta, Story } from "@storybook/react/types-6-0";
+
 import React, { useState } from "react";
 
-import FoodSelector, { FoodSelectorProps } from "./FoodSelector";
-import { Story, Meta } from "@storybook/react/types-6-0";
-import { SpoonacularIntgredient } from "utils/spoonacular";
 import { Food } from "utils/api/types";
+import { SpoonacularIntgredient } from "utils/spoonacular";
+
+import FoodSelector, { FoodSelectorProps } from "./FoodSelector";
 
 export default {
   title: "Organisms/FoodSelector",

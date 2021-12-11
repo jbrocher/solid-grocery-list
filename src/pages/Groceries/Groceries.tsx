@@ -1,13 +1,18 @@
 import React from "react";
+
+import { Link as RouterLink } from "react-router-dom";
+
 import { useGroceryLists } from "utils/api/hooks/groceryLists";
-import GoBackHeader from "components/atoms/GoBackHeader";
-import Typography from "@mui/material/Typography";
-import Loading from "pages/Loading";
-import Page from "components/templates/Page";
+
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import { Link as RouterLink } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+
+import Loading from "pages/Loading";
+
+import GoBackHeader from "components/atoms/GoBackHeader";
+import Page from "components/templates/Page";
 
 const Groceries: React.FunctionComponent = () => {
   const { isSuccess, groceryLists } = useGroceryLists();

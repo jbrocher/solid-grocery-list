@@ -1,18 +1,20 @@
-import ResourceManager from "models/Resource";
-import { groupByIngredients } from "utils/dataManipulation";
-import { Recipe } from "utils/api/types";
-import { rdf, rdfs } from "rdf-namespaces";
-import GrocerylistItemManager from "./GroceryListItem";
 import {
   Thing,
   asUrl,
-  saveSolidDatasetAt,
-  setThing,
   buildThing,
   createThing,
+  saveSolidDatasetAt,
+  setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
+import ResourceManager from "models/Resource";
 import { GroceryList } from "models/iris";
+import { rdf, rdfs } from "rdf-namespaces";
+
+import { Recipe } from "utils/api/types";
+import { groupByIngredients } from "utils/dataManipulation";
+
+import GrocerylistItemManager from "./GroceryListItem";
 
 class GroceriesManager extends ResourceManager {
   items: GrocerylistItemManager;

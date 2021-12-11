@@ -1,8 +1,8 @@
 import {
-  getSolidDataset,
-  createSolidDataset,
-  saveSolidDatasetAt,
   SolidDataset,
+  createSolidDataset,
+  getSolidDataset,
+  saveSolidDatasetAt,
 } from "@inrupt/solid-client";
 import { Session } from "@inrupt/solid-client-authn-browser";
 

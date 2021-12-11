@@ -1,5 +1,6 @@
-import { styled } from "@mui/material/styles";
 import theme from "theme";
+
+import { styled } from "@mui/material/styles";
 
 const Page = styled("div")`
   display: flex;

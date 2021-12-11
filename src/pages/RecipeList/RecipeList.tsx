@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import Page from "components/templates/Page";
-import { Recipe } from "utils/api/types";
-import ContentContainer from "components/templates/ContentContainer";
-import GoBackHeader from "components/atoms/GoBackHeader";
-import Loading from "pages/Loading";
-import { useRecipeList } from "utils/api/hooks/recipe";
-import { useCreateGroceryList } from "utils/api/hooks/groceryLists";
-import RecipeDetail from "./components/RecipeDetail";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Switch from "@mui/material/Switch";
-import GroceryListModal from "components/organisms/modals/GroceryListModal";
-import FromControlLabel from "@mui/material/FormControlLabel";
+
 import { useHistory } from "react-router";
+
+import { useCreateGroceryList } from "utils/api/hooks/groceryLists";
+import { useRecipeList } from "utils/api/hooks/recipe";
+import { Recipe } from "utils/api/types";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import FromControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+
+import Loading from "pages/Loading";
+
+import RecipeDetail from "./components/RecipeDetail";
+import GoBackHeader from "components/atoms/GoBackHeader";
+import GroceryListModal from "components/organisms/modals/GroceryListModal";
+import ContentContainer from "components/templates/ContentContainer";
+import Page from "components/templates/Page";
 
 const RecipeList: React.FunctionComponent = () => {
   const { isSuccess, recipeList: recipes } = useRecipeList();

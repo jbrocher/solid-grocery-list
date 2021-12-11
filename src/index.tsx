@@ -1,11 +1,14 @@
-import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+
+import React from "react";
+
 import { ThemeProvider } from "@mui/material/styles";
-import { muiTheme } from "./theme";
+
+import App from "./App";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { muiTheme } from "./theme";
 
 ReactDOM.render(
   <React.StrictMode>

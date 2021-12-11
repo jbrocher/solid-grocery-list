@@ -1,4 +1,5 @@
 import React from "react";
+
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
 const Recipe: React.FunctionComponent<SvgIconProps> = (props: SvgIconProps) => (

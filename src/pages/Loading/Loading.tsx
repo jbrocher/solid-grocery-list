@@ -1,7 +1,9 @@
 import React from "react";
+
+import Box from "@mui/material/Box";
+
 import Text from "components/atoms/Text";
 import Egg from "components/icons/Egg";
-import Box from "@mui/material/Box";
 import Page from "components/templates/Page";
 
 const Loading: React.FunctionComponent = () => {

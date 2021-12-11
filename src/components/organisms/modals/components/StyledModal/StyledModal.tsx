@@ -1,4 +1,5 @@
 import Modal from "styled-react-modal";
+
 const StyledModal = Modal.styled`
   width: 80%;
   border-radius: ${(props: any) => props.theme.radii[1]}px;

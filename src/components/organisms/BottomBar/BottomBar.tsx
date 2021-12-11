@@ -1,11 +1,14 @@
 import React from "react";
+
+import { useLocation } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
+
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Link as RouterLink } from "react-router-dom";
+
 import Egg from "components/icons/Egg";
 import Recipe from "components/icons/Recipe";
-import {  useLocation } from "react-router";
 
 const BottomBar: React.FunctionComponent = () => {
   const location = useLocation();

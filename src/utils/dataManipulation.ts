@@ -1,5 +1,5 @@
-import { Recipe, Ingredient } from "utils/api/types";
-import { GroceryListItem, GroceryList } from "utils/api/types";
+import { Ingredient, Recipe } from "utils/api/types";
+import { GroceryList, GroceryListItem } from "utils/api/types";
 
 type returnValue = {
   [index: string]: number;

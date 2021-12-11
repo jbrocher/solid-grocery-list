@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+
+import { Recipe } from "utils/api/types";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import Typography from "@mui/material/Typography";
-import CheckBox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import { Recipe } from "utils/api/types";
+import CheckBox from "@mui/material/Checkbox";
+import Typography from "@mui/material/Typography";
+
 import IngredientList from "./IngredientList";
 
 interface RecipeProps {

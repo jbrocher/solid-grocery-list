@@ -1,7 +1,7 @@
-import { useQuery } from "react-query";
-import { useProfile } from "ProfileContext";
 import { SolidDataset } from "@inrupt/solid-client";
+import { useProfile } from "ProfileContext";
 import { IngredientsManager } from "models/Ingredient";
+import { useQuery } from "react-query";
 
 export const useIngredients = () => {
   const { profile } = useProfile();

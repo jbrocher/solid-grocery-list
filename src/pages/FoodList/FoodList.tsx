@@ -1,13 +1,18 @@
 import React from "react";
-import Button from "@mui/material/Button";
-import { useFoodList } from "utils/api/hooks/food";
-import Page from "components/templates/Page";
-import GoBackHeader from "components/atoms/GoBackHeader";
-import Loading from "pages/Loading";
+
 import { useHistory } from "react-router";
+
+import { useFoodList } from "utils/api/hooks/food";
+
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import Grid from "@mui/material/Grid";
+
+import Loading from "pages/Loading";
+
+import GoBackHeader from "components/atoms/GoBackHeader";
+import Page from "components/templates/Page";
 
 const renderFoodItem = (name: string, shoppingCategory: string) => {
   return (

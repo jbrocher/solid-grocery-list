@@ -1,9 +1,11 @@
 import React from "react";
+
+import { Ingredient } from "utils/api/types";
+
 import Collapse from "@mui/material/Collapse";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Typography from "@mui/material/Typography";
-import { Ingredient } from "utils/api/types";
 
 interface IngredientListProps {
   ingredients: Ingredient[];

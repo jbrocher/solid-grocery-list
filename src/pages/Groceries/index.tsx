@@ -1,7 +1,9 @@
 import React from "react";
+
+import { Route, Switch } from "react-router-dom";
+
 import Groceries from "./Groceries";
 import GroceryList from "./GroceryList";
-import { Switch, Route } from "react-router-dom";
 
 const GroceriesIndex: React.FunctionComponent = () => {
   return (

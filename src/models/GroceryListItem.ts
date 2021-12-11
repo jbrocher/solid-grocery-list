@@ -1,26 +1,26 @@
-import ResourceManager from "models/Resource";
-import { rdf } from "rdf-namespaces";
 import {
-  setStringNoLocale,
-  saveSolidDatasetAt,
-  getThing,
-  getStringNoLocale,
-  createThing,
-  buildThing,
-  setThing,
-  ThingPersisted,
   Thing,
+  ThingPersisted,
+  buildThing,
+  createThing,
+  getStringNoLocale,
+  getThing,
+  saveSolidDatasetAt,
+  setStringNoLocale,
+  setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
-import { GroceryListItem as GroceryListItemType } from "utils/api/types";
-
+import FoodManager from "models/Food";
+import ResourceManager from "models/Resource";
 import {
   GroceryListItem,
-  groceryListItemObject,
-  groceryListItemDone,
   QUANTITY,
+  groceryListItemDone,
+  groceryListItemObject,
 } from "models/iris";
-import FoodManager from "models/Food";
+import { rdf } from "rdf-namespaces";
+
+import { GroceryListItem as GroceryListItemType } from "utils/api/types";
 
 interface GroceryListItemValues {
   done: boolean;

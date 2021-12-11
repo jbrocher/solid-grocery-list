@@ -1,16 +1,16 @@
-import ResourceManager from "./Resource";
-import { rdf } from "rdf-namespaces";
-import { FOOD_NAME, FOOD, SHOPPING_CATEGORY } from "models/iris";
 import {
   Thing,
   asUrl,
-  setThing,
-  saveSolidDatasetAt,
   buildThing,
   createThing,
+  saveSolidDatasetAt,
+  setThing,
 } from "@inrupt/solid-client";
-
 import { fetch } from "@inrupt/solid-client-authn-browser";
+import { FOOD, FOOD_NAME, SHOPPING_CATEGORY } from "models/iris";
+import { rdf } from "rdf-namespaces";
+
+import ResourceManager from "./Resource";
 
 class FoodManager extends ResourceManager {
   constructor(profile: Thing) {

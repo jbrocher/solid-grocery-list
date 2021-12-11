@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+
 import {
-  useAutocompleteIngredient,
   SpoonacularIntgredient,
+  useAutocompleteIngredient,
 } from "utils/spoonacular";
+
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 

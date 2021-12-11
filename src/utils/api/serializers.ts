@@ -1,27 +1,28 @@
-import { Ingredient, Recipe, GroceryListItem, GroceryList } from "./types";
-import { rdfs } from "rdf-namespaces";
 import {
-  groceryListItemObject,
-  groceryListItemDone,
-  QUANTITY,
-  TITLE,
-  METRIC_QUANTITY,
-  INGREDIENT,
-  FOOD,
-  FOOD_NAME,
-  SHOPPING_CATEGORY,
-} from "models/iris";
-import {
+  SolidDataset,
+  Thing,
+  ThingPersisted,
+  asUrl,
+  getInteger,
   getStringNoLocale,
+  getThing,
   getUrl,
   getUrlAll,
-  asUrl,
-  getThing,
-  SolidDataset,
-  getInteger,
-  ThingPersisted,
-  Thing,
 } from "@inrupt/solid-client";
+import {
+  FOOD,
+  FOOD_NAME,
+  INGREDIENT,
+  METRIC_QUANTITY,
+  QUANTITY,
+  SHOPPING_CATEGORY,
+  TITLE,
+  groceryListItemDone,
+  groceryListItemObject,
+} from "models/iris";
+import { rdfs } from "rdf-namespaces";
+
+import { GroceryList, GroceryListItem, Ingredient, Recipe } from "./types";
 
 export const foodSerializer = (food: ThingPersisted) => {
   return {

@@ -1,17 +1,21 @@
+import { FieldArray, Formik, FormikProps } from "formik";
+import * as Yup from "yup";
+
 import React, { useState } from "react";
+
 import { useHistory } from "react-router";
-import { Formik, FormikProps, FieldArray } from "formik";
-import IngredientModal from "components/organisms/modals/IngredientModal";
+
+import { useCreateRecipe } from "utils/api/hooks/recipe";
+import { Ingredient } from "utils/api/types";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Page from "components/templates/Page";
-import GoBackHeader from "components/atoms/GoBackHeader";
 import { styled } from "@mui/material/styles";
-import { useCreateRecipe } from "utils/api/hooks/recipe";
 
-import { Ingredient } from "utils/api/types";
-import * as Yup from "yup";
+import GoBackHeader from "components/atoms/GoBackHeader";
+import IngredientModal from "components/organisms/modals/IngredientModal";
+import Page from "components/templates/Page";
 
 const validationSchema = Yup.object({
   title: Yup.string().required(),

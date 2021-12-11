@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import { Thing } from "@inrupt/solid-client";
+import { useWebId } from "AuthentificationContext";
+
+import React, { useContext, useEffect, useState } from "react";
 
 import { getProfile } from "utils/api/helpers";
-import { Thing } from "@inrupt/solid-client";
-
-import { useWebId } from "AuthentificationContext";
 
 interface ProfileProps {
   profile: Thing | null;

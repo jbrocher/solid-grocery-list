@@ -1,21 +1,22 @@
-import GroceriesManager from "models/Groceries";
-import GroceryListItemManager from "models/GroceryListItem";
-import { rdf } from "rdf-namespaces";
 import {
-  GroceryListItem,
-  Recipe,
-  GroceryList as GroceryListType,
-} from "utils/api/types";
-import { GroceryList } from "models/iris";
-import { useProfile } from "ProfileContext";
-import { useQuery, useQueryClient, useMutation } from "react-query";
-import { groceryListSerializer } from "utils/api/serializers";
-import {
+  ThingPersisted,
   getThing,
   getThingAll,
   getUrl,
-  ThingPersisted,
 } from "@inrupt/solid-client";
+import { useProfile } from "ProfileContext";
+import GroceriesManager from "models/Groceries";
+import GroceryListItemManager from "models/GroceryListItem";
+import { GroceryList } from "models/iris";
+import { rdf } from "rdf-namespaces";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+import { groceryListSerializer } from "utils/api/serializers";
+import {
+  GroceryListItem,
+  GroceryList as GroceryListType,
+  Recipe,
+} from "utils/api/types";
 
 export const useGroceries = () => {
   const { profile } = useProfile();
