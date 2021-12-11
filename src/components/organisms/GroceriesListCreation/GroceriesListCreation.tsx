@@ -16,7 +16,6 @@ import ListItem from "@mui/material/ListItem";
 import Slide from "@mui/material/Slide";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { TransitionProps } from "@mui/material/transitions";
 
 import CollapsibleCheckbox from "components/molecules/CollapsibleCheckbox";
@@ -39,7 +38,7 @@ const GroceriesListCreation: React.FunctionComponent<GroceriesListCreationProps>
     const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [listName, setListName] = useState("");
-    const { ready, groceryListMutation } = useCreateGroceryList();
+    const { groceryListMutation } = useCreateGroceryList();
     const isChecked = (recipe: Recipe) => {
       return !!selectedRecipes.find(
         (identifier) => identifier === recipe.identifier
