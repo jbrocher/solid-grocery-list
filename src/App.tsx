@@ -16,6 +16,7 @@ import { queryFn } from "utils/queryFn";
 import { use100vh } from "utils/use100vh";
 
 import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import Groceries from "./pages/Groceries";
 import RecipeList from "./pages/RecipeList";
@@ -39,6 +40,7 @@ function App() {
         <Router>
           <AuthentificationProvider>
             <ProfileProvider>
+              <CssBaseline />
               <Box height={windowHeight} display="flex" flexDirection="column">
                 <Switch>
                   <Route exact path="/recipe-list" component={RecipeList} />
