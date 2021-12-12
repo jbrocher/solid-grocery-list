@@ -7,11 +7,8 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { useHistory } from "react-router-dom";
 
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
-
+import Loading from "pages/Loading";
 import LoginForm from "pages/LoginForm";
-import Loading from "pages/Loading"
 
 interface AuthentificationContextProps {
   webId: string;
@@ -38,9 +35,7 @@ const AuthentificationProvider: React.FunctionComponent = ({ children }) => {
   }, [history]);
 
   if (webId === undefined) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   return (
