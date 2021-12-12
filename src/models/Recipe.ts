@@ -11,7 +11,7 @@ import { fetch } from "@inrupt/solid-client-authn-browser";
 import { INGREDIENT, RECIPE, TITLE } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
-import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
+import { RecipeFormValues } from "utils/api/types";
 
 import FoodManager from "./Food";
 import IngredientManager from "./Ingredient";

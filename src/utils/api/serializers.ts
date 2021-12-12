@@ -81,7 +81,6 @@ export const groceryListItemSerializer = (
   foods: SolidDataset
 ): GroceryListItem => {
   // If we allow groceryList as object we must determine the type here
-  console.log(groceryListItem);
   const foodRef = getUrl(groceryListItem, groceryListItemObject);
   if (!foodRef) {
     throw new Error("No foodRef");

@@ -16,6 +16,11 @@ export interface Recipe {
   ingredients: Ingredient[];
 }
 
+export interface RecipeFormValues {
+  title: string;
+  ingredients: Ingredient[];
+}
+
 export interface GroceryListItem {
   object: Food;
   done: boolean;
