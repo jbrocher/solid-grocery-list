@@ -7,14 +7,13 @@ import Button from "@mui/material/Button";
 
 import Text from "components/atoms/Text";
 import PodProviderModal from "components/organisms/modals/PodProviderModal";
-import Page from "components/templates/Page";
 
 const LoginForm: React.FunctionComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = (_e: any) => setIsModalOpen(!isModalOpen);
   const windowHeight = use100vh();
   return (
-    <Page sx={{ height: windowHeight }}>
+    <Box height={`${windowHeight}px`} display="flex" flexDirection="column">
       <Box
         justifyContent="center"
         display="flex"
@@ -30,7 +29,7 @@ const LoginForm: React.FunctionComponent = () => {
       </Button>
 
       <PodProviderModal isOpen={isModalOpen} toggle={toggleModal} />
-    </Page>
+    </Box>
   );
 };
 

@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import LoginForm from "pages/LoginForm";
+import Loading from "pages/Loading"
 
 interface AuthentificationContextProps {
   webId: string;
@@ -38,14 +39,7 @@ const AuthentificationProvider: React.FunctionComponent = ({ children }) => {
 
   if (webId === undefined) {
     return (
-      <Box
-        height="100vh"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <CircularProgress color="primary" />
-      </Box>
+      <Loading />
     );
   }
 
