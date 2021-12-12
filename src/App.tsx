@@ -20,8 +20,6 @@ import Box from "@mui/material/Box";
 import Groceries from "./pages/Groceries";
 import RecipeList from "./pages/RecipeList";
 
-import BottomBar from "components/organisms/BottomBar";
-
 import "./App.css";
 
 const client = new QueryClient({
@@ -47,7 +45,6 @@ function App() {
                   <Route path="/groceries" component={Groceries} />
                   <Redirect to="/groceries" />
                 </Switch>
-                <BottomBar />
               </Box>
             </ProfileProvider>
           </AuthentificationProvider>
