@@ -21,7 +21,6 @@ import FoodForm from "./pages/FoodForm";
 import FoodList from "./pages/FoodList";
 import Groceries from "./pages/Groceries";
 import Homepage from "./pages/Homepage";
-import RecipeForm from "./pages/RecipeForm";
 import RecipeList from "./pages/RecipeList";
 
 import BottomBar from "components/organisms/BottomBar";
@@ -48,7 +47,6 @@ function App() {
               <Box height={windowHeight} display="flex" flexDirection="column">
                 <Switch>
                   <Route exact path="/recipe-list" component={RecipeList} />
-                  <Route exact path="/recipe-form" component={RecipeForm} />
                   <Route exact path="/food-form" component={FoodForm} />
                   <Route exact path="/food-list" component={FoodList} />
                   <Route path="/groceries" component={Groceries} />

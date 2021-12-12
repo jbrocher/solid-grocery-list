@@ -1,4 +1,5 @@
 import { FieldArray, Formik, FormikProps } from "formik";
+import { RecipeFormValues } from "types";
 import * as Yup from "yup";
 
 import React, { useState } from "react";
@@ -25,10 +26,6 @@ const validationSchema = Yup.object({
     })
   ),
 });
-export interface RecipeFormValues {
-  title: string;
-  ingredients: Ingredient[];
-}
 const initialValues = {
   title: "",
   ingredients: [],
