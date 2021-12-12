@@ -7,7 +7,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 
-import Egg from "components/icons/Egg";
 import Recipe from "components/icons/Recipe";
 
 const BottomBar: React.FunctionComponent = () => {
@@ -15,14 +14,6 @@ const BottomBar: React.FunctionComponent = () => {
   if (location.pathname === "/") return null;
   return (
     <BottomNavigation showLabels>
-      <BottomNavigationAction
-        label="foods"
-        component={RouterLink}
-        to="/food-list"
-        icon={<Egg />}
-      >
-        Foods
-      </BottomNavigationAction>
       <BottomNavigationAction
         label="recipes"
         component={RouterLink}
