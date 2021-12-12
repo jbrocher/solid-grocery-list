@@ -5,10 +5,12 @@ import { Food } from "utils/api/types";
 import { SpoonacularIntgredient } from "utils/spoonacular";
 
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
 
 import Input from "components/atoms/Input";
 import FoodSelector from "components/organisms/FoodSelector";
-import StyledModal from "components/organisms/modals/components/StyledModal";
 
 export interface IngredientFormValues {
   food: Food;
@@ -54,25 +56,25 @@ const IngredientModal: React.FunctionComponent<IngredientModalProps> = ({
   };
 
   return (
-    <StyledModal
-      isOpen={isOpen}
-      onBackgroundClick={toggle}
-      onEscapeKeydown={toggle}
-    >
-      <FoodSelector selected={selectedFoodItem} onSelect={handleSelect} />
-      <Input
-        name="quantity"
-        value={quantity.toString()}
-        type="number"
-        onChange={(e: any) => {
-          setQuantity(parseInt(e.target.value));
-        }}
-        label="quantity"
-      />
-      <Button type="button" onClick={submit}>
-        Add
-      </Button>
-    </StyledModal>
+    <Dialog sx={{ padding: 3 }} fullWidth open={isOpen} onClose={toggle}>
+      <DialogContent>
+        <FoodSelector selected={selectedFoodItem} onSelect={handleSelect} />
+        <Input
+          name="quantity"
+          value={quantity.toString()}
+          type="number"
+          onChange={(e: any) => {
+            setQuantity(parseInt(e.target.value));
+          }}
+          label="quantity"
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button type="button" onClick={submit}>
+          Add
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 
