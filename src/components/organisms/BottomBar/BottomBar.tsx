@@ -23,7 +23,7 @@ const LinkBehavior = React.forwardRef<any, RouterNavLinkProps>((props, ref) => (
 ));
 const BottomBar: React.FunctionComponent = () => {
   return (
-    <BottomNavigation showLabels>
+    <BottomNavigation sx={{ width: "100%" }} showLabels>
       <BottomNavigationAction
         label="recipes"
         component={LinkBehavior}
