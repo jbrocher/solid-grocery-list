@@ -1,15 +1,32 @@
-import theme from "theme";
+import Box from "@mui/material/Box";
 
-import { styled } from "@mui/material/styles";
+import GoBackHeader from "components/atoms/GoBackHeader";
+import BottomBar from "components/organisms/BottomBar";
 
-const Page = styled("div")`
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-direction: column;
-  box-sizing: border-box;
-  min-height: 0;
-  padding-top: ${theme.spacing(8)};
-`;
+import Content from "./Content";
+
+interface PageProps {
+  title: string;
+}
+
+interface PageType extends React.FunctionComponent<PageProps> {
+  Content: typeof Content;
+}
+
+const Page: PageType = ({ title, children }) => {
+  return (
+    <Box
+      display="flex"
+      flex-direction="column"
+      box-sizing="border-box"
+      paddingTop={1}
+    >
+      <GoBackHeader title={title} />
+      {children}
+      <BottomBar />
+    </Box>
+  );
+};
+Page.Content = Content;
 
 export default Page;
