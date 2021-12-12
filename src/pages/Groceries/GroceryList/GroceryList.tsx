@@ -17,7 +17,6 @@ import Typography from "@mui/material/Typography";
 
 import Loading from "pages/Loading";
 
-import GoBackHeader from "components/atoms/GoBackHeader";
 import Text from "components/atoms/Text";
 import Page from "components/templates/Page";
 
@@ -72,9 +71,8 @@ export const GroceryList: React.FunctionComponent = () => {
     });
   };
   return (
-    <Page>
-      <GoBackHeader title={list.title} />
-      {renderList()}
+    <Page title={list.title}>
+      <Page.Content>{renderList()}</Page.Content>
     </Page>
   );
 };

@@ -9,7 +9,14 @@ const ContentContainer: React.FunctionComponent<ContentContainerProps> = ({
   children,
 }) => {
   return (
-    <Box flexShrink={1} overflow="auto" mb={1} minHeight={0} flexGrow={1}>
+    <Box
+      padding={2}
+      flexShrink={1}
+      overflow="auto"
+      mb={1}
+      minHeight={0}
+      flexGrow={1}
+    >
       {children}
     </Box>
   );

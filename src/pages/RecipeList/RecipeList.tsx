@@ -9,10 +9,8 @@ import Fab from "@mui/material/Fab";
 
 import Loading from "pages/Loading";
 
-import GoBackHeader from "components/atoms/GoBackHeader";
 import RecipeCreation from "components/organisms/RecipeCreation";
 import RecipeDetail from "components/organisms/RecipeDetail";
-import ContentContainer from "components/templates/ContentContainer";
 import Page from "components/templates/Page";
 
 const RecipeList: React.FunctionComponent = () => {
@@ -24,9 +22,8 @@ const RecipeList: React.FunctionComponent = () => {
   }
 
   return (
-    <Page>
-      <GoBackHeader title="Recipes" />
-      <ContentContainer>
+    <Page title="Recipes">
+      <Page.Content>
         {recipes!.map((recipe) => (
           <RecipeDetail
             isChecked={false}
@@ -46,12 +43,12 @@ const RecipeList: React.FunctionComponent = () => {
         >
           <AddIcon onClick={() => setIsRecipeCreationOpen(true)} />
         </Fab>
-      </ContentContainer>
 
-      <RecipeCreation
-        open={isRecipeCreationOpen}
-        onClose={() => setIsRecipeCreationOpen(false)}
-      />
+        <RecipeCreation
+          open={isRecipeCreationOpen}
+          onClose={() => setIsRecipeCreationOpen(false)}
+        />
+      </Page.Content>
     </Page>
   );
 };
