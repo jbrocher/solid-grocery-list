@@ -7,8 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { recipeSerializer } from "utils/api/serializers";
 import { Recipe } from "utils/api/types";
-
-import { RecipeFormValues } from "pages/RecipeForm/RecipeForm";
+import { RecipeFormValues } from "utils/api/types";
 
 export const useRecipes = () => {
   const { profile } = useProfile();

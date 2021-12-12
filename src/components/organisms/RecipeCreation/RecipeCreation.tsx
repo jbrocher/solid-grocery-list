@@ -1,5 +1,4 @@
 import { FieldArray, Formik, FormikProps } from "formik";
-import { RecipeFormValues } from "types";
 import * as Yup from "yup";
 
 import React, { useState } from "react";
@@ -7,7 +6,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 import { useCreateRecipe } from "utils/api/hooks/recipe";
-import { Ingredient } from "utils/api/types";
+import { RecipeFormValues } from "utils/api/types";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
