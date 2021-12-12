@@ -9,9 +9,9 @@ import Fab from "@mui/material/Fab";
 
 import Loading from "pages/Loading";
 
-import RecipeDetail from "./components/RecipeDetail";
 import GoBackHeader from "components/atoms/GoBackHeader";
 import RecipeCreation from "components/organisms/RecipeCreation";
+import RecipeDetail from "components/organisms/RecipeDetail";
 import ContentContainer from "components/templates/ContentContainer";
 import Page from "components/templates/Page";
 
