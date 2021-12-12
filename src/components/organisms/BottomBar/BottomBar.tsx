@@ -19,17 +19,13 @@ const BottomBar: React.FunctionComponent = () => {
         component={RouterLink}
         to="/recipe-list"
         icon={<Recipe />}
-      >
-        Recipes
-      </BottomNavigationAction>
+      />
       <BottomNavigationAction
         label="groceries"
         component={RouterLink}
         to="/groceries"
         icon={<ShoppingCartIcon />}
-      >
-        Groceries
-      </BottomNavigationAction>
+      />
     </BottomNavigation>
   );
 };
