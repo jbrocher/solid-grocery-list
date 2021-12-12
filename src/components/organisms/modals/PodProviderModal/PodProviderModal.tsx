@@ -5,9 +5,10 @@ import * as yup from "yup";
 import React from "react";
 
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 
 import Input from "components/atoms/Input";
-import StyledModal from "components/organisms/modals/components/StyledModal";
 import styled from "styled-components";
 
 export interface PodProviderModalProps {
@@ -51,52 +52,50 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
   };
 
   return (
-    <StyledModal
-      isOpen={isOpen}
-      onBackgroundClick={toggle}
-      onEscapeKeydown={toggle}
-    >
-      <Formik
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-        initialValues={{ podProvider: "https://broker.pod.inrupt.com" }}
-      >
-        {({
-          isValid,
-          isSubmitting,
-          submitForm,
-          values,
-          handleChange,
-          errors,
-          handleBlur,
-        }) => (
-          <>
-            {errors.podProvider && (
-              <StyledError> {errors.podProvider}</StyledError>
-            )}
-            <Input
-              name="podProvider"
-              value={values.podProvider}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              placeholder="https://inrupt.net"
-              label="What is your pod provider ? "
-            />
-            <Button
-              variant="outlined"
-              sx={{
-                mt: 3,
-              }}
-              disabled={!isValid || isSubmitting}
-              type="button"
-              onClick={submitForm}
-            >
-              Connect to pod
-            </Button>
-          </>
-        )}
-      </Formik>
-    </StyledModal>
+    <Dialog open={isOpen} onClose={toggle}>
+      <DialogContent>
+        <Formik
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+          initialValues={{ podProvider: "https://broker.pod.inrupt.com" }}
+        >
+          {({
+            isValid,
+            isSubmitting,
+            submitForm,
+            values,
+            handleChange,
+            errors,
+            handleBlur,
+          }) => (
+            <>
+              {errors.podProvider && (
+                <StyledError> {errors.podProvider}</StyledError>
+              )}
+              <Input
+                name="podProvider"
+                value={values.podProvider}
+                onBlur={handleBlur}
+                onChange={handleChange}
+                placeholder="https://inrupt.net"
+                label="What is your pod provider ? "
+              />
+              <Button
+                variant="outlined"
+                sx={{
+                  mt: 3,
+                }}
+                disabled={!isValid || isSubmitting}
+                type="button"
+                onClick={submitForm}
+              >
+                Connect to pod
+              </Button>
+            </>
+          )}
+        </Formik>
+      </DialogContent>
+    </Dialog>
   );
 };
 
