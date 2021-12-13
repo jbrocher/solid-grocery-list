@@ -25,6 +25,7 @@ class GroceriesManager extends ResourceManager {
       iri: GroceryList,
     });
     this.items = new GrocerylistItemManager(profile);
+    this.items.initialize();
   }
 
   async getGroceries() {
@@ -62,9 +63,10 @@ class GroceriesManager extends ResourceManager {
         return createdItem;
       })
     );
+
     groceriesSubject.addStringNoLocale(rdfs.label, listName);
     groceries = setThing(groceries, groceriesSubject.build());
-    saveSolidDatasetAt(this.getBaseUrl(), groceries, { fetch: fetch });
+    await saveSolidDatasetAt(this.getBaseUrl(), groceries, { fetch: fetch });
   }
 }
 

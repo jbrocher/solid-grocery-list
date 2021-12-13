@@ -39,7 +39,12 @@ class GroceryListItemManager extends ResourceManager {
   }
 
   getGroceryListItems = async () => {
-    return this.getOrCreate();
+    if (this._dataSet === null) {
+      const dataSet = await this.getOrCreate();
+      this._dataSet = dataSet;
+      return dataSet;
+    }
+    return this._dataSet;
   };
 
   toggle = async (item: GroceryListItemType) => {
@@ -56,7 +61,9 @@ class GroceryListItemManager extends ResourceManager {
       checked ? "false" : "true"
     );
     groceryListItems = setThing(groceryListItems, subject);
-    saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, { fetch: fetch });
+    await saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, {
+      fetch: fetch,
+    });
     item.done = !checked;
     return item;
   };
@@ -74,7 +81,9 @@ class GroceryListItemManager extends ResourceManager {
       .build();
 
     groceryListItems = setThing(groceryListItems, itemSubject);
-    saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, { fetch: fetch });
+    await saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, {
+      fetch: fetch,
+    });
 
     return itemSubject;
   };

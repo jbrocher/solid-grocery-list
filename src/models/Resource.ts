@@ -22,11 +22,17 @@ export class ResourceManager {
   profile: Thing;
   resource: Resource;
   _publicTypeIndex: SolidDataset | null;
+  _dataSet: SolidDataset | null;
 
   constructor(profile: Thing, resource: Resource) {
     this.profile = profile;
     this.resource = resource;
     this._publicTypeIndex = null;
+    this._dataSet = null;
+  }
+
+  async initialize() {
+    this._dataSet = await this.getOrCreate();
   }
 
   async getPublicTypeIndex() {
