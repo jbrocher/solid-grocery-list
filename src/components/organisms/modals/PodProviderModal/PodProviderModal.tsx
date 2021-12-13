@@ -6,9 +6,10 @@ import React from "react";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import TextField from "@mui/material/TextField";
 
-import Input from "components/atoms/Input";
 import styled from "styled-components";
 
 export interface PodProviderModalProps {
@@ -53,26 +54,26 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
 
   return (
     <Dialog open={isOpen} onClose={toggle}>
-      <DialogContent>
-        <Formik
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-          initialValues={{ podProvider: "https://broker.pod.inrupt.com" }}
-        >
-          {({
-            isValid,
-            isSubmitting,
-            submitForm,
-            values,
-            handleChange,
-            errors,
-            handleBlur,
-          }) => (
-            <>
+      <Formik
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        initialValues={{ podProvider: "https://broker.pod.inrupt.com" }}
+      >
+        {({
+          isValid,
+          isSubmitting,
+          submitForm,
+          values,
+          handleChange,
+          errors,
+          handleBlur,
+        }) => (
+          <>
+            <DialogContent>
               {errors.podProvider && (
                 <StyledError> {errors.podProvider}</StyledError>
               )}
-              <Input
+              <TextField
                 name="podProvider"
                 value={values.podProvider}
                 onBlur={handleBlur}
@@ -80,8 +81,10 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
                 placeholder="https://inrupt.net"
                 label="What is your pod provider ? "
               />
+            </DialogContent>
+            <DialogActions>
               <Button
-                variant="outlined"
+                variant="contained"
                 sx={{
                   mt: 3,
                 }}
@@ -91,10 +94,10 @@ const PodProviderModal: React.FunctionComponent<PodProviderModalProps> = ({
               >
                 Connect to pod
               </Button>
-            </>
-          )}
-        </Formik>
-      </DialogContent>
+            </DialogActions>
+          </>
+        )}
+      </Formik>
     </Dialog>
   );
 };

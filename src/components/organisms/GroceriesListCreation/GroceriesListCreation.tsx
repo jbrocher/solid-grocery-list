@@ -103,7 +103,7 @@ const GroceriesListCreation: React.FunctionComponent<GroceriesListCreationProps>
           onClick={() => handleCreateList()}
           disabled={isSubmitting}
         >
-          Create List
+          {isSubmitting ? <CircularProgress /> : "Create recipe"}
         </Button>
       </FormDialog>
     );

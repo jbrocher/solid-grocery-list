@@ -3,12 +3,11 @@ import * as Yup from "yup";
 
 import React, { useState } from "react";
 
-import { useHistory } from "react-router";
-
 import { useCreateRecipe } from "utils/api/hooks/recipe";
 import { RecipeFormValues } from "utils/api/types";
 
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
@@ -46,14 +45,13 @@ const RecipeCreation: React.FunctionComponent<RecipeCreationProps> = ({
 }) => {
   const { ready, recipeMutation } = useCreateRecipe();
   const [isIngredientModalOpen, setIsIngredientModalOpen] = useState(false);
-  const history = useHistory();
   const toggleIngredientModal = () => {
     setIsIngredientModalOpen(!isIngredientModalOpen);
   };
 
   const handleSubmit = async (data: RecipeFormValues) => {
     await recipeMutation.mutateAsync(data);
-    return history.push("/recipe-list");
+    onClose();
   };
 
   return (
@@ -130,7 +128,7 @@ const RecipeCreation: React.FunctionComponent<RecipeCreationProps> = ({
             type="submit"
             onClick={submitForm}
           >
-            Create recipe
+            {isSubmitting ? <CircularProgress /> : "Create recipe"}
           </Button>
         </FormDialog>
       )}
