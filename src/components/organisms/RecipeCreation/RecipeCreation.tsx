@@ -128,7 +128,7 @@ const RecipeCreation: React.FunctionComponent<RecipeCreationProps> = ({
             type="submit"
             onClick={submitForm}
           >
-            {isSubmitting ? <CircularProgress /> : "Create recipe"}
+            {isSubmitting ? <CircularProgress size="2em" /> : "Create recipe"}
           </Button>
         </FormDialog>
       )}
