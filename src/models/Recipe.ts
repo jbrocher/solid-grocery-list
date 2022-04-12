@@ -46,16 +46,15 @@ class RecipeManager extends ResourceManager {
     const recipeSubjectBuilder = buildThing(createThing())
       .addUrl(rdf.type, RECIPE)
       .setStringNoLocale(TITLE, recipe.title);
-    await Promise.all(
-      recipe.ingredients.map(async (ingredient) => {
-        const createdIngredient = await this.ingredients.create(ingredient);
-        recipeSubjectBuilder.addUrl(
-          INGREDIENT,
-          asUrl(createdIngredient, this.ingredients.getBaseUrl())
-        );
-        return createdIngredient;
-      })
-    );
+
+    for (const ingredient of recipe.ingredients) {
+      const createdIngredient = await this.ingredients.create(ingredient);
+      recipeSubjectBuilder.addUrl(
+        INGREDIENT,
+        asUrl(createdIngredient, this.ingredients.getBaseUrl())
+      );
+    }
+
     const recipeSubject = recipeSubjectBuilder.build();
     recipes = setThing(recipes, recipeSubject);
     console.log(recipes);
