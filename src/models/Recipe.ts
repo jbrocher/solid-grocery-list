@@ -56,8 +56,7 @@ class RecipeManager extends ResourceManager {
     }
 
     const recipeSubject = recipeSubjectBuilder.build();
-    recipes = setThing(recipes, recipeSubject);
-    console.log(recipes);
+    setThing(recipes, recipeSubject);
     recipes = await saveSolidDatasetAt(this.getBaseUrl(), recipes, {
       fetch: fetch,
     });
