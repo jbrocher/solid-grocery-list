@@ -63,12 +63,26 @@ export const recipeSerializer = (
     ingredientList = ingredientsRefs.map((ingredientRef) => {
       const ingredient = getThing(ingredients, ingredientRef) as ThingPersisted;
 
+      // Retrocompatibilty with pod having
+      // corrupted data due to a previous bug
+      if (ingredient === null) {
+        return {
+          food: {
+            identifier: "There was an issue with this ingredient",
+            name: "There was an issue with this ingredient",
+            category: "",
+          },
+          identifier: "There was an issue with this ingredient",
+          quantity: 0,
+        };
+      }
       const serialialized_ingredient = ingredientSerializer(ingredient, foods);
       return serialialized_ingredient;
     });
   }
 
   const title = getStringNoLocale(recipe, TITLE);
+
   return {
     title: title ?? "",
     identifier: asUrl(recipe).split("#")[1],
