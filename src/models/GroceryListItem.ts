@@ -15,7 +15,7 @@ import ResourceManager from "models/Resource";
 import {
   GroceryListItem,
   QUANTITY,
-  groceryListItemDone,
+  isDone,
   groceryListItemObject,
 } from "models/iris";
 import { rdf } from "rdf-namespaces";
@@ -53,11 +53,11 @@ class GroceryListItemManager extends ResourceManager {
       groceryListItems,
       this.makeRef(item.identifier)
     ) as ThingPersisted;
-    const checked = getStringNoLocale(subject, groceryListItemDone) === "true";
+    const checked = getStringNoLocale(subject, isDone) === "true";
 
     subject = setStringNoLocale(
       subject,
-      groceryListItemDone,
+      isDone,
       checked ? "false" : "true"
     );
     groceryListItems = setThing(groceryListItems, subject);
@@ -74,7 +74,7 @@ class GroceryListItemManager extends ResourceManager {
       .addUrl(rdf.type, GroceryListItem)
       .addUrl(groceryListItemObject, this.foods.makeRef(groceryListItem.object))
       .addStringNoLocale(
-        groceryListItemDone,
+        isDone,
         groceryListItem.done ? "true" : "false"
       )
       .addInteger(QUANTITY, groceryListItem.quantity)

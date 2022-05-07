@@ -13,7 +13,7 @@ import {
   METRIC_QUANTITY,
   QUANTITY,
   ShoppingCategory,
-  groceryListItemDone,
+  isDone,
   groceryListItemObject,
   hasIngredient,
   requiresFood,
@@ -93,7 +93,7 @@ export const groceryListItemSerializer = (
   return {
     object: foodSerializer(food),
     identifier: asUrl(groceryListItem).split("#")[1],
-    done: getStringNoLocale(groceryListItem, groceryListItemDone) === "true",
+    done: getStringNoLocale(groceryListItem, isDone) === "true",
     quantity: getInteger(groceryListItem, QUANTITY) ?? 0,
   };
 };
