@@ -10,7 +10,6 @@ import {
   getUrlAll,
 } from "@inrupt/solid-client";
 import {
-  FOOD_NAME,
   Ingredient,
   METRIC_QUANTITY,
   QUANTITY,
@@ -31,7 +30,7 @@ import {
 export const foodSerializer = (food: ThingPersisted) => {
   return {
     identifier: asUrl(food).split("#")[1],
-    name: getStringNoLocale(food, FOOD_NAME) ?? "",
+    name: getStringNoLocale(food, rdfs.label) ?? "",
     category: getStringNoLocale(food, SHOPPING_CATEGORY) ?? "default",
   };
 };
