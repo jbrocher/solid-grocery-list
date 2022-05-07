@@ -7,7 +7,7 @@ import {
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import FoodManager from "models/Food";
-import {  Ingredient, METRIC_QUANTITY, requiresFood } from "models/iris";
+import { Ingredient, METRIC_QUANTITY, requiresFood } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
 import { Ingredient as IngredientType } from "utils/api/types";

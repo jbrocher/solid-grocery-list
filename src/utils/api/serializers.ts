@@ -13,7 +13,7 @@ import {
   Ingredient,
   METRIC_QUANTITY,
   QUANTITY,
-  SHOPPING_CATEGORY,
+  ShoppingCategory,
   groceryListItemDone,
   groceryListItemObject,
   requiresFood,
@@ -31,7 +31,7 @@ export const foodSerializer = (food: ThingPersisted) => {
   return {
     identifier: asUrl(food).split("#")[1],
     name: getStringNoLocale(food, rdfs.label) ?? "",
-    category: getStringNoLocale(food, SHOPPING_CATEGORY) ?? "default",
+    category: getStringNoLocale(food, ShoppingCategory) ?? "default",
   };
 };
 
