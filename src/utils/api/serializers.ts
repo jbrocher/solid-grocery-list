@@ -10,12 +10,11 @@ import {
   getUrlAll,
 } from "@inrupt/solid-client";
 import {
-  METRIC_QUANTITY,
-  shoppingCategory,
   hasIngredient,
   isDone,
   quantity,
   requiresFood,
+  shoppingCategory,
   targetsFood,
 } from "models/iris";
 import { rdfs } from "rdf-namespaces";
@@ -47,7 +46,7 @@ export const ingredientSerializer = (
   return {
     food: foodSerializer(getThing(foods, foodRef) as ThingPersisted),
     identifier: asUrl(ingredient).split("#")[1],
-    quantity: getInteger(ingredient, METRIC_QUANTITY) ?? 0,
+    quantity: getInteger(ingredient, quantity) ?? 0,
   };
 };
 
