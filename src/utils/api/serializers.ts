@@ -11,7 +11,6 @@ import {
 } from "@inrupt/solid-client";
 import {
   FOOD_NAME,
-  Food,
   Ingredient,
   METRIC_QUANTITY,
   QUANTITY,
@@ -19,6 +18,7 @@ import {
   TITLE,
   groceryListItemDone,
   groceryListItemObject,
+  requiresFood,
 } from "models/iris";
 import { rdfs } from "rdf-namespaces";
 
@@ -41,7 +41,7 @@ export const ingredientSerializer = (
   ingredient: Thing,
   foods: SolidDataset
 ): IngredientType => {
-  const foodRef = getUrl(ingredient, Food);
+  const foodRef = getUrl(ingredient, requiresFood);
   if (!foods || foodRef === null) {
     throw new Error("no foods");
   }
