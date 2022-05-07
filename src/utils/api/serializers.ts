@@ -15,7 +15,6 @@ import {
   METRIC_QUANTITY,
   QUANTITY,
   SHOPPING_CATEGORY,
-  TITLE,
   groceryListItemDone,
   groceryListItemObject,
   requiresFood,
@@ -73,7 +72,7 @@ export const recipeSerializer = (
     });
   }
 
-  const title = getStringNoLocale(recipe, TITLE);
+  const title = getStringNoLocale(recipe, rdfs.label);
   return {
     title: title ?? "",
     identifier: asUrl(recipe).split("#")[1],

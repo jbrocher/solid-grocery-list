@@ -8,7 +8,6 @@ export const Ingredient = "http://purl.org/ontology/fo/Ingredient";
 //Properties
 //
 export const requiresFood = "http://purl.org/fo/#requiresFood";
-export const TITLE = "http://purl.org/ontology/fo/Title";
 export const FOOD_NAME = "http://purl.org/ontology/fo/FOOD_NAME";
 export const SHOPPING_CATEGORY = "http://purl.org/ontology/fo/ShoppingCategory";
 export const METRIC_QUANTITY = "http://purl.org/ontology/fo/metric_quantity";
