@@ -8,7 +8,7 @@ import {
   setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
-import { INGREDIENT, RECIPE, TITLE } from "models/iris";
+import { INGREDIENT, Recipe, TITLE } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
 import { RecipeFormValues } from "utils/api/types";
@@ -24,7 +24,7 @@ class RecipeManager extends ResourceManager {
     super(profile, {
       identifier: "recipe",
       storage: "public/recipe-list.ttl",
-      iri: RECIPE,
+      iri: Recipe,
     });
     this.ingredients = new IngredientManager(profile);
     this.foods = new FoodManager(profile);
@@ -44,7 +44,7 @@ class RecipeManager extends ResourceManager {
   async create(recipe: RecipeFormValues) {
     let recipes = await this.getRecipes();
     const recipeSubjectBuilder = buildThing(createThing())
-      .addUrl(rdf.type, RECIPE)
+      .addUrl(rdf.type, Recipe)
       .setStringNoLocale(TITLE, recipe.title);
     await Promise.all(
       recipe.ingredients.map(async (ingredient) => {

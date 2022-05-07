@@ -1,12 +1,12 @@
 import { Thing, getThingAll, getUrl } from "@inrupt/solid-client";
 import { useProfile } from "ProfileContext";
 import RecipeManager from "models/Recipe";
-import { RECIPE } from "models/iris";
+import { Recipe } from "models/iris";
 import { rdf } from "rdf-namespaces";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { recipeSerializer } from "utils/api/serializers";
-import { Recipe } from "utils/api/types";
+import { Recipe as RecipeType } from "utils/api/types";
 import { RecipeFormValues } from "utils/api/types";
 
 export const useRecipes = () => {
@@ -30,7 +30,7 @@ export const getRecipeList = async (profile: Thing) => {
   const { foods, recipes, ingredients } = await manager.getRecipeResources();
   console.log(recipes);
   return getThingAll(recipes)
-    .filter((recipe) => getUrl(recipe, rdf.type) === RECIPE)
+    .filter((recipe) => getUrl(recipe, rdf.type) === Recipe)
     .map((recipe) => recipeSerializer(recipe, ingredients, foods));
 };
 
@@ -59,7 +59,7 @@ export const useCreateRecipe = () => {
   const queryClient = useQueryClient();
   const recipeMutation = useMutation(mutationFn, {
     onSuccess: (data) => {
-      const recipeList: Recipe[] =
+      const recipeList: RecipeType[] =
         queryClient.getQueryData(["recipes_list", profile]) ?? [];
       recipeList.push(data);
       queryClient.setQueryData(["recipes_list", profile], recipeList);
