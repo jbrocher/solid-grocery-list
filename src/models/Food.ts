@@ -25,7 +25,7 @@ class FoodManager extends ResourceManager {
     return this.getOrCreate();
   }
 
-  async create(name: string, shoppingCategory: string) {
+  async create(name: string, category: string) {
     let foods = await this.getFoods();
     if (!foods) {
       throw new Error("Missing FoodList");
@@ -33,7 +33,7 @@ class FoodManager extends ResourceManager {
 
     const food = buildThing(createThing())
       .addUrl(rdf.type, Food)
-      .addStringNoLocale(shoppingCategory, shoppingCategory)
+      .addStringNoLocale(shoppingCategory, category)
       .addStringNoLocale(rdfs.label, name)
       .build();
 

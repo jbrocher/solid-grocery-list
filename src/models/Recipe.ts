@@ -46,6 +46,7 @@ class RecipeManager extends ResourceManager {
     const recipeSubjectBuilder = buildThing(createThing())
       .addUrl(rdf.type, Recipe)
       .setStringNoLocale(rdfs.label, recipe.title);
+
     await Promise.all(
       recipe.ingredients.map(async (ingredient) => {
         const createdIngredient = await this.ingredients.create(ingredient);
