@@ -10,7 +10,7 @@ import {
   getUrlAll,
 } from "@inrupt/solid-client";
 import {
-  FOOD,
+  Food,
   FOOD_NAME,
   INGREDIENT,
   METRIC_QUANTITY,
@@ -36,7 +36,7 @@ export const ingredientSerializer = (
   ingredient: Thing,
   foods: SolidDataset
 ): Ingredient => {
-  const foodRef = getUrl(ingredient, FOOD);
+  const foodRef = getUrl(ingredient, Food);
   if (!foods || foodRef === null) {
     throw new Error("no foods");
   }

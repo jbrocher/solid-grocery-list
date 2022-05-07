@@ -1,7 +1,7 @@
 import { Thing, getThingAll, getUrl } from "@inrupt/solid-client";
 import { useProfile } from "ProfileContext";
 import FoodManager from "models/Food";
-import { FOOD } from "models/iris";
+import { Food } from "models/iris";
 import { rdf } from "rdf-namespaces";
 import { useQuery } from "react-query";
 
@@ -26,7 +26,7 @@ export const useFoodList = () => {
   const foods = useFoods();
   if (foods) {
     return getThingAll(foods)
-      .filter((food) => getUrl(food, rdf.type) === FOOD)
+      .filter((food) => getUrl(food, rdf.type) === Food)
       .map((food) => foodSerializer(food));
   } else {
     return null;

@@ -1,5 +1,5 @@
 //Class
-export const FOOD = "http://purl.org/ontology/fo/Food";
+export const Food = "http://purl.org/ontology/fo/Food";
 export const RECIPE = "http://purl.org/ontology/fo/Recipe";
 export const GroceryList = "http://gl/GroceryList";
 export const GroceryListItem = "http://gl/GroceryListItem";

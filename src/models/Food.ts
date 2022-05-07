@@ -7,7 +7,7 @@ import {
   setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
-import { FOOD, FOOD_NAME, SHOPPING_CATEGORY } from "models/iris";
+import { FOOD_NAME, Food, SHOPPING_CATEGORY } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
 import ResourceManager from "./Resource";
@@ -17,7 +17,7 @@ class FoodManager extends ResourceManager {
     super(profile, {
       identifier: "food",
       storage: "public/food-list.ttl",
-      iri: FOOD,
+      iri: Food,
     });
   }
 
@@ -32,7 +32,7 @@ class FoodManager extends ResourceManager {
     }
 
     const food = buildThing(createThing())
-      .addUrl(rdf.type, FOOD)
+      .addUrl(rdf.type, Food)
       .addStringNoLocale(SHOPPING_CATEGORY, shoppingCategory)
       .addStringNoLocale(FOOD_NAME, name)
       .build();

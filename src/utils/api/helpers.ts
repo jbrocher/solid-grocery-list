@@ -11,7 +11,7 @@ import {
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import {
-  FOOD,
+  Food,
   GroceryList,
   GroceryListItem,
   INGREDIENT,
@@ -22,7 +22,7 @@ import { solid, space } from "rdf-namespaces";
 export const RESSOURCES = {
   food: {
     storage: "public/food-list.ttl",
-    iri: FOOD,
+    iri: Food,
   },
   recipe: {
     storage: "public/recipe-list.ttl",

@@ -1,5 +1,5 @@
 import Food from "../Food";
-import { FOOD } from "../iris";
+import { Food } from "../iris";
 
 test("It should create a food instance", async () => {
   saveSolidDatasetAt.mockImplementation(() => createSolidDataset());
@@ -7,6 +7,6 @@ test("It should create a food instance", async () => {
     shoppingCategory: "fruits",
   };
   const foodItem = new Food("https://example.com", "apple", props);
-  expect(foodItem.type).toEqual(FOOD);
+  expect(foodItem.type).toEqual(Food);
   expect(foodItem.shoppingCategory).toEqual("fruits");
 });
