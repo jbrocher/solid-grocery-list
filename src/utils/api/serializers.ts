@@ -11,7 +11,7 @@ import {
 } from "@inrupt/solid-client";
 import {
   METRIC_QUANTITY,
-  Quantity,
+  quantity,
   ShoppingCategory,
   hasIngredient,
   isDone,
@@ -94,7 +94,7 @@ export const groceryListItemSerializer = (
     object: foodSerializer(food),
     identifier: asUrl(groceryListItem).split("#")[1],
     done: getStringNoLocale(groceryListItem, isDone) === "true",
-    quantity: getInteger(groceryListItem, Quantity) ?? 0,
+    quantity: getInteger(groceryListItem, quantity) ?? 0,
   };
 };
 
