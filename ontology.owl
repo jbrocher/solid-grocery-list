@@ -1,0 +1,139 @@
+@prefix : <urn:webprotege:ontology:35e5e4fb-7828-46ed-be95-45c718e450f7#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://dev.indooroutdoor.io> .
+
+<https://dev.indooroutdoor.io> rdf:type owl:Ontology .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/description
+<http://purl.org/dc/elements/1.1/description> rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://webprotege.stanford.edu/RDibSnz3VKGOqfSSU3orFJj
+<http://webprotege.stanford.edu/RDibSnz3VKGOqfSSU3orFJj> rdf:type owl:ObjectProperty ;
+                                                         rdfs:subPropertyOf owl:topObjectProperty ;
+                                                         owl:inverseOf :isItemOf ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/RC7Za1EZpaAyRZd2k1znWfM> ;
+                                                         rdfs:range <http://webprotege.stanford.edu/RhxmV1eqIECd6Tl7BSjXOd> ;
+                                                         rdfs:label "hasItem"@en .
+
+
+###  https://dev.indooroutdoor.io#hasIngredient
+:hasIngredient rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               owl:inverseOf :isIngredientOf ;
+               rdfs:range <http://webprotege.stanford.edu/RuztLpEo8u5pkRxeyWaHiZ> .
+
+
+###  https://dev.indooroutdoor.io#isIngredientOf
+:isIngredientOf rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty ;
+                rdf:type owl:FunctionalProperty .
+
+
+###  https://dev.indooroutdoor.io#isItemOf
+:isItemOf rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdf:type owl:FunctionalProperty .
+
+
+###  https://dev.indooroutdoor.io#isRequiredFoodOf
+:isRequiredFoodOf rdf:type owl:ObjectProperty ;
+                  owl:inverseOf :requiresFood .
+
+
+###  https://dev.indooroutdoor.io#requiresFood
+:requiresFood rdf:type owl:ObjectProperty ;
+              rdfs:domain <http://webprotege.stanford.edu/RuztLpEo8u5pkRxeyWaHiZ> ;
+              rdfs:range <http://webprotege.stanford.edu/RBNx94IVogFo65mRSkTpEBG> .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://webprotege.stanford.edu/RDSQMFfLz4Z6pC6PKrhboNd
+<http://webprotege.stanford.edu/RDSQMFfLz4Z6pC6PKrhboNd> rdf:type owl:DatatypeProperty ;
+                                                         rdfs:subPropertyOf owl:topDataProperty ;
+                                                         rdfs:domain <http://webprotege.stanford.edu/RhxmV1eqIECd6Tl7BSjXOd> ;
+                                                         rdfs:range xsd:boolean ;
+                                                         rdfs:label "isDone"@en .
+
+
+###  https://dev.indooroutdoor.io#quantity
+:quantity rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf owl:topDataProperty ;
+          rdfs:domain <http://webprotege.stanford.edu/RuztLpEo8u5pkRxeyWaHiZ> ;
+          rdfs:range xsd:integer .
+
+
+###  https://dev.indooroutdoor.io#shoppingCategroy
+:shoppingCategroy rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf owl:topDataProperty ;
+                  rdfs:domain <http://webprotege.stanford.edu/RBNx94IVogFo65mRSkTpEBG> ;
+                  rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://webprotege.stanford.edu/RBNx94IVogFo65mRSkTpEBG
+<http://webprotege.stanford.edu/RBNx94IVogFo65mRSkTpEBG> rdf:type owl:Class ;
+                                                         <http://purl.org/dc/elements/1.1/description> "A generic food. Like \"Apple\" or \"Swiss Cheese\""^^xsd:string ;
+                                                         rdfs:label "Food"@en .
+
+
+###  http://webprotege.stanford.edu/RC7Za1EZpaAyRZd2k1znWfM
+<http://webprotege.stanford.edu/RC7Za1EZpaAyRZd2k1znWfM> rdf:type owl:Class ;
+                                                         rdfs:label "GroceryList"^^xsd:string .
+
+
+###  http://webprotege.stanford.edu/REVl2p2uAoMdUzcGgom1yi
+<http://webprotege.stanford.edu/REVl2p2uAoMdUzcGgom1yi> rdf:type owl:Class ;
+                                                        owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :hasIngredient ;
+                                                                              owl:someValuesFrom <http://webprotege.stanford.edu/RuztLpEo8u5pkRxeyWaHiZ>
+                                                                            ] ;
+                                                        <http://purl.org/dc/elements/1.1/description> "A dish recipe"^^xsd:string ;
+                                                        rdfs:label "Recipe"@en .
+
+
+###  http://webprotege.stanford.edu/RhxmV1eqIECd6Tl7BSjXOd
+<http://webprotege.stanford.edu/RhxmV1eqIECd6Tl7BSjXOd> rdf:type owl:Class ;
+                                                        owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :isItemOf ;
+                                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                              owl:onClass <http://webprotege.stanford.edu/RC7Za1EZpaAyRZd2k1znWfM>
+                                                                            ] ;
+                                                        rdfs:label "GroceryListItem"@en .
+
+
+###  http://webprotege.stanford.edu/RuztLpEo8u5pkRxeyWaHiZ
+<http://webprotege.stanford.edu/RuztLpEo8u5pkRxeyWaHiZ> rdf:type owl:Class ;
+                                                        owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :isIngredientOf ;
+                                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                              owl:onClass <http://webprotege.stanford.edu/REVl2p2uAoMdUzcGgom1yi>
+                                                                            ] ,
+                                                                            [ rdf:type owl:Restriction ;
+                                                                              owl:onProperty :requiresFood ;
+                                                                              owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                              owl:onClass <http://webprotege.stanford.edu/RBNx94IVogFo65mRSkTpEBG>
+                                                                            ] ;
+                                                        <http://purl.org/dc/elements/1.1/description> "An ingredient is a part of a recipe"^^xsd:string ;
+                                                        rdfs:label "Ingredient"@en .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
