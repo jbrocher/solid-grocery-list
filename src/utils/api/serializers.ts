@@ -11,12 +11,12 @@ import {
 } from "@inrupt/solid-client";
 import {
   METRIC_QUANTITY,
-  QUANTITY,
+  Quantity,
   ShoppingCategory,
-  targetsFood,
   hasIngredient,
   isDone,
   requiresFood,
+  targetsFood,
 } from "models/iris";
 import { rdfs } from "rdf-namespaces";
 
@@ -94,7 +94,7 @@ export const groceryListItemSerializer = (
     object: foodSerializer(food),
     identifier: asUrl(groceryListItem).split("#")[1],
     done: getStringNoLocale(groceryListItem, isDone) === "true",
-    quantity: getInteger(groceryListItem, QUANTITY) ?? 0,
+    quantity: getInteger(groceryListItem, Quantity) ?? 0,
   };
 };
 

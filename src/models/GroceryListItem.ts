@@ -12,12 +12,7 @@ import {
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import FoodManager from "models/Food";
 import ResourceManager from "models/Resource";
-import {
-  GroceryListItem,
-  QUANTITY,
-  targetsFood,
-  isDone,
-} from "models/iris";
+import { GroceryListItem, Quantity, isDone, targetsFood } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
 import { GroceryListItem as GroceryListItemType } from "utils/api/types";
@@ -70,7 +65,7 @@ class GroceryListItemManager extends ResourceManager {
       .addUrl(rdf.type, GroceryListItem)
       .addUrl(targetsFood, this.foods.makeRef(groceryListItem.object))
       .addStringNoLocale(isDone, groceryListItem.done ? "true" : "false")
-      .addInteger(QUANTITY, groceryListItem.quantity)
+      .addInteger(Quantity, groceryListItem.quantity)
       .build();
 
     groceryListItems = setThing(groceryListItems, itemSubject);
