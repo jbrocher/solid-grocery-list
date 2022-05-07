@@ -13,9 +13,9 @@ import {
   METRIC_QUANTITY,
   QUANTITY,
   ShoppingCategory,
-  isDone,
-  groceryListItemObject,
+  targetsFood,
   hasIngredient,
+  isDone,
   requiresFood,
 } from "models/iris";
 import { rdfs } from "rdf-namespaces";
@@ -84,7 +84,7 @@ export const groceryListItemSerializer = (
   foods: SolidDataset
 ): GroceryListItem => {
   // If we allow groceryList as object we must determine the type here
-  const foodRef = getUrl(groceryListItem, groceryListItemObject);
+  const foodRef = getUrl(groceryListItem, targetsFood);
   if (!foodRef) {
     throw new Error("No foodRef");
   }

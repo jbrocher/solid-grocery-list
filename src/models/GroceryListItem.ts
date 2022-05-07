@@ -15,8 +15,8 @@ import ResourceManager from "models/Resource";
 import {
   GroceryListItem,
   QUANTITY,
+  targetsFood,
   isDone,
-  groceryListItemObject,
 } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
@@ -55,11 +55,7 @@ class GroceryListItemManager extends ResourceManager {
     ) as ThingPersisted;
     const checked = getStringNoLocale(subject, isDone) === "true";
 
-    subject = setStringNoLocale(
-      subject,
-      isDone,
-      checked ? "false" : "true"
-    );
+    subject = setStringNoLocale(subject, isDone, checked ? "false" : "true");
     groceryListItems = setThing(groceryListItems, subject);
     await saveSolidDatasetAt(this.getBaseUrl(), groceryListItems, {
       fetch: fetch,
@@ -72,11 +68,8 @@ class GroceryListItemManager extends ResourceManager {
     let groceryListItems = await this.getGroceryListItems();
     const itemSubject = buildThing(createThing())
       .addUrl(rdf.type, GroceryListItem)
-      .addUrl(groceryListItemObject, this.foods.makeRef(groceryListItem.object))
-      .addStringNoLocale(
-        isDone,
-        groceryListItem.done ? "true" : "false"
-      )
+      .addUrl(targetsFood, this.foods.makeRef(groceryListItem.object))
+      .addStringNoLocale(isDone, groceryListItem.done ? "true" : "false")
       .addInteger(QUANTITY, groceryListItem.quantity)
       .build();
 
