@@ -10,12 +10,12 @@ import {
   getUrlAll,
 } from "@inrupt/solid-client";
 import {
-  Ingredient,
   METRIC_QUANTITY,
   QUANTITY,
   ShoppingCategory,
   groceryListItemDone,
   groceryListItemObject,
+  hasIngredient,
   requiresFood,
 } from "models/iris";
 import { rdfs } from "rdf-namespaces";
@@ -59,7 +59,7 @@ export const recipeSerializer = (
   if (!ingredients) {
     throw new Error("no ingredients");
   }
-  const ingredientsRefs = getUrlAll(recipe, Ingredient);
+  const ingredientsRefs = getUrlAll(recipe, hasIngredient);
   let ingredientList: IngredientType[] = [];
 
   if (ingredientsRefs.length) {

@@ -8,7 +8,7 @@ import {
   setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
-import { Ingredient, Recipe } from "models/iris";
+import { Recipe, hasIngredient } from "models/iris";
 import { rdf, rdfs } from "rdf-namespaces";
 
 import { RecipeFormValues } from "utils/api/types";
@@ -50,7 +50,7 @@ class RecipeManager extends ResourceManager {
       recipe.ingredients.map(async (ingredient) => {
         const createdIngredient = await this.ingredients.create(ingredient);
         recipeSubjectBuilder.addUrl(
-          Ingredient,
+          hasIngredient,
           asUrl(createdIngredient, this.ingredients.getBaseUrl())
         );
         return createdIngredient;
