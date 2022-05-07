@@ -11,10 +11,10 @@ import {
 } from "@inrupt/solid-client";
 import {
   METRIC_QUANTITY,
-  quantity,
-  ShoppingCategory,
+  shoppingCategory,
   hasIngredient,
   isDone,
+  quantity,
   requiresFood,
   targetsFood,
 } from "models/iris";
@@ -31,7 +31,7 @@ export const foodSerializer = (food: ThingPersisted) => {
   return {
     identifier: asUrl(food).split("#")[1],
     name: getStringNoLocale(food, rdfs.label) ?? "",
-    category: getStringNoLocale(food, ShoppingCategory) ?? "default",
+    category: getStringNoLocale(food, shoppingCategory) ?? "default",
   };
 };
 

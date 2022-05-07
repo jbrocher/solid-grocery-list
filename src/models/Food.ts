@@ -7,7 +7,7 @@ import {
   setThing,
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
-import { Food, ShoppingCategory } from "models/iris";
+import { Food, shoppingCategory } from "models/iris";
 import { rdf, rdfs } from "rdf-namespaces";
 
 import ResourceManager from "./Resource";
@@ -33,7 +33,7 @@ class FoodManager extends ResourceManager {
 
     const food = buildThing(createThing())
       .addUrl(rdf.type, Food)
-      .addStringNoLocale(ShoppingCategory, shoppingCategory)
+      .addStringNoLocale(shoppingCategory, shoppingCategory)
       .addStringNoLocale(rdfs.label, name)
       .build();
 

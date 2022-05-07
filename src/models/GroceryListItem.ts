@@ -12,7 +12,7 @@ import {
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import FoodManager from "models/Food";
 import ResourceManager from "models/Resource";
-import { GroceryListItem, quantity, isDone, targetsFood } from "models/iris";
+import { GroceryListItem, isDone, quantity, targetsFood } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
 import { GroceryListItem as GroceryListItemType } from "utils/api/types";

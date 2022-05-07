@@ -9,7 +9,7 @@ export const Ingredient = "http://purl.org/ontology/fo/Ingredient";
 //
 export const requiresFood = "http://purl.org/fo/#requiresFood";
 export const hasIngredient = "http://purl.org:fo/#hasIngredient";
-export const ShoppingCategory = "http://purl.org/ontology/fo/ShoppingCategory";
+export const shoppingCategory = "http://purl.org/ontology/fo/ShoppingCategory";
 export const METRIC_QUANTITY = "http://purl.org/ontology/fo/metric_quantity";
 export const quantity = "http://purl.org/ontology/fo/quantity";
 export const isDone = "http://gl/GroceryListItemDone";
