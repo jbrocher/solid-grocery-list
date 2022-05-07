@@ -7,10 +7,10 @@ import {
 } from "@inrupt/solid-client";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 import FoodManager from "models/Food";
-import { Food, INGREDIENT, METRIC_QUANTITY } from "models/iris";
+import { Food, Ingredient, METRIC_QUANTITY } from "models/iris";
 import { rdf } from "rdf-namespaces";
 
-import { Ingredient } from "utils/api/types";
+import { Ingredient as IngredientType } from "utils/api/types";
 
 import ResourceManager from "./Resource";
 
@@ -20,7 +20,7 @@ export class IngredientsManager extends ResourceManager {
     super(profile, {
       identifier: "ingredient",
       storage: "public/ingredient-list.ttl",
-      iri: INGREDIENT,
+      iri: Ingredient,
     });
     this.foods = new FoodManager(profile);
   }
@@ -29,12 +29,12 @@ export class IngredientsManager extends ResourceManager {
     return this.getOrCreate();
   };
 
-  create = async (ingredient: Ingredient) => {
+  create = async (ingredient: IngredientType) => {
     // Create a new subject of type ingredient
     // with a GUI
     let ingredients = await this.getIngredients();
     const ingredientSubject = buildThing(createThing())
-      .addUrl(rdf.type, INGREDIENT)
+      .addUrl(rdf.type, Ingredient)
       .addUrl(Food, this.foods.makeRef(ingredient.food.identifier))
       .addInteger(METRIC_QUANTITY, ingredient.quantity)
       .build();

@@ -14,7 +14,7 @@ import {
   Food,
   GroceryList,
   GroceryListItem,
-  INGREDIENT,
+  Ingredient,
   Recipe,
 } from "models/iris";
 import { solid, space } from "rdf-namespaces";
@@ -30,7 +30,7 @@ export const RESSOURCES = {
   },
   ingredient: {
     storage: "public/ingredient-list.ttl",
-    iri: INGREDIENT,
+    iri: Ingredient,
   },
   groceryList: {
     storage: "public/grocery-list.ttl",

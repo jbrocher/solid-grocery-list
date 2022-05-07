@@ -10,9 +10,9 @@ import {
   getUrlAll,
 } from "@inrupt/solid-client";
 import {
-  Food,
   FOOD_NAME,
-  INGREDIENT,
+  Food,
+  Ingredient,
   METRIC_QUANTITY,
   QUANTITY,
   SHOPPING_CATEGORY,
@@ -22,7 +22,12 @@ import {
 } from "models/iris";
 import { rdfs } from "rdf-namespaces";
 
-import { GroceryList, GroceryListItem, Ingredient, Recipe } from "./types";
+import {
+  GroceryList,
+  GroceryListItem,
+  Ingredient as IngredientType,
+  Recipe,
+} from "./types";
 
 export const foodSerializer = (food: ThingPersisted) => {
   return {
@@ -35,7 +40,7 @@ export const foodSerializer = (food: ThingPersisted) => {
 export const ingredientSerializer = (
   ingredient: Thing,
   foods: SolidDataset
-): Ingredient => {
+): IngredientType => {
   const foodRef = getUrl(ingredient, Food);
   if (!foods || foodRef === null) {
     throw new Error("no foods");
@@ -56,8 +61,8 @@ export const recipeSerializer = (
   if (!ingredients) {
     throw new Error("no ingredients");
   }
-  const ingredientsRefs = getUrlAll(recipe, INGREDIENT);
-  let ingredientList: Ingredient[] = [];
+  const ingredientsRefs = getUrlAll(recipe, Ingredient);
+  let ingredientList: IngredientType[] = [];
 
   if (ingredientsRefs.length) {
     ingredientList = ingredientsRefs.map((ingredientRef) => {
